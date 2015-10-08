@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:layout_width="match_parent"
+                                android:id="@+id/swipe_layout"
+                                android:layout_height="match_parent"
+                                android:background="@color/bg_list_item"
+        >
+
+    <android.support.design.widget.FloatingActionButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/fabDoneBackground"
+            android:src="@drawable/ic_done_white_18dp"
+            android:id="@+id/action_done"
+            app:backgroundTint="@color/fabDoneBackground"
+            app:borderWidth="0dp"
+            app:elevation="0dp"
+            android:scaleType="centerInside"
+            />
+
+
+    <android.support.design.widget.FloatingActionButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_delete_white_18dp"
+            android:id="@+id/action_delete"
+            app:backgroundTint="@color/deleteRed"
+            android:background="@color/deleteRed"
+            app:borderWidth="0dp"
+            app:elevation="0dp"
+            android:scaleType="centerInside"
+            />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/txt_thing"
+                android:layout_height="wrap_content"
+                android:text="Test"
+                android:textColor="@color/textPrimaryColor"
+                android:textSize="@dimen/txt_size_big"
+                android:gravity="center|left"
+                />
+
+        <View android:layout_width="wrap_content"
+              android:layout_height="1dp"
+              android:id="@+id/delete_line"
+              android:background="@color/textDarkColor"
+              android:layout_alignBottom="@+id/txt_thing"
+              android:paddingLeft="4dp"
+              android:paddingRight="4dp"
+              android:layout_marginBottom="8dp"
+              android:layout_alignLeft="@id/txt_thing"
+              android:layout_alignRight="@id/txt_thing"
+              android:visibility="gone"
+                />
+
+    </RelativeLayout>
+</com.daimajia.swipe.SwipeLayout>

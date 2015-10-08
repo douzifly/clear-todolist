@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="color" name="colorPrimary">#4285f4</item>
+    <item type="color" name="colorPrimaryDark">#222</item>
+    <item type="color" name="colorNavigationBar">#010103</item>
+
+    <item type="color" name="bg_list_item">@color/colorPrimary</item>
+
+    <item type="color" name="colorWindowBackground">#010103</item>
+    <item type="color" name="colorInputPanel">#F1F0F4</item>
+
+    <item type="color" name="fabAddBackground">#EA4335</item>
+    <item type="color" name="fabAddRippleColor">#CC4444</item>
+
+    <item type="color" name="fabDoneBackground">#8BC34A</item>
+    <item type="color" name="fabDoneRippleColor">#689F38</item>
+
+    <item type="color" name="textPrimaryColor">#FFF</item>
+    <item type="color" name="textDarkColor">#616161</item>
+    <item type="color" name="textEmpty">#707072</item>
+    <item type="color" name="textTitle">#505052</item>
+
+    <item type="color" name="inputEditTextColor">#010101</item>
+
+    <item type="color" name="deleteRed">#C92F2F</item>
+</resources>

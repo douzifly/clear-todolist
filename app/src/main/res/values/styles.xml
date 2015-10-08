@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/colorWindowBackground</item>
+        <item name="android:navigationBarColor">@color/colorNavigationBar</item>
+    </style>
+
+    <style name="fab_add">
+        <item name="backgroundTint">@color/fabAddBackground</item>
+        <item name="rippleColor">@color/fabAddRippleColor</item>
+    </style>
+
+    <style name="DateHeader">
+    </style>
+
+    <style name="DateHeader.Container">
+        <item name="android:background">#03A9F4</item>
+    </style>
+
+    <style name="DateHeader.BigText">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:layout_marginLeft">18sp</item>
+        <item name="android:layout_marginTop">18sp</item>
+    </style>
+
+</resources>
