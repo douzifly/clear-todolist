@@ -28,5 +28,5 @@ data class ThingBox(
     var id: Int,
     var index: Int,
     var title: String,
-    var things: Array<Thing>
+    var things: MutableList<Thing>
 )

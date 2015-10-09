@@ -8,12 +8,37 @@ import java.util.*
  */
 object ThingsManager {
 
+  // current things
   var things: MutableList<Thing> = arrayListOf()
+  var boxes: MutableList<ThingBox> = arrayListOf()
+
+  var currentBox: ThingBox? = null
+    private set
+
 
   var onDataChanged: (()->Unit)? = null
 
   fun loadFromDb() {
 
+  }
+
+  fun changeBox(id: Int) {
+    if (currentBox?.id == id) {
+      // not changed
+      return
+    }
+    boxes.forEach {
+      box->
+      if (box.id == id) {
+        currentBox = box
+        onDataChanged?.invoke()
+      }
+    }
+  }
+
+  fun addBox(title: String) {
+    val box = ThingBox(-1, -1, title, arrayListOf())
+    boxes.add(box)
   }
 
   fun release() {
