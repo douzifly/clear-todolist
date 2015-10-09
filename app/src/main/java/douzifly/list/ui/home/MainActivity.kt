@@ -1,7 +1,8 @@
-package douzifly.list
+package douzifly.list.ui.home
 
 import android.animation.Animator
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
@@ -15,6 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import com.daimajia.swipe.SwipeLayout
+import douzifly.list.R
 import douzifly.list.model.Thing
 import douzifly.list.model.ThingsManager
 import douzifly.list.model.randomEmptyText
@@ -135,6 +137,11 @@ public class MainActivity : AppCompatActivity() {
     mTxtTitle.typeface = fontRailway
 
     checkShowEmptyText()
+
+    mTxtTitle.setOnClickListener {
+      // click title, show box
+      startActivityForResult(Intent(this, BoxEditorActivity::class.java), 0)
+    }
   }
 
   override fun onDestroy() {

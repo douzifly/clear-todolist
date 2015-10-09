@@ -18,10 +18,11 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:textColor="@color/textTitle"
-                android:background="@color/colorWindowBackground"
                 android:textSize="20sp"
                 android:text="List"
                 android:layout_centerInParent="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 />
 
         <android.support.design.widget.FloatingActionButton

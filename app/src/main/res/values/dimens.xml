@@ -5,4 +5,7 @@
     <dimen name="txt_size_big">16sp</dimen>
     <dimen name="list_item_action_width">58dp</dimen>
     <dimen name="color_picker_item_size_normal">24dp</dimen>
+
+    <item name="abc_dialog_min_width_major" type="dimen">65%</item>
+    <item name="abc_dialog_min_width_minor" type="dimen">85%</item>
 </resources>

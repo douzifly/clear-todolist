@@ -8,6 +8,11 @@
         <item name="android:navigationBarColor">@color/colorNavigationBar</item>
     </style>
 
+    <style name="BoxEditorDialog" parent="Theme.AppCompat.Light.Dialog.Alert" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="fab_add">
         <item name="backgroundTint">@color/fabAddBackground</item>
         <item name="rippleColor">@color/fabAddRippleColor</item>

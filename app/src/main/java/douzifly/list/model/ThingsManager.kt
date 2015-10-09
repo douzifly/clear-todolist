@@ -50,7 +50,7 @@ object ThingsManager {
     "beforeSort:".logd("MainActivity")
 
     things.forEach { t ->
-      "${t.title} ${t.hashCode()}".logd("douzifly.list.MainActivity")
+      "${t.title} ${t.hashCode()}".logd("douzifly.list.ui.home.MainActivity")
     }
 
     things = things.sortedWith(object : Comparator<Thing> {
