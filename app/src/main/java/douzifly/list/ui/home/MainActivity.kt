@@ -91,7 +91,7 @@ public class MainActivity : AppCompatActivity() {
   }
 
   fun checkShowEmptyText() {
-    mTxtEmpty.visibility = if (ThingsManager.things.size() == 0) View.VISIBLE else View.GONE
+    mTxtEmpty.visibility = if (ThingsManager.currentGroup?.things?.size() == 0) View.VISIBLE else View.GONE
     if (mTxtEmpty.visibility == View.VISIBLE) {
       (mTxtEmpty as TextView).text = randomEmptyText()
     }
@@ -103,7 +103,7 @@ public class MainActivity : AppCompatActivity() {
       return
     }
 
-    ThingsManager.add(textString, -1, -1, mColorPicker.selectedColor)
+    ThingsManager.addThing(textString, -1, -1, mColorPicker.selectedColor)
 
   }
 
@@ -126,13 +126,6 @@ public class MainActivity : AppCompatActivity() {
     mFabButton.setOnClickListener(mFabListener)
     mRecyclerView.layoutManager = LinearLayoutManager(this)
     mRecyclerView.adapter = ThingsAdapter()
-
-    ThingsManager.onDataChanged = {
-      checkShowEmptyText()
-      (mRecyclerView.adapter as ThingsAdapter).things = ThingsManager.things
-    }
-
-
     (mTxtEmpty as TextView).typeface = fontAlegreya
     mTxtTitle.typeface = fontRailway
 
@@ -140,7 +133,16 @@ public class MainActivity : AppCompatActivity() {
 
     mTxtTitle.setOnClickListener {
       // click title, show box
-      startActivityForResult(Intent(this, BoxEditorActivity::class.java), 0)
+      startActivityForResult(Intent(this, GroupEditorActivity::class.java), 0)
+    }
+
+    ThingsManager.onDataChanged = {
+      checkShowEmptyText()
+      mTxtTitle.text = ThingsManager.currentGroup?.title ?: ""
+      (mRecyclerView.adapter as ThingsAdapter).things = ThingsManager.currentGroup?.things
+    }
+    async {
+      ThingsManager.loadFromDb()
     }
   }
 
@@ -216,7 +218,9 @@ public class MainActivity : AppCompatActivity() {
     var thing: Thing? = null
 
     val txtThing: TextView by lazy {
-      itemView.findViewById(R.id.txt_thing) as TextView
+      val text = itemView.findViewById(R.id.txt_thing) as TextView
+      text.typeface = fontSourceSansPro
+      text
     }
 
     val swipeLayout: SwipeLayout by lazy {
@@ -243,7 +247,6 @@ public class MainActivity : AppCompatActivity() {
       this.thing = thing
       updateUI(thing, prevThing)
       txtThing.text = thing.title
-      txtThing.typeface = fontSourceSansPro
       swipeLayout.dragEdges = arrayListOf(SwipeLayout.DragEdge.Left, SwipeLayout.DragEdge.Right)
       actionDelete.setOnClickListener(this)
       actionDone.setOnClickListener(this)

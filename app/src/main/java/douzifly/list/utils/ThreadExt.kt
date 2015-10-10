@@ -10,6 +10,6 @@ private val executor = Executors.newFixedThreadPool(3)
 
 fun async(t:()->Unit) {
   executor.execute {
-    t
+    t()
   }
 }

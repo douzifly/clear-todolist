@@ -21,7 +21,7 @@
         </activity>
 
         <activity
-            android:name=".ui.home.BoxEditorActivity"
+            android:name=".ui.home.GroupEditorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BoxEditorDialog"
             >

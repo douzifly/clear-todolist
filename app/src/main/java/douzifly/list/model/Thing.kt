@@ -11,7 +11,7 @@ class Thing(
     var index: Int,
     var title: String,
     var reminderAfter: Long,
-    var boxId: Int,
+    var groupId: Int,
     var isComplete: Boolean = false,
     var color: Int
 ) : Comparable<Thing> {
@@ -24,7 +24,7 @@ class Thing(
 
 }
 
-data class ThingBox(
+data class ThingGroup(
     var id: Int,
     var index: Int,
     var title: String,

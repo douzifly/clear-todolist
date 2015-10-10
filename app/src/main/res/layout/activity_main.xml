@@ -21,7 +21,7 @@
                 android:textSize="20sp"
                 android:text="List"
                 android:layout_centerInParent="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 />
 

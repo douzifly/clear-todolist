@@ -8,56 +8,80 @@ import java.util.*
  */
 object ThingsManager {
 
-  // current things
-  var things: MutableList<Thing> = arrayListOf()
-  var boxes: MutableList<ThingBox> = arrayListOf()
+  val TAG = "ThingsManager"
 
-  var currentBox: ThingBox? = null
+  // current things
+  var groups: MutableList<ThingGroup> = arrayListOf()
+
+  var currentGroup: ThingGroup? = null
     private set
 
 
   var onDataChanged: (()->Unit)? = null
 
   fun loadFromDb() {
+    "load from db".logd(TAG)
+    groups.add(ThingGroup(0, 0, "Home", arrayListOf()))
+    groups.add(ThingGroup(1, 1, "Work", arrayListOf()))
 
+    currentGroup = groups[0]
+    onDataChanged?.invoke()
   }
 
-  fun changeBox(id: Int) {
-    if (currentBox?.id == id) {
+  fun changeGroup(id: Int) {
+    if (currentGroup?.id == id) {
       // not changed
       return
     }
-    boxes.forEach {
+    groups.forEach {
       box->
       if (box.id == id) {
-        currentBox = box
+        currentGroup = box
         onDataChanged?.invoke()
       }
     }
   }
 
   fun addBox(title: String) {
-    val box = ThingBox(-1, -1, title, arrayListOf())
-    boxes.add(box)
+    val box = ThingGroup(-1, -1, title, arrayListOf())
+    groups.add(box)
   }
 
   fun release() {
     onDataChanged = null
-    things.clear()
+    groups.clear()
   }
 
-  fun add(text: String, pid: Int, reminder: Long, color: Int) {
+  fun addThing(text: String, pid: Int, reminder: Long, color: Int) {
     val t = Thing(-1, 0, text, reminder, pid, false, color)
-    things.add(t)
+    currentGroup!!.things.add(t)
     sort()
     // add to db
     onDataChanged?.invoke()
   }
 
   fun remove(thing: Thing) {
-    things.remove(thing)
+    currentGroup!!.things?.remove(thing)
     // remove from db
     onDataChanged?.invoke()
+  }
+
+  fun removeGroup(id: Int): Boolean {
+
+    groups.forEach {
+      box->
+      if (box.id == id) {
+        if (groups.size() == 1) {
+          // dont delete the last group
+          return false
+        }
+        groups.remove(box)
+        currentGroup = groups[0]
+        onDataChanged?.invoke()
+        return true
+      }
+    }
+    return false
   }
 
   fun makeComplete(thing: Thing, complete: Boolean) {
@@ -67,6 +91,8 @@ object ThingsManager {
   }
 
   private fun sort() {
+
+    val things = currentGroup!!.things
 
     if (things.size() < 2) {
       return
@@ -78,7 +104,7 @@ object ThingsManager {
       "${t.title} ${t.hashCode()}".logd("douzifly.list.ui.home.MainActivity")
     }
 
-    things = things.sortedWith(object : Comparator<Thing> {
+    currentGroup!!.things = things.sortedWith(object : Comparator<Thing> {
       override fun compare(p0: Thing?, p1: Thing?): Int {
         return p0!!.compareTo(p1!!)
       }

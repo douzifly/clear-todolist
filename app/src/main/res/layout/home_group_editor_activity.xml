@@ -3,20 +3,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#fff"
-                android:padding="16dp"
     >
 
     <TextView
         android:id="@+id/txt_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Groups"
         android:textSize="@dimen/txt_size_big"
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
+        android:textColor="#fff"
         />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:id="@+id/recycler_view"
+        android:layout_margin="16dp"
         android:layout_below="@id/txt_title">
 
     </android.support.v7.widget.RecyclerView>
