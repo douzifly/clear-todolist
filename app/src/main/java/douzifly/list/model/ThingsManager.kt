@@ -42,7 +42,7 @@ object ThingsManager {
     }
   }
 
-  fun addBox(title: String) {
+  fun addGroup(title: String) {
     val box = ThingGroup(-1, -1, title, arrayListOf())
     groups.add(box)
   }

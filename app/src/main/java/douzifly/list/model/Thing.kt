@@ -29,4 +29,16 @@ data class ThingGroup(
     var index: Int,
     var title: String,
     var things: MutableList<Thing>
-)
+) {
+  var inProgressCount: Int = 0
+    get() {
+      var count = 0
+      things?.forEach {
+        thing->
+        if (!thing.isComplete) {
+          count ++
+        }
+      }
+      return count
+    }
+}

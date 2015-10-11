@@ -1,5 +1,7 @@
 package douzifly.list.utils
 
+import android.os.Handler
+import android.os.Looper
 import java.util.concurrent.Executors
 
 /**
@@ -7,9 +9,23 @@ import java.util.concurrent.Executors
  */
 
 private val executor = Executors.newFixedThreadPool(3)
+private val handler: Handler by lazy {
+  Handler(Looper.getMainLooper())
+}
+
 
 fun async(t:()->Unit) {
   executor.execute {
     t()
   }
+}
+
+fun ui(t:()->Unit) {
+  handler.post {
+    t()
+  }
+}
+
+fun ui(delay: Long, t:()->Unit) {
+  handler.postDelayed(t, delay)
 }

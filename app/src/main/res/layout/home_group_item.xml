@@ -37,5 +37,16 @@
             android:textSize="@dimen/txt_size_big"
             />
 
+        <TextView
+            android:id="@+id/txt_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/txt_size_big"
+            />
+
     </RelativeLayout>
 </com.daimajia.swipe.SwipeLayout>
