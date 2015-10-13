@@ -260,15 +260,19 @@ public class MainActivity : AppCompatActivity() {
     }
 
     fun makeThingColor(prevThing: Thing?): Int {
-      var color = thing!!.color
+      var thisColor = thing!!.color
 
-      if (prevThing?.color == color) {
-        val newColor = ColorPicker.getDimedColor(color)
-        thing?.color = newColor
+      if (prevThing?.color == thisColor) {
+        var baseColor = thisColor
+        if (prevThing?.displayColor != 0) {
+          baseColor = prevThing!!.displayColor
+        }
+        val newColor = ColorPicker.getDimedColor(baseColor)
+        thing?.displayColor = newColor
         return newColor
       }
 
-      return color
+      return thisColor
     }
   }
 

@@ -22,6 +22,8 @@ class Thing() : Model(), Comparable<Thing> {
   @Column(name="color") var color: Int = 0
   @Column(name="pid") var pid: Long = -1
 
+  var displayColor: Int = 0
+
   constructor(title: String, pid: Long, color: Int, reminderAfter: Long) : this() {
     this.title = title
     this.color = color

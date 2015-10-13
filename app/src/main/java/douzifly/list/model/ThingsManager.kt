@@ -101,6 +101,7 @@ object ThingsManager {
     t.save()
     currentGroup!!.things.add(t)
     currentGroup!!.save()
+    currentGroup!!.unCompleteThingsCount++
     sort(currentGroup!!)
     // add to db
     onDataChanged?.invoke()
