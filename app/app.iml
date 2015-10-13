@@ -104,5 +104,6 @@
     <orderEntry type="library" exported="" name="kotlin-stdlib-0.13.1514" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.0.1" level="project" />
+    <orderEntry type="module" module-name="ActiveAndroid" exported="" />
   </component>
 </module>

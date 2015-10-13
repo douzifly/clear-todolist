@@ -159,7 +159,7 @@ class GroupEditorActivity : AppCompatActivity() {
         } else {
           holder.itemView.background = null
         }
-        holder.mTxtCount.text = "${group.inProgressCount}"
+        holder.mTxtCount.text = "${group.unCompleteThingsCount}"
       } else if (holder is EditViewHolder) {
         // no op
         holder.editText.requestFocus()

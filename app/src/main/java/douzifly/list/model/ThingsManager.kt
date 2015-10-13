@@ -1,6 +1,10 @@
 package douzifly.list.model
 
+import android.database.Cursor
+import com.activeandroid.ActiveAndroid
+import com.activeandroid.query.Select
 import douzifly.list.utils.logd
+import douzifly.list.utils.loge
 import java.util.*
 
 /**
@@ -17,34 +21,74 @@ object ThingsManager {
     private set
 
 
-  var onDataChanged: (()->Unit)? = null
+  var onDataChanged: (() -> Unit)? = null
 
   fun loadFromDb() {
     "load from db".logd(TAG)
-    groups.add(ThingGroup(0, 0, "Home", arrayListOf()))
-    groups.add(ThingGroup(1, 1, "Work", arrayListOf()))
+    groups = Select().from(ThingGroup::class.java).execute()
+    if (groups.size() == 0) {
+      // add default group and save to database
+      val homeGroup = ThingGroup("Home")
+      homeGroup.selected = true
+      homeGroup.save()
+      groups.add(homeGroup)
+    }
 
-    currentGroup = groups[0]
-    onDataChanged?.invoke()
+    groups.forEach {
+      group ->
+      if (group.selected) {
+        currentGroup = group
+        loadThings(group)
+      }
+      loadThingsCount(group)
+      onDataChanged?.invoke()
+    }
   }
 
-  fun changeGroup(id: Int) {
+  private fun loadThings(group: ThingGroup) {
+    if (group.thingsLoaded) return
+    group.things.addAll(
+            Select().from(Thing::class.java).where("pid=${group.id}").execute()
+    )
+    group.thingsLoaded = true
+    sort(group)
+  }
+
+  private fun loadThingsCount(group: ThingGroup) {
+    group.unCompleteThingsCount = Select().from(Thing::class.java).where("pid=${group.id} and isComplete=0")
+    .count()
+  }
+
+  fun changeGroup(id: Long) {
     if (currentGroup?.id == id) {
       // not changed
       return
     }
     groups.forEach {
-      box->
-      if (box.id == id) {
-        currentGroup = box
+      group ->
+      if (group.id == id) {
+
+        // old unselected
+        val oldGroup = currentGroup
+        currentGroup = group
+        group.selected = true
+        oldGroup?.selected = false
+
+        loadThings(group)
         onDataChanged?.invoke()
+
+        // save to db
+        oldGroup?.save()
+        group.save()
       }
     }
   }
 
   fun addGroup(title: String) {
-    val box = ThingGroup(-1, -1, title, arrayListOf())
-    groups.add(box)
+    val group = ThingGroup(title)
+    group.save()
+    groups.add(group)
+    group.unCompleteThingsCount++
   }
 
   fun release() {
@@ -52,24 +96,28 @@ object ThingsManager {
     groups.clear()
   }
 
-  fun addThing(text: String, pid: Int, reminder: Long, color: Int) {
-    val t = Thing(-1, 0, text, reminder, pid, false, color)
+  fun addThing(text: String, reminder: Long, color: Int) {
+    val t = Thing(text, currentGroup!!.id, color, reminder)
+    t.save()
     currentGroup!!.things.add(t)
-    sort()
+    currentGroup!!.save()
+    sort(currentGroup!!)
     // add to db
     onDataChanged?.invoke()
   }
 
   fun remove(thing: Thing) {
     currentGroup!!.things?.remove(thing)
+    currentGroup!!.unCompleteThingsCount--
+    thing.delete()
     // remove from db
     onDataChanged?.invoke()
   }
 
-  fun removeGroup(id: Int): Boolean {
+  fun removeGroup(id: Long): Boolean {
 
     groups.forEach {
-      box->
+      box ->
       if (box.id == id) {
         if (groups.size() == 1) {
           // dont delete the last group
@@ -78,6 +126,7 @@ object ThingsManager {
         groups.remove(box)
         currentGroup = groups[0]
         onDataChanged?.invoke()
+        box.delete()
         return true
       }
     }
@@ -86,13 +135,19 @@ object ThingsManager {
 
   fun makeComplete(thing: Thing, complete: Boolean) {
     thing.isComplete = complete
-    sort()
+    if (complete) {
+      currentGroup!!.unCompleteThingsCount--
+    } else {
+      currentGroup!!.unCompleteThingsCount++
+    }
+    thing.save()
+    sort(currentGroup!!)
     onDataChanged?.invoke()
   }
 
-  private fun sort() {
+  private fun sort(group: ThingGroup) {
 
-    val things = currentGroup!!.things
+    val things = group.things
 
     if (things.size() < 2) {
       return
@@ -109,7 +164,7 @@ object ThingsManager {
         return p0!!.compareTo(p1!!)
       }
 
-    }) as MutableList<Thing>
+    }) as ArrayList<Thing>
 
     "afterSort:".logd("MainActivity")
 

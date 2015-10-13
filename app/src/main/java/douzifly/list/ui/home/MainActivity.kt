@@ -103,7 +103,7 @@ public class MainActivity : AppCompatActivity() {
       return
     }
 
-    ThingsManager.addThing(textString, -1, -1, mColorPicker.selectedColor)
+    ThingsManager.addThing(textString,-1, mColorPicker.selectedColor)
 
   }
 
