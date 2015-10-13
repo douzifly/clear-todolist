@@ -37,6 +37,7 @@ class GroupEditorActivity : AppCompatActivity() {
   }
 
   var mAdapter : GroupAdapter = GroupAdapter()
+  var mAddEditText: EditText? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -50,8 +51,29 @@ class GroupEditorActivity : AppCompatActivity() {
     (findViewById(R.id.txt_title) as TextView).typeface = fontRailway
 
     mFabAdd.setOnClickListener {
-      mAdapter.showAddEditorBox = true
+      if (mAdapter.showAddEditorBox) {
+        // click to commit
+        commitNewItem()
+      } else {
+        mAdapter.showAddEditorBox = true
+        mRecyclerView.scrollToPosition(mAdapter.itemCount - 1)
+        // show button as commit
+        mFabAdd.setImageResource(R.drawable.ic_done_white)
+      }
     }
+  }
+
+  fun commitNewItem() {
+    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(mAddEditText!!.windowToken, 0)
+    val text = mAddEditText!!.text.toString()
+    if (text.isNotBlank()) {
+      ThingsManager.addGroup(text)
+      mAddEditText!!.setText("")
+    }
+    mAdapter.showAddEditorBox = false
+    // show button as add
+    mFabAdd.setImageResource(R.drawable.ic_add_white)
   }
 
   inner class EditViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -64,14 +86,7 @@ class GroupEditorActivity : AppCompatActivity() {
       "set typeface".logd("ooo")
       editText.setOnEditorActionListener { textView, actionId, keyEvent ->
         if (actionId == EditorInfo.IME_ACTION_DONE) {
-          (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                  .hideSoftInputFromWindow(textView.windowToken, 0)
-          val text = editText.text.toString()
-          if (text.isNotBlank()) {
-            ThingsManager.addGroup(text)
-            editText.setText("")
-          }
-          mAdapter.showAddEditorBox = false
+          commitNewItem()
           true
         }
         false
@@ -163,6 +178,7 @@ class GroupEditorActivity : AppCompatActivity() {
       } else if (holder is EditViewHolder) {
         // no op
         holder.editText.requestFocus()
+        mAddEditText = holder.editText
         ui(300) {
           val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
           imm.showSoftInput(holder.editText, InputMethodManager.SHOW_FORCED)

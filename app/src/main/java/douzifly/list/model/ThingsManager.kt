@@ -88,7 +88,6 @@ object ThingsManager {
     val group = ThingGroup(title)
     group.save()
     groups.add(group)
-    group.unCompleteThingsCount++
   }
 
   fun release() {
