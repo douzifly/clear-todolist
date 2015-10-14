@@ -2,7 +2,10 @@ package douzifly.list.model
 
 import android.database.Cursor
 import com.activeandroid.ActiveAndroid
+import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
+import douzifly.list.ListApplication
+import douzifly.list.R
 import douzifly.list.utils.logd
 import douzifly.list.utils.loge
 import java.util.*
@@ -28,7 +31,7 @@ object ThingsManager {
     groups = Select().from(ThingGroup::class.java).execute()
     if (groups.size() == 0) {
       // add default group and save to database
-      val homeGroup = ThingGroup("Home")
+      val homeGroup = ThingGroup(ListApplication.appContext!!.resources.getString(R.string.app_name))
       homeGroup.selected = true
       homeGroup.save()
       groups.add(homeGroup)
@@ -125,8 +128,12 @@ object ThingsManager {
         }
         groups.remove(box)
         currentGroup = groups[0]
+        currentGroup!!.selected = true
         onDataChanged?.invoke()
         box.delete()
+        currentGroup!!.save()
+
+        Delete().from(Thing::class.java).where("pid=${box.id}").execute<Thing>()
         return true
       }
     }

@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">List</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Clear List</string>
+    <string name="cant_remove">Can not remove last one.</string>
 </resources>
