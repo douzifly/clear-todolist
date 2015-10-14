@@ -137,9 +137,11 @@ public class MainActivity : AppCompatActivity() {
     }
 
     ThingsManager.onDataChanged = {
-      checkShowEmptyText()
-      mTxtTitle.text = ThingsManager.currentGroup?.title ?: ""
-      (mRecyclerView.adapter as ThingsAdapter).things = ThingsManager.currentGroup?.things
+      ui {
+        checkShowEmptyText()
+        mTxtTitle.text = ThingsManager.currentGroup?.title ?: ""
+        (mRecyclerView.adapter as ThingsAdapter).things = ThingsManager.currentGroup?.things
+      }
     }
     async {
       ThingsManager.loadFromDb()
