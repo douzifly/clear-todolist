@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
@@ -22,6 +21,7 @@ import douzifly.list.model.ThingsManager
 import douzifly.list.model.randomEmptyText
 import douzifly.list.utils.*
 import douzifly.list.widget.ColorPicker
+import io.codetail.widget.RevealFrameLayout
 
 public class MainActivity : AppCompatActivity() {
 
@@ -155,21 +155,21 @@ public class MainActivity : AppCompatActivity() {
     val endRadius = Math.max(viewRoot.width, viewRoot.height).toFloat()
     val startRadius = if (reverse) endRadius else 0f
     val finalRadius = if (reverse) 0f else endRadius
-    val anim = ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, startRadius, finalRadius)
+    val anim = io.codetail.animation.ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, startRadius, finalRadius)
     anim.setDuration(400)
-    anim.addListener(object : Animator.AnimatorListener {
-      override fun onAnimationRepeat(p0: Animator?) {
+    anim.addListener(object : io.codetail.animation.SupportAnimator.AnimatorListener {
+      override fun onAnimationRepeat() {
       }
 
-      override fun onAnimationCancel(p0: Animator?) {
+      override fun onAnimationCancel() {
       }
 
-      override fun onAnimationEnd(p0: Animator?) {
+      override fun onAnimationEnd() {
         end?.invoke()
-        anim.removeListener(this)
+//        anim.removeListener(this)
       }
 
-      override fun onAnimationStart(p0: Animator?) {
+      override fun onAnimationStart() {
       }
 
     })
@@ -202,8 +202,10 @@ public class MainActivity : AppCompatActivity() {
     fun doDelete() {
       if (thing == null) return
       "doDelete".logd(TAG)
-      itemView.setBackgroundColor(resources.getColor(R.color.deleteRed))
-      startCircularReveal(itemView.width, itemView.height, itemView, true) {
+      val view = itemView.findViewById(R.id.swipe_layout)
+      view.setBackgroundColor(resources.getColor(R.color.deleteRed))
+      itemView.setBackgroundColor(Color.TRANSPARENT)
+      startCircularReveal(itemView.width, itemView.height, view, true) {
         ThingsManager.remove(thing!!)
       }
     }
@@ -256,7 +258,8 @@ public class MainActivity : AppCompatActivity() {
       "updateUI vh:${this.hashCode()} ${thing.title} complete ${thing.isComplete}".logd(TAG)
       deleteLine.visibility = if (thing.isComplete) View.VISIBLE else View.GONE
       txtThing.setTextColor(resources.getColor(if (thing.isComplete) R.color.textDarkColor else R.color.textPrimaryColor))
-      itemView.setBackgroundColor(if (thing.isComplete) Color.TRANSPARENT else makeThingColor(prev))
+      itemView.findViewById(R.id.swipe_layout).setBackgroundColor(if (thing.isComplete) Color.TRANSPARENT else makeThingColor
+      (prev))
     }
 
     fun makeThingColor(prevThing: Thing?): Int {
@@ -294,7 +297,10 @@ public class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): VH? {
-      return VH(LayoutInflater.from(this@MainActivity).inflate(R.layout.thing_list_item, parent, false))
+      val wrapper = RevealFrameLayout(this@MainActivity, null)
+      wrapper.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+      wrapper.addView(LayoutInflater.from(this@MainActivity).inflate(R.layout.thing_list_item, parent, false))
+      return VH(wrapper)
     }
 
   }

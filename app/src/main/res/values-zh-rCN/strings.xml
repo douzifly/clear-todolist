@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clear 清单</string>
+    <string name="cant_remove">不能移除最后一个</string>
+    <string name="groups">分组</string>
+</resources>

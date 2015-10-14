@@ -10,7 +10,7 @@
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Groups"
+        android:text="@string/groups"
         android:textSize="@dimen/txt_size_big"
         android:background="@color/colorPrimary"
         android:padding="10dp"

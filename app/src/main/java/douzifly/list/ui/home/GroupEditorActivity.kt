@@ -83,7 +83,6 @@ class GroupEditorActivity : AppCompatActivity() {
 
     init {
       editText.typeface = fontSourceSansPro
-      "set typeface".logd("ooo")
       editText.setOnEditorActionListener { textView, actionId, keyEvent ->
         if (actionId == EditorInfo.IME_ACTION_DONE) {
           commitNewItem()
@@ -101,7 +100,7 @@ class GroupEditorActivity : AppCompatActivity() {
       if (success) {
         mRecyclerView.adapter.notifyDataSetChanged()
       } else {
-        Toast.makeText(this@GroupEditorActivity, "Can't delete the last one.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@GroupEditorActivity, R.string.cant_remove, Toast.LENGTH_SHORT).show()
         swipeLayout.close()
       }
     }
