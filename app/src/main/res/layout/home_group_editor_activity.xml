@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+    >
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Groups"
+        android:textSize="@dimen/txt_size_big"
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
+        android:textColor="#fff"
+        android:gravity="center_vertical"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/txt_title"
+        android:layout_alignBottom="@id/txt_title"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_add_white"
+        app:borderWidth="0dp"
+        app:elevation="0dp"
+        android:backgroundTint="@color/colorPrimary"
+        />
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:id="@+id/recycler_view"
+        android:layout_margin="16dp"
+        android:layout_below="@id/txt_title">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>

@@ -21,13 +21,15 @@
         </activity>
 
         <activity
-            android:name=".ui.home.BoxEditorActivity"
+            android:name=".ui.home.GroupEditorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BoxEditorDialog"
             >
 
         </activity>
 
+        <meta-data android:name="AA_DB_NAME" android:value="list.db" />
+        <meta-data android:name="AA_DB_VERSION" android:value="1" />
 
     </application>
 

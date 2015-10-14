@@ -24,4 +24,6 @@
     <item type="color" name="inputEditTextColor">#010101</item>
 
     <item type="color" name="deleteRed">#C92F2F</item>
+
+    <item type="color" name="group_select_bg">#f5f5f5</item>
 </resources>

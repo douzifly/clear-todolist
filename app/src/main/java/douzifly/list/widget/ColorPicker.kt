@@ -21,7 +21,7 @@ class ColorPicker(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
   companion object {
 
-    fun getDimedColor(originColor: Int, dimFactor: Float = 0.9f): Int {
+    fun getDimedColor(originColor: Int, dimFactor: Float = 0.94f): Int {
       val red = Color.red(originColor).toFloat()
       val green = Color.green(originColor).toFloat()
       val blue = Color.blue(originColor).toFloat()
