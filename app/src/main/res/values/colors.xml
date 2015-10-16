@@ -16,7 +16,7 @@
     <item type="color" name="fabAddRippleColor">#CC4444</item>
 
     <item type="color" name="fabDoneBackground">#FFF</item>
-    <item type="color" name="fabDoneRippleColor">#EC4536</item>
+    <item type="color" name="fabDoneRippleColor">#f6f6f6</item>
 
     <item type="color" name="textPrimaryColor">#FFF</item>
     <item type="color" name="textDarkColor">#616161</item>
