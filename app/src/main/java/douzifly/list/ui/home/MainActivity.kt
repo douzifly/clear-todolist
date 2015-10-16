@@ -15,6 +15,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import com.daimajia.swipe.SwipeLayout
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
 import douzifly.list.R
 import douzifly.list.model.Thing
 import douzifly.list.model.ThingsManager
@@ -109,11 +111,15 @@ public class MainActivity : AppCompatActivity() {
 
   fun setFabAsCommit(asCommit: Boolean) {
     if (asCommit) {
-      mFabButton.setImageResource(R.drawable.ic_done_white)
+      mFabButton.setImageDrawable(
+              GoogleMaterial.Icon.gmd_done.colorResOf(R.color.redPrimary)
+      )
       mFabButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.fabDoneBackground))
       mFabButton.setRippleColor(resources.getColor(R.color.fabDoneRippleColor))
     } else {
-      mFabButton.setImageResource(R.drawable.ic_add_white)
+      mFabButton.setImageDrawable(
+              GoogleMaterial.Icon.gmd_add.colorOf(Color.WHITE)
+      )
       mFabButton.setRippleColor(resources.getColor(R.color.fabAddRippleColor))
       mFabButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.fabAddBackground))
     }
@@ -129,6 +135,7 @@ public class MainActivity : AppCompatActivity() {
     (mTxtEmpty as TextView).typeface = fontAlegreya
     mTxtTitle.typeface = fontRailway
 
+    setFabAsCommit(false)
     checkShowEmptyText()
 
     mTxtTitle.setOnClickListener {

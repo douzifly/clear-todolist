@@ -30,6 +30,7 @@ class ColorPicker(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
   }
 
+  // 每一个颜色都是一个声音
   private val colors: Array<Long> = arrayOf(
       0xff4285f4, // google blue
       0xffec4536, // google brick red

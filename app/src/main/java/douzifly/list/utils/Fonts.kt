@@ -8,13 +8,13 @@ import douzifly.list.ListApplication
  */
 
 val fontRailway by lazy {
-  Typeface.createFromAsset(ListApplication.appContext!!.assets, "Railway.ttf")
+  Typeface.createFromAsset(ListApplication.appContext!!.assets, "fonts/Railway.ttf")
 }
 
 val fontAlegreya by lazy {
-  Typeface.createFromAsset(ListApplication.appContext!!.assets, "alegreya.ttf")
+  Typeface.createFromAsset(ListApplication.appContext!!.assets, "fonts/alegreya.ttf")
 }
 
 val fontSourceSansPro by lazy {
-  Typeface.createFromAsset(ListApplication.appContext!!.assets, "SourceSansPro.ttf")
+  Typeface.createFromAsset(ListApplication.appContext!!.assets, "fonts/SourceSansPro.ttf")
 }
