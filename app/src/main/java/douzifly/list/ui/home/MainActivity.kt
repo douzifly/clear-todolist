@@ -198,6 +198,10 @@ public class MainActivity : AppCompatActivity() {
 
   inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
+    init {
+
+    }
+
     override fun onClick(v: View?) {
       if (v == actionDelete) {
         doDelete()
@@ -242,12 +246,16 @@ public class MainActivity : AppCompatActivity() {
       itemView.context.resources.getDimensionPixelSize(R.dimen.list_item_action_width)
     }
 
-    val actionDelete: View by lazy {
-      itemView.findViewById(R.id.action_delete)
+    val actionDelete: FloatingActionButton by lazy {
+      val view = itemView.findViewById(R.id.action_delete) as FloatingActionButton
+      view.setImageDrawable(GoogleMaterial.Icon.gmd_delete.colorOf(Color.WHITE))
+      view
     }
 
-    val actionDone: View by lazy {
-      itemView.findViewById(R.id.action_done)
+    val actionDone: FloatingActionButton by lazy {
+      val view = itemView.findViewById(R.id.action_done) as FloatingActionButton
+      view.setImageDrawable(GoogleMaterial.Icon.gmd_done.colorResOf(R.color.redPrimary))
+      view
     }
 
     val deleteLine: View by lazy {
