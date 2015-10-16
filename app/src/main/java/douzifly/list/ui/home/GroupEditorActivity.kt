@@ -1,6 +1,7 @@
 package douzifly.list.ui.home
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
@@ -15,13 +16,13 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.daimajia.swipe.SwipeLayout
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.Iconics
+import com.mikepenz.iconics.IconicsDrawable
 import douzifly.list.R
 import douzifly.list.model.ThingGroup
 import douzifly.list.model.ThingsManager
-import douzifly.list.utils.fontRailway
-import douzifly.list.utils.fontSourceSansPro
-import douzifly.list.utils.logd
-import douzifly.list.utils.ui
+import douzifly.list.utils.*
 
 /**
  * Created by air on 15/10/9.
@@ -58,9 +59,13 @@ class GroupEditorActivity : AppCompatActivity() {
         mAdapter.showAddEditorBox = true
         mRecyclerView.scrollToPosition(mAdapter.itemCount - 1)
         // show button as commit
-        mFabAdd.setImageResource(R.drawable.ic_done_white)
+        mFabAdd.setImageDrawable(
+                GoogleMaterial.Icon.gmd_done.colorOf(Color.WHITE)
+        )
       }
     }
+
+    mFabAdd.setImageDrawable(GoogleMaterial.Icon.gmd_add.colorOf(Color.WHITE))
   }
 
   fun commitNewItem() {
@@ -73,7 +78,9 @@ class GroupEditorActivity : AppCompatActivity() {
     }
     mAdapter.showAddEditorBox = false
     // show button as add
-    mFabAdd.setImageResource(R.drawable.ic_add_white)
+    mFabAdd.setImageDrawable(
+            GoogleMaterial.Icon.gmd_add.colorOf(Color.WHITE)
+    )
   }
 
   inner class EditViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

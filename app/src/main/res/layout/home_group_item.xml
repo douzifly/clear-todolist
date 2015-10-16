@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:background="@color/deleteRed"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_delete_white_18dp"
         app:backgroundTint="@color/deleteRed"
         app:borderWidth="0dp"
         app:elevation="2dp"
@@ -33,7 +32,10 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:padding="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:textSize="@dimen/txt_size_big"
             />
 

@@ -31,8 +31,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
-    compile project(':ActiveAndroid')
     compile 'com.github.ozodrukh:CircularReveal:1.1.1'
+    compile project(':ActiveAndroid')
 }
 buildscript {
     ext.kotlin_version = '0.13.1514'

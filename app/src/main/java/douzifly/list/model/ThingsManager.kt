@@ -58,8 +58,8 @@ object ThingsManager {
   }
 
   private fun loadThingsCount(group: ThingGroup) {
-    group.unCompleteThingsCount = Select().from(Thing::class.java).where("pid=${group.id} and isComplete=0")
-    .count()
+    group.unCompleteThingsCount =
+            Select().from(Thing::class.java).where("pid=${group.id} and isComplete=0").count()
   }
 
   fun changeGroup(id: Long) {

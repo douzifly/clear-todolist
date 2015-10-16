@@ -11,7 +11,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/fabDoneBackground"
-            android:src="@drawable/ic_done_white_18dp"
             android:id="@+id/action_done"
             app:backgroundTint="@color/fabDoneBackground"
             app:borderWidth="0dp"
@@ -23,7 +22,6 @@
     <android.support.design.widget.FloatingActionButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_delete_white_18dp"
             android:id="@+id/action_delete"
             app:backgroundTint="@color/deleteRed"
             android:background="@color/deleteRed"
