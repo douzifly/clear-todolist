@@ -110,8 +110,10 @@ object ThingsManager {
   }
 
   fun remove(thing: Thing) {
-    currentGroup!!.things?.remove(thing)
-    currentGroup!!.unCompleteThingsCount--
+    currentGroup!!.things.remove(thing)
+    if (!thing.isComplete) {
+      currentGroup!!.unCompleteThingsCount--
+    }
     thing.delete()
     // remove from db
     onDataChanged?.invoke()

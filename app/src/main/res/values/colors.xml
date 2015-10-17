@@ -2,6 +2,20 @@
 <resources>
 
     <item type="color" name="redPrimary">#EA4335</item>
+    <item type="color" name="redPressed">#BF360c</item>
+    <item type="color" name="redRipple">#FF5722</item>
+
+    <item type="color" name="whitePrimary">#FAFAFA</item>
+    <item type="color" name="whitePressed">#e0e0e0</item>
+    <item type="color" name="whiteRipple">#EEE</item>
+
+    <item type="color" name="greenPrimary">#259b24</item>
+
+    <item type="color" name="blackPrimary">#212121</item>
+    <item type="color" name="greyPrimary">#9e9e9e</item>
+
+    <item type="color" name="shadow">#AA212121</item>
+
 
     <item type="color" name="colorPrimary">#4285f4</item>
     <item type="color" name="colorPrimaryDark">#222</item>
@@ -9,16 +23,11 @@
 
     <item type="color" name="bg_list_item">@color/colorPrimary</item>
 
-    <item type="color" name="colorWindowBackground">#010103</item>
+    <item type="color" name="colorWindowBackground">#fafafa</item>
     <item type="color" name="colorInputPanel">#F1F0F4</item>
 
-    <item type="color" name="fabAddBackground">#EA4335</item>
-    <item type="color" name="fabAddRippleColor">#CC4444</item>
+    <item type="color" name="colorActionPanel">#AA212121</item>
 
-    <item type="color" name="fabDoneBackground">#FFF</item>
-    <item type="color" name="fabDoneRippleColor">#f6f6f6</item>
-
-    <item type="color" name="textPrimaryColor">#FFF</item>
     <item type="color" name="textDarkColor">#616161</item>
     <item type="color" name="textEmpty">#707072</item>
     <item type="color" name="textTitle">#505052</item>

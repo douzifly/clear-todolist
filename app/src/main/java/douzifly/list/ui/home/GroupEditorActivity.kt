@@ -3,7 +3,6 @@ package douzifly.list.ui.home
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,6 +15,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.daimajia.swipe.SwipeLayout
+import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.Iconics
 import com.mikepenz.iconics.IconicsDrawable
@@ -60,12 +60,12 @@ class GroupEditorActivity : AppCompatActivity() {
         mRecyclerView.scrollToPosition(mAdapter.itemCount - 1)
         // show button as commit
         mFabAdd.setImageDrawable(
-                GoogleMaterial.Icon.gmd_done.colorOf(Color.WHITE)
+                GoogleMaterial.Icon.gmd_done.colorResOf(R.color.redPrimary)
         )
       }
     }
 
-    mFabAdd.setImageDrawable(GoogleMaterial.Icon.gmd_add.colorOf(Color.WHITE))
+    mFabAdd.setImageDrawable(GoogleMaterial.Icon.gmd_add.colorResOf(R.color.greyPrimary))
   }
 
   fun commitNewItem() {
@@ -79,7 +79,7 @@ class GroupEditorActivity : AppCompatActivity() {
     mAdapter.showAddEditorBox = false
     // show button as add
     mFabAdd.setImageDrawable(
-            GoogleMaterial.Icon.gmd_add.colorOf(Color.WHITE)
+            GoogleMaterial.Icon.gmd_add.colorResOf(R.color.greyPrimary)
     )
   }
 
@@ -116,8 +116,8 @@ class GroupEditorActivity : AppCompatActivity() {
       itemView.findViewById(R.id.swipe_layout) as SwipeLayout
     }
 
-    val actionDelete: View by lazy {
-      itemView.findViewById(R.id.action_delete)
+    val actionDelete: FloatingActionButton by lazy {
+      itemView.findViewById(R.id.action_delete) as FloatingActionButton
     }
 
     init {
@@ -127,6 +127,10 @@ class GroupEditorActivity : AppCompatActivity() {
       }
       swipeLayout.showMode = SwipeLayout.ShowMode.PullOut
       actionDelete.setOnClickListener(this)
+
+      actionDelete.setImageDrawable(
+              GoogleMaterial.Icon.gmd_delete.colorResOf(R.color.redPrimary)
+      )
     }
 
     val mTxtTitle : TextView by lazy {
@@ -175,11 +179,11 @@ class GroupEditorActivity : AppCompatActivity() {
         val group = groups!!.get(position)
         holder.mTxtTitle.text = group.title ?: ""
 
-        if (group == ThingsManager.currentGroup) {
-          holder.itemView.setBackgroundColor(this@GroupEditorActivity.resources.getColor(R.color.group_select_bg))
-        } else {
-          holder.itemView.background = null
-        }
+//        if (group == ThingsManager.currentGroup) {
+//          holder.itemView.setBackgroundColor(this@GroupEditorActivity.resources.getColor(R.color.group_select_bg))
+//        } else {
+//          holder.itemView.background = null
+//        }
         holder.mTxtCount.text = "${group.unCompleteThingsCount}"
       } else if (holder is EditViewHolder) {
         // no op

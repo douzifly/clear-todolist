@@ -11,28 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="@string/groups"
-        android:textSize="@dimen/txt_size_big"
-        android:background="@color/colorPrimary"
+        android:textSize="@dimen/txt_size_extra"
         android:padding="10dp"
-        android:textColor="#fff"
+        android:textColor="@color/textDarkColor"
         android:gravity="center_vertical"
         />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/txt_title"
         android:layout_alignBottom="@id/txt_title"
         android:layout_alignParentRight="true"
-        app:borderWidth="0dp"
-        app:elevation="0dp"
         android:scaleType="centerInside"
-        android:backgroundTint="@color/colorPrimary"
-        android:background="@color/colorPrimary"
+        app:fab_colorNormal="#fff"
+        app:fab_colorPressed="@color/whitePressed"
+        app:fab_colorRipple="@color/whiteRipple"
+        app:fab_elevationCompat="0dp"
+        app:fab_shadowRadius="0dp"
         />
-
-
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

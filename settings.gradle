@@ -1,1 +1,1 @@
-include ':app', ':ActiveAndroid'
+include ':app', ':ActiveAndroid', ':Fab'

@@ -1,29 +1,27 @@
 package douzifly.list.ui.home
 
-import android.animation.Animator
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
-import com.daimajia.swipe.SwipeLayout
+import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
 import douzifly.list.R
 import douzifly.list.model.Thing
 import douzifly.list.model.ThingsManager
 import douzifly.list.model.randomEmptyText
 import douzifly.list.utils.*
-import douzifly.list.widget.ColorPicker
-import io.codetail.widget.RevealFrameLayout
+import douzifly.list.widget.*
 
 public class MainActivity : AppCompatActivity() {
 
@@ -39,30 +37,20 @@ public class MainActivity : AppCompatActivity() {
     findViewById(R.id.fab_add) as FloatingActionButton
   }
 
-  val mInputPanel: View by lazy {
-    findViewById(R.id.input_panel)
-  }
-
-  val mEditText: EditText by lazy {
-    val ed = findViewById(R.id.edit_text) as EditText
-    ed.typeface = fontSourceSansPro
-    ed
-  }
-
-  val mRootView: View by lazy {
-    findViewById(R.id.view_root)
+  val mInputPanel: InputPanel by lazy {
+    findViewById(R.id.input_panel) as InputPanel
   }
 
   val mTxtEmpty: View by lazy {
     findViewById(R.id.txt_empty)
   }
 
-  val mTxtTitle: TextView by lazy {
-    findViewById(R.id.txt_title) as TextView
+  val mTitleLayout: TitleLayout by lazy {
+    findViewById(R.id.header) as TitleLayout
   }
 
-  val mColorPicker: ColorPicker by lazy {
-    findViewById(R.id.color_picker) as ColorPicker
+  val mActionPanel: ActionPanel by lazy {
+    findViewById(R.id.action_panel) as ActionPanel
   }
 
   val mFabListener: (v: View) -> Unit = {
@@ -70,23 +58,27 @@ public class MainActivity : AppCompatActivity() {
     if (mInputPanel.visibility == View.VISIBLE) {
       val cx = (mFabButton.left + mFabButton.right) / 2
       val cy = mFabButton.top + mFabButton.height / 2
-      startCircularReveal(cx, cy, mInputPanel, true) {
+      startCircularReveal(cx, cy, mInputPanel.revealView, true) {
         mInputPanel.visibility = View.INVISIBLE
+        setFabAsCommit(false)
+        ui {
+          val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+          imm.hideSoftInputFromWindow(mInputPanel.editText.windowToken, 0)
+          ui(100) {
+            handleInputDone()
+            mInputPanel.editText.setText("")
+          }
+        }
       }
-      setFabAsCommit(false)
-      val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-      imm.hideSoftInputFromWindow(mEditText.windowToken, 0)
 
-      handleInputDone()
-      mEditText.setText("")
     } else {
       val cx = (mFabButton.left + mFabButton.right) / 2
       val cy = mFabButton.top + mFabButton.height / 2
       mInputPanel.visibility = View.VISIBLE
-      startCircularReveal(cx, cy, mInputPanel, false) {
-        mEditText.requestFocus()
+      startCircularReveal(cx, cy, mInputPanel.revealView, false) {
+        mInputPanel.editText.requestFocus()
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(mEditText, InputMethodManager.SHOW_FORCED)
+        imm.showSoftInput(mInputPanel.editText, InputMethodManager.SHOW_FORCED)
       }
       setFabAsCommit(true)
     }
@@ -100,13 +92,12 @@ public class MainActivity : AppCompatActivity() {
   }
 
   fun handleInputDone() {
-    val textString = mEditText.text.toString().trim()
+    val textString = mInputPanel.editText.text.toString().trim()
     if (textString.isBlank()) {
       return
     }
 
-    ThingsManager.addThing(textString,-1, mColorPicker.selectedColor)
-
+    ThingsManager.addThing(textString,-1, mInputPanel.colorPicker.selectedColor)
   }
 
   fun setFabAsCommit(asCommit: Boolean) {
@@ -114,14 +105,16 @@ public class MainActivity : AppCompatActivity() {
       mFabButton.setImageDrawable(
               GoogleMaterial.Icon.gmd_done.colorResOf(R.color.redPrimary)
       )
-      mFabButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.fabDoneBackground))
-      mFabButton.setRippleColor(resources.getColor(R.color.fabDoneRippleColor))
+      mFabButton.setColorNormalResId(R.color.whitePrimary)
+      mFabButton.setColorPressedResId(R.color.whitePressed)
+      mFabButton.setColorRippleResId(R.color.whiteRipple)
     } else {
       mFabButton.setImageDrawable(
               GoogleMaterial.Icon.gmd_add.colorOf(Color.WHITE)
       )
-      mFabButton.setRippleColor(resources.getColor(R.color.fabAddRippleColor))
-      mFabButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.fabAddBackground))
+      mFabButton.setColorNormalResId(R.color.redPrimary)
+      mFabButton.setColorPressedResId(R.color.redPressed)
+      mFabButton.setColorRippleResId(R.color.redRipple)
     }
   }
 
@@ -133,21 +126,35 @@ public class MainActivity : AppCompatActivity() {
     mRecyclerView.layoutManager = LinearLayoutManager(this)
     mRecyclerView.adapter = ThingsAdapter()
     (mTxtEmpty as TextView).typeface = fontAlegreya
-    mTxtTitle.typeface = fontRailway
 
     setFabAsCommit(false)
     checkShowEmptyText()
 
-    mTxtTitle.setOnClickListener {
+    mTitleLayout.titleClickListener = {
       // click title, show box
       startActivityForResult(Intent(this, GroupEditorActivity::class.java), 0)
+    }
+
+    mActionPanel.onDeleteListener = {
+      thing->
+      doDelete(thing)
+    }
+
+    mActionPanel.onDoneListener = {
+      thing->
+      doDone(thing)
+    }
+
+    mActionPanel.onHide = {
+      mFabButton.visibility = View.VISIBLE
     }
 
     ThingsManager.onDataChanged = {
       ui {
         checkShowEmptyText()
-        mTxtTitle.text = ThingsManager.currentGroup?.title ?: ""
+        mTitleLayout.title = ThingsManager.currentGroup?.title ?: ""
         (mRecyclerView.adapter as ThingsAdapter).things = ThingsManager.currentGroup?.things
+        mTitleLayout.count = ThingsManager.currentGroup?.unCompleteThingsCount ?: 0
       }
     }
     async {
@@ -165,7 +172,7 @@ public class MainActivity : AppCompatActivity() {
     val startRadius = if (reverse) endRadius else 0f
     val finalRadius = if (reverse) 0f else endRadius
     val anim = io.codetail.animation.ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, startRadius, finalRadius)
-    anim.setDuration(400)
+    anim.setDuration(200)
     anim.addListener(object : io.codetail.animation.SupportAnimator.AnimatorListener {
       override fun onAnimationRepeat() {
       }
@@ -175,7 +182,6 @@ public class MainActivity : AppCompatActivity() {
 
       override fun onAnimationEnd() {
         end?.invoke()
-//        anim.removeListener(this)
       }
 
       override fun onAnimationStart() {
@@ -191,46 +197,49 @@ public class MainActivity : AppCompatActivity() {
         mFabListener.invoke(mFabButton)
         return false
       }
+      if (mActionPanel.isShowing) {
+        mActionPanel.hide(mActionPanel.width / 2, mActionPanel.height / 2)
+        return false
+      }
     }
     return super.onKeyDown(keyCode, event)
   }
 
+  fun doDelete(thing: Thing) {
+    "doDelete".logd(TAG)
+    ThingsManager.remove(thing!!)
+  }
+
+  fun doDone(thing: Thing) {
+    "doDone".logd(TAG)
+    ThingsManager.makeComplete(thing!!, !thing!!.isComplete)
+  }
 
   inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     init {
-
+      itemView.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
-      if (v == actionDelete) {
-        doDelete()
-      } else if (v == actionDone) {
-        doDone()
+      if (v == dotView) {
+          // undo complete
+          doDone(thing!!)
+      } else if (v == itemView) {
+        val cx = (itemView.left + itemView.right) / 2
+        val cy = itemView.top + itemView.height
+        mActionPanel.show(cx, cy, thing!!)
+        mFabButton.visibility = View.GONE
       }
-
-      swipeLayout.close(true)
-    }
-
-    fun doDelete() {
-      if (thing == null) return
-      "doDelete".logd(TAG)
-      val view = itemView.findViewById(R.id.swipe_layout)
-      view.setBackgroundColor(resources.getColor(R.color.deleteRed))
-      itemView.setBackgroundColor(Color.TRANSPARENT)
-      startCircularReveal(itemView.width, itemView.height, view, true) {
-        ThingsManager.remove(thing!!)
-      }
-    }
-
-    fun doDone() {
-      if (thing == null) return
-      "doDone".logd(TAG)
-      ThingsManager.makeComplete(thing!!, !thing!!.isComplete)
-
     }
 
     var thing: Thing? = null
+
+    val dotView: DotView by lazy {
+      val v = itemView.findViewById(R.id.dot_view) as DotView
+      v.setOnClickListener(this)
+      v
+    }
 
     val txtThing: TextView by lazy {
       val text = itemView.findViewById(R.id.txt_thing) as TextView
@@ -238,45 +247,16 @@ public class MainActivity : AppCompatActivity() {
       text
     }
 
-    val swipeLayout: SwipeLayout by lazy {
-      itemView.findViewById(R.id.swipe_layout) as SwipeLayout
-    }
-
-    val actionViewWidth: Int by lazy {
-      itemView.context.resources.getDimensionPixelSize(R.dimen.list_item_action_width)
-    }
-
-    val actionDelete: FloatingActionButton by lazy {
-      val view = itemView.findViewById(R.id.action_delete) as FloatingActionButton
-      view.setImageDrawable(GoogleMaterial.Icon.gmd_delete.colorOf(Color.WHITE))
-      view
-    }
-
-    val actionDone: FloatingActionButton by lazy {
-      val view = itemView.findViewById(R.id.action_done) as FloatingActionButton
-      view.setImageDrawable(GoogleMaterial.Icon.gmd_done.colorResOf(R.color.redPrimary))
-      view
-    }
-
-    val deleteLine: View by lazy {
-      itemView.findViewById(R.id.delete_line)
-    }
-
     fun bind(thing: Thing, prevThing: Thing?) {
       this.thing = thing
-      updateUI(thing, prevThing)
+      updateItemUI(thing, prevThing)
       txtThing.text = thing.title
-      swipeLayout.dragEdges = arrayListOf(SwipeLayout.DragEdge.Left, SwipeLayout.DragEdge.Right)
-      actionDelete.setOnClickListener(this)
-      actionDone.setOnClickListener(this)
     }
 
-    fun updateUI(thing: Thing, prev: Thing?) {
-      "updateUI vh:${this.hashCode()} ${thing.title} complete ${thing.isComplete}".logd(TAG)
-      deleteLine.visibility = if (thing.isComplete) View.VISIBLE else View.GONE
-      txtThing.setTextColor(resources.getColor(if (thing.isComplete) R.color.textDarkColor else R.color.textPrimaryColor))
-      itemView.findViewById(R.id.swipe_layout).setBackgroundColor(if (thing.isComplete) Color.TRANSPARENT else makeThingColor
-      (prev))
+    fun updateItemUI(thing: Thing, prev: Thing?) {
+      dotView.mode = if (thing.isComplete) DotView.Mode.Solid else DotView.Mode.Hollow
+      dotView.color = thing.color
+      txtThing.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
     }
 
     fun makeThingColor(prevThing: Thing?): Int {
@@ -314,10 +294,8 @@ public class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): VH? {
-      val wrapper = RevealFrameLayout(this@MainActivity, null)
-      wrapper.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-      wrapper.addView(LayoutInflater.from(this@MainActivity).inflate(R.layout.thing_list_item, parent, false))
-      return VH(wrapper)
+      val view = LayoutInflater.from(this@MainActivity).inflate(R.layout.thing_list_item, parent, false)
+      return VH(view)
     }
 
   }

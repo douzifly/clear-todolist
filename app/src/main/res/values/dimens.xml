@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="txt_size_big">16sp</dimen>
+    <dimen name="txt_size_extra">22sp</dimen>
     <dimen name="list_item_action_width">58dp</dimen>
     <dimen name="color_picker_item_size_normal">24dp</dimen>
 

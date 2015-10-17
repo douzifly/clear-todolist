@@ -14,8 +14,14 @@
     </style>
 
     <style name="fab_add">
-        <item name="backgroundTint">@color/fabAddBackground</item>
-        <item name="rippleColor">@color/fabAddRippleColor</item>
+        <item name="fab_colorNormal">@color/redPrimary</item>
+        <item name="fab_colorRipple">@color/redRipple</item>
+        <item name="fab_colorPressed">@color/redPressed</item>
+        <item name="fab_showShadow">true</item>
+        <item name="fab_shadowColor">@color/shadow</item>
+        <item name="fab_shadowRadius">4dp</item>
+        <item name="fab_shadowXOffset">1dp</item>
+        <item name="fab_shadowYOffset">3dp</item>
     </style>
 
     <style name="DateHeader">
