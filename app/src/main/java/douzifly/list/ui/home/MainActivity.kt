@@ -242,6 +242,14 @@ public class MainActivity : AppCompatActivity() {
 
   inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
+    val cardBackgroundColor:Int by lazy {
+      val a = this@MainActivity.obtainStyledAttributes(null, android.support.v7.cardview.R.styleable.CardView, 0,
+              android.support.v7.cardview.R.style.CardView_Light)
+      val backgroundColor = a.getColor(android.support.v7.cardview.R.styleable.CardView_cardBackgroundColor, 0)
+      a.recycle()
+      backgroundColor
+    }
+
     init {
       itemView.setOnClickListener(this)
     }
@@ -282,6 +290,8 @@ public class MainActivity : AppCompatActivity() {
     fun bind(thing: Thing, prevThing: Thing?) {
       this.thing = thing
       updateItemUI(thing, prevThing)
+//      txtThing.visibility = View.INVISIBLE
+//      txtReminder.visibility = View.GONE
     }
 
     fun updateItemUI(thing: Thing, prev: Thing?) {
@@ -293,6 +303,7 @@ public class MainActivity : AppCompatActivity() {
         dotView.mode = if (thing.isComplete) DotView.Mode.Solid else DotView.Mode.Hollow
         dotView.color = thing.color
         txtThing.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
+        (itemView as CardView).setCardBackgroundColor(cardBackgroundColor)
       } else {
         if (thing.isComplete) {
           dotView.visibility = View.VISIBLE

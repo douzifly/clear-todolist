@@ -21,6 +21,7 @@ class Thing() : Model(), Comparable<Thing> {
   @Column(name="isComplete") var isComplete: Boolean = false
   @Column(name="color") var color: Int = 0
   @Column(name="pid") var pid: Long = -1
+  @Column(name="creation") var creationTime: Long = 0
 
   var displayColor: Int = 0
 
@@ -50,6 +51,7 @@ class ThingGroup() : Model() {
   var things: ArrayList<Thing> = arrayListOf()
   @Column(name="selected") var selected: Boolean = false
   @Column(name="is_default") var isDefault: Boolean = false
+  @Column(name="creation") var creationTime: Long = 0
 
   var thingsLoaded: Boolean = false
   var unCompleteThingsCount: Int = 0

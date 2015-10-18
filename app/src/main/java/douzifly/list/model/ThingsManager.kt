@@ -34,6 +34,7 @@ object ThingsManager {
       val homeGroup = ThingGroup(ListApplication.appContext!!.resources.getString(R.string.default_list))
       homeGroup.selected = true
       homeGroup.isDefault = true
+      homeGroup.creationTime = Date().time
       homeGroup.save()
       groups.add(homeGroup)
     }
@@ -90,6 +91,7 @@ object ThingsManager {
 
   fun addGroup(title: String) {
     val group = ThingGroup(title)
+    group.creationTime = Date().time
     group.save()
     groups.add(group)
   }
@@ -101,6 +103,7 @@ object ThingsManager {
 
   fun addThing(text: String, reminder: Long, color: Int) {
     val t = Thing(text, currentGroup!!.id, color)
+    t.creationTime = Date().time
     t.reminderTime = reminder
     t.save()
     currentGroup!!.things.add(t)

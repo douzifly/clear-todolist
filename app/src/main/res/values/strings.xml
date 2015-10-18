@@ -6,4 +6,9 @@
     <string name="today">Today</string>
     <string name="tommorow">Tommorow</string>
     <string name="setting">Setting</string>
+    <string name="theme">Theme</string>
+    <string name="sound">Sounds</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="version">Version</string>
 </resources>

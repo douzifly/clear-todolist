@@ -50,6 +50,7 @@ object Settings {
 
   init {
     theme = Theme.valueOf(sp.getInt(K_THEME, Theme.Colorful.value))
+//    theme = Theme.Colorful
     sounds = sp.getBoolean(K_SOUNDS, true)
   }
 
