@@ -58,6 +58,10 @@ class SettingActivity : AppCompatActivity() {
 
     (findViewById(R.id.txt_copyright) as TextView).typeface = fontRailway
     (findViewById(R.id.txt_theme_title) as TextView).typeface = fontRailway
+    txtSoundOnOff.typeface = fontRailway
+    (findViewById(R.id.txt_sound_title) as TextView).typeface = fontRailway
+    txtVersion.typeface = fontRailway
+    (findViewById(R.id.txt_version_title) as TextView).typeface = fontRailway
 
     imgThemeColorSelected.setImageDrawable(
             GoogleMaterial.Icon.gmd_done.colorResOf(R.color.yellowPrimary)
