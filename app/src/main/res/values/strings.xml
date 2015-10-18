@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Clear List</string>
-    <string name="cant_remove">Can not remove last one.</string>
+    <string name="default_list">Clear List</string>
+    <string name="cant_remove">Can not remove default group</string>
     <string name="groups">Groups</string>
+    <string name="today">Today</string>
+    <string name="tommorow">Tommorow</string>
+    <string name="setting">Setting</string>
 </resources>

@@ -17,17 +17,16 @@ class Thing() : Model(), Comparable<Thing> {
 
   @Column(name="positon") var position: Int = -1
   @Column(name="title") var title: String = ""
-  @Column(name="reminderAfter") var reminderAfter: Long = 0
+  @Column(name="reminderTime") var reminderTime: Long = 0
   @Column(name="isComplete") var isComplete: Boolean = false
   @Column(name="color") var color: Int = 0
   @Column(name="pid") var pid: Long = -1
 
   var displayColor: Int = 0
 
-  constructor(title: String, pid: Long, color: Int, reminderAfter: Long) : this() {
+  constructor(title: String, pid: Long, color: Int) : this() {
     this.title = title
     this.color = color
-    this.reminderAfter = reminderAfter
     this.pid = pid
   }
 
@@ -50,6 +49,8 @@ class ThingGroup() : Model() {
   @Column(name="title") var title: String = ""
   var things: ArrayList<Thing> = arrayListOf()
   @Column(name="selected") var selected: Boolean = false
+  @Column(name="is_default") var isDefault: Boolean = false
+
   var thingsLoaded: Boolean = false
   var unCompleteThingsCount: Int = 0
 }

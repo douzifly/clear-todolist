@@ -4,7 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.github.clans.fab.FloatingActionButton
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R
+import douzifly.list.utils.colorResOf
 import douzifly.list.utils.fontRailway
 
 /**
@@ -12,12 +15,16 @@ import douzifly.list.utils.fontRailway
  */
 class TitleLayout(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
-  private val txtTitle: TextView by lazy {
+  val txtTitle: TextView by lazy {
     findViewById(R.id.txt_title) as TextView
   }
 
-  private val txtCount: TextView by lazy {
+  val txtCount: TextView by lazy {
     findViewById(R.id.txt_count) as TextView
+  }
+
+  val fabSetting: FloatingActionButton by lazy {
+    findViewById(R.id.fab_setting) as FloatingActionButton
   }
 
   public var title: String
@@ -41,6 +48,14 @@ class TitleLayout(context: Context, attrs: AttributeSet) : RelativeLayout(contex
     txtTitle.typeface = fontRailway
     txtTitle.setOnClickListener {
       titleClickListener?.invoke()
+    }
+
+    fabSetting.setImageDrawable(
+            GoogleMaterial.Icon.gmd_settings.colorResOf(R.color.greyPrimary)
+    )
+
+    fabSetting.setOnClickListener {
+
     }
   }
 }

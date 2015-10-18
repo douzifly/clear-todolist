@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 
@@ -15,7 +17,8 @@ class DotView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
   public enum class Mode {
     Hollow,
-    Solid
+    Solid,
+    Done
   }
 
   public var mode: Mode = Mode.Hollow
@@ -34,9 +37,17 @@ class DotView(context: Context, attrs: AttributeSet) : View(context, attrs) {
       color = context.resources.getColor(value)
     }
 
+  public var doneDrawable: Drawable? = null
+
   private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
   override fun onDraw(canvas: Canvas) {
+    if (mode == Mode.Done) {
+      val a = 5
+      doneDrawable?.bounds = Rect(width / a, height / a, width - width / a, height - height / a)
+      doneDrawable?.draw(canvas)
+      return
+    }
     paint.color = color
     val cx = width / 2f
     val cy = height / 2f

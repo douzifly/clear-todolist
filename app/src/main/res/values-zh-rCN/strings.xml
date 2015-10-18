@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Clear 清单</string>
-    <string name="cant_remove">不能移除最后一个</string>
+    <string name="cant_remove">不能删除默认分组</string>
     <string name="groups">分组</string>
+    <string name="default_list">Clear 清单</string>
+    <string name="today">今天</string>
+    <string name="tommorow">明天</string>
+    <string name="setting">设置</string>
 </resources>

@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
     <TextView
@@ -12,14 +13,28 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:ellipsize="end"
-        android:gravity="center"
+        android:gravity="left|center_vertical"
         android:padding="8dp"
         android:singleLine="true"
         android:text="List"
         android:textColor="@color/textTitle"
-        android:textSize="@dimen/txt_size_big"
+        android:textSize="@dimen/txt_size_extra"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="10dp"
+        android:maxWidth="240dp"
+        />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        app:fab_colorNormal="@color/whitePrimary"
+        app:fab_colorRipple="@color/whiteRipple"
+        app:fab_colorPressed="@color/whitePressed"
+        app:fab_elevationCompat="0dp"
+        app:fab_shadowRadius="0dp"
+        android:layout_alignTop="@id/txt_title"
         />
 
     <TextView
@@ -33,8 +48,9 @@
         android:text="List"
         android:textColor="@color/textTitle"
         android:textSize="@dimen/txt_size_big"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
+        android:layout_toLeftOf="@id/fab_setting"
+        android:layout_marginRight="6dp"
+        android:layout_alignTop="@id/txt_title"
         />
 
 </douzifly.list.widget.TitleLayout>

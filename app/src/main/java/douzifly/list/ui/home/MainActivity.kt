@@ -2,11 +2,17 @@ package douzifly.list.ui.home
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -20,8 +26,11 @@ import douzifly.list.R
 import douzifly.list.model.Thing
 import douzifly.list.model.ThingsManager
 import douzifly.list.model.randomEmptyText
+import douzifly.list.settings.Settings
+import douzifly.list.settings.Theme
 import douzifly.list.utils.*
 import douzifly.list.widget.*
+import java.util.*
 
 public class MainActivity : AppCompatActivity() {
 
@@ -53,6 +62,10 @@ public class MainActivity : AppCompatActivity() {
     findViewById(R.id.action_panel) as ActionPanel
   }
 
+  val mFabSetting: FloatingActionButton by lazy {
+    findViewById(R.id.fab_setting) as FloatingActionButton
+  }
+
   val mFabListener: (v: View) -> Unit = {
 
     if (mInputPanel.visibility == View.VISIBLE) {
@@ -66,7 +79,7 @@ public class MainActivity : AppCompatActivity() {
           imm.hideSoftInputFromWindow(mInputPanel.editText.windowToken, 0)
           ui(100) {
             handleInputDone()
-            mInputPanel.editText.setText("")
+            mInputPanel.reset()
           }
         }
       }
@@ -97,7 +110,7 @@ public class MainActivity : AppCompatActivity() {
       return
     }
 
-    ThingsManager.addThing(textString,-1, mInputPanel.colorPicker.selectedColor)
+    ThingsManager.addThing(textString, mInputPanel.reminderDate?.time ?: -1, mInputPanel.colorPicker.selectedColor)
   }
 
   fun setFabAsCommit(asCommit: Boolean) {
@@ -149,6 +162,10 @@ public class MainActivity : AppCompatActivity() {
       mFabButton.visibility = View.VISIBLE
     }
 
+    mFabSetting.setOnClickListener {
+      startActivityForResult(Intent(this, SettingActivity::class.java), 0)
+    }
+
     ThingsManager.onDataChanged = {
       ui {
         checkShowEmptyText()
@@ -159,6 +176,14 @@ public class MainActivity : AppCompatActivity() {
     }
     async {
       ThingsManager.loadFromDb()
+    }
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    //
+    if (resultCode == SettingActivity.RESULT_THEME_CHANGED) {
+      mRecyclerView.adapter.notifyDataSetChanged()
     }
   }
 
@@ -238,6 +263,7 @@ public class MainActivity : AppCompatActivity() {
     val dotView: DotView by lazy {
       val v = itemView.findViewById(R.id.dot_view) as DotView
       v.setOnClickListener(this)
+      v.doneDrawable = GoogleMaterial.Icon.gmd_done.colorResOf(R.color.redPrimary)
       v
     }
 
@@ -247,16 +273,59 @@ public class MainActivity : AppCompatActivity() {
       text
     }
 
+    val txtReminder: TextView by lazy {
+      val text = itemView.findViewById(R.id.txt_reminder) as TextView
+      text.typeface = fontSourceSansPro
+      text
+    }
+
     fun bind(thing: Thing, prevThing: Thing?) {
       this.thing = thing
       updateItemUI(thing, prevThing)
-      txtThing.text = thing.title
     }
 
     fun updateItemUI(thing: Thing, prev: Thing?) {
-      dotView.mode = if (thing.isComplete) DotView.Mode.Solid else DotView.Mode.Hollow
-      dotView.color = thing.color
-      txtThing.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
+
+      txtThing.text = thing.title
+
+      if (Settings.theme == Theme.Dot) {
+        dotView.visibility = View.VISIBLE
+        dotView.mode = if (thing.isComplete) DotView.Mode.Solid else DotView.Mode.Hollow
+        dotView.color = thing.color
+        txtThing.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
+      } else {
+        if (thing.isComplete) {
+          dotView.visibility = View.VISIBLE
+          dotView.mode = DotView.Mode.Done
+        } else {
+          dotView.visibility = View.GONE
+        }
+        txtThing.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.whitePrimary))
+        if (thing.isComplete) {
+          (itemView as CardView).setCardBackgroundColor(resources.getColor(R.color.whitePressed))
+        } else {
+          (itemView as CardView).setCardBackgroundColor(makeThingColor(prev))
+        }
+      }
+
+
+      // update reminder text
+      if (thing.reminderTime > 0) {
+        txtReminder.visibility = View.VISIBLE
+        val date = Date(thing.reminderTime)
+        txtReminder.text = formatDateTime(date)
+        if (Settings.theme != Theme.Colorful) {
+          formatTextViewcolor(txtReminder, date)
+        } else {
+          if (thing.isComplete) {
+            txtReminder.setTextColor(resources.getColor(R.color.greyPrimary))
+          } else {
+            txtReminder.setTextColor(resources.getColor(R.color.whitePrimary))
+          }
+        }
+      } else {
+        txtReminder.visibility = View.GONE
+      }
     }
 
     fun makeThingColor(prevThing: Thing?): Int {

@@ -31,8 +31,9 @@ object ThingsManager {
     groups = Select().from(ThingGroup::class.java).execute()
     if (groups.size() == 0) {
       // add default group and save to database
-      val homeGroup = ThingGroup(ListApplication.appContext!!.resources.getString(R.string.app_name))
+      val homeGroup = ThingGroup(ListApplication.appContext!!.resources.getString(R.string.default_list))
       homeGroup.selected = true
+      homeGroup.isDefault = true
       homeGroup.save()
       groups.add(homeGroup)
     }
@@ -99,7 +100,8 @@ object ThingsManager {
   }
 
   fun addThing(text: String, reminder: Long, color: Int) {
-    val t = Thing(text, currentGroup!!.id, color, reminder)
+    val t = Thing(text, currentGroup!!.id, color)
+    t.reminderTime = reminder
     t.save()
     currentGroup!!.things.add(t)
     currentGroup!!.save()
@@ -122,20 +124,21 @@ object ThingsManager {
   fun removeGroup(id: Long): Boolean {
 
     groups.forEach {
-      box ->
-      if (box.id == id) {
-        if (groups.size() == 1) {
-          // dont delete the last group
+      group ->
+      if (group.id == id) {
+        if (group.isDefault) {
+          // cant delete default
           return false
         }
-        groups.remove(box)
+
+        groups.remove(group)
         currentGroup = groups[0]
         currentGroup!!.selected = true
         onDataChanged?.invoke()
-        box.delete()
+        group.delete()
         currentGroup!!.save()
 
-        Delete().from(Thing::class.java).where("pid=${box.id}").execute<Thing>()
+        Delete().from(Thing::class.java).where("pid=${group.id}").execute<Thing>()
         return true
       }
     }

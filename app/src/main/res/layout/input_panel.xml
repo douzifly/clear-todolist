@@ -7,13 +7,14 @@
     >
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorInputPanel"
         >
 
-        <TextView
-            android:id="@+id/txt_add_reminder"
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_add_reminder"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
@@ -23,13 +24,31 @@
             android:gravity="center_vertical"
             android:text="Add Reminder"
             android:textSize="14sp"
+            app:fab_colorNormal="@color/colorInputPanel"
+            app:fab_colorPressed="@color/whitePressed"
+            app:fab_colorRipple="@color/whiteRipple"
+            app:fab_shadowRadius="0dp"
+            app:fab_elevationCompat="0dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_alignTop="@id/fab_add_reminder"
+            android:layout_alignBottom="@id/fab_add_reminder"
+            android:layout_toRightOf="@id/fab_add_reminder"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/greyPrimary"
+            android:textSize="@dimen/txt_size_small"
+            android:id="@+id/txt_reminder"
             />
 
         <douzifly.list.widget.ColorPicker
             android:id="@+id/color_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/txt_add_reminder"
+            android:layout_above="@id/fab_add_reminder"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="12dp"
             >

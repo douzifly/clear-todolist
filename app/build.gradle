@@ -34,6 +34,7 @@ dependencies {
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     compile 'com.github.ozodrukh:CircularReveal:1.1.1'
     compile 'com.github.ozodrukh:RippleDrawable:2.0.0'
+    compile 'com.wdullaer:materialdatetimepicker:1.5.4'
     compile project(':ActiveAndroid')
     compile project(':Fab')
 }

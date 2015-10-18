@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <include layout="@layout/title_layout"
+             android:id="@+id/header"
+             android:layout_width="match_parent"
+             android:layout_height="?attr/actionBarSize"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/txt_size_small"
+        android:text="Beckysoft 2015"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/textEmpty"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/txt_copyright"
+        />
+
+</RelativeLayout>
