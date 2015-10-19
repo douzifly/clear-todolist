@@ -28,6 +28,7 @@ import douzifly.list.model.ThingsManager
 import douzifly.list.model.randomEmptyText
 import douzifly.list.settings.Settings
 import douzifly.list.settings.Theme
+import douzifly.list.sounds.Sound
 import douzifly.list.utils.*
 import douzifly.list.widget.*
 import java.util.*
@@ -69,6 +70,7 @@ public class MainActivity : AppCompatActivity() {
   val mFabListener: (v: View) -> Unit = {
 
     if (mInputPanel.visibility == View.VISIBLE) {
+
       val cx = (mFabButton.left + mFabButton.right) / 2
       val cy = mFabButton.top + mFabButton.height / 2
       startCircularReveal(cx, cy, mInputPanel.revealView, true) {
@@ -80,6 +82,7 @@ public class MainActivity : AppCompatActivity() {
           ui(100) {
             handleInputDone()
             mInputPanel.reset()
+              Sound.play(Sound.S_CLICK_DONE)
           }
         }
       }
@@ -94,6 +97,8 @@ public class MainActivity : AppCompatActivity() {
         imm.showSoftInput(mInputPanel.editText, InputMethodManager.SHOW_FORCED)
       }
       setFabAsCommit(true)
+
+        Sound.play(Sound.S_CLICK_ADD)
     }
   }
 
@@ -151,11 +156,13 @@ public class MainActivity : AppCompatActivity() {
     mActionPanel.onDeleteListener = {
       thing->
       doDelete(thing)
+        Sound.play(Sound.S_DELETE)
     }
 
     mActionPanel.onDoneListener = {
       thing->
       doDone(thing)
+      Sound.play(Sound.S_DONE)
     }
 
     mActionPanel.onHide = {
@@ -177,6 +184,7 @@ public class MainActivity : AppCompatActivity() {
     async {
       ThingsManager.loadFromDb()
     }
+    Sound.load(this)
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -259,6 +267,7 @@ public class MainActivity : AppCompatActivity() {
           // undo complete
           doDone(thing!!)
       } else if (v == itemView) {
+          Sound.play(Sound.S_CLICK_ITEM)
         val cx = (itemView.left + itemView.right) / 2
         val cy = itemView.top + itemView.height
         mActionPanel.show(cx, cy, thing!!)

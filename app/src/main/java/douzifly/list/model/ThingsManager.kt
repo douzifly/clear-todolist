@@ -115,7 +115,8 @@ object ThingsManager {
   }
 
   fun remove(thing: Thing) {
-    currentGroup!!.things.remove(thing)
+    val ok = currentGroup!!.things.remove(thing)
+    if (!ok) return
     if (!thing.isComplete) {
       currentGroup!!.unCompleteThingsCount--
     }
