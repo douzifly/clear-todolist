@@ -6,6 +6,7 @@ import com.activeandroid.query.Delete
 import com.activeandroid.query.Select
 import douzifly.list.ListApplication
 import douzifly.list.R
+import douzifly.list.alarm.Alarm
 import douzifly.list.utils.logd
 import douzifly.list.utils.loge
 import java.util.*
@@ -112,6 +113,10 @@ object ThingsManager {
     sort(currentGroup!!)
     // add to db
     onDataChanged?.invoke()
+
+    if (reminder > System.currentTimeMillis()) {
+      Alarm.setAlarm(t.id, reminder, text, color)
+    }
   }
 
   fun remove(thing: Thing) {

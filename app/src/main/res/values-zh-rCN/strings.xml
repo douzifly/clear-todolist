@@ -12,4 +12,5 @@
     <string name="off">关</string>
     <string name="on">开</string>
     <string name="version">版本</string>
+    <string name="reminder">提醒</string>
 </resources>

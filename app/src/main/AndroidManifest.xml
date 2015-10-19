@@ -2,6 +2,10 @@
 <manifest package="douzifly.list"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:name=".ListApplication"
         android:allowBackup="true"
@@ -34,6 +38,13 @@
             >
 
         </activity>
+
+        <receiver android:name=".alarm.AlarmReceiver">
+            <intent-filter>
+                <action android:name="ClearAlarmPro" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <meta-data android:name="AA_DB_NAME" android:value="list.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="1" />

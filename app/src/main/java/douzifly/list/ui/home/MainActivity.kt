@@ -335,7 +335,11 @@ public class MainActivity : AppCompatActivity() {
         val date = Date(thing.reminderTime)
         txtReminder.text = formatDateTime(date)
         if (Settings.theme != Theme.Colorful) {
-          formatTextViewcolor(txtReminder, date)
+          if (thing.isComplete) {
+            txtReminder.setTextColor(resources.getColor(R.color.greyPrimary))
+          } else {
+            formatTextViewcolor(txtReminder, date)
+          }
         } else {
           if (thing.isComplete) {
             txtReminder.setTextColor(resources.getColor(R.color.greyPrimary))
