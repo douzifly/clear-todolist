@@ -176,7 +176,7 @@ public class MainActivity : AppCompatActivity() {
     ThingsManager.onDataChanged = {
       ui {
         checkShowEmptyText()
-        mTitleLayout.title = ThingsManager.currentGroup?.title ?: ""
+        updateTitle()
         (mRecyclerView.adapter as ThingsAdapter).things = ThingsManager.currentGroup?.things
         mTitleLayout.count = ThingsManager.currentGroup?.unCompleteThingsCount ?: 0
       }
@@ -185,6 +185,14 @@ public class MainActivity : AppCompatActivity() {
       ThingsManager.loadFromDb()
     }
     Sound.load(this)
+  }
+
+  private fun updateTitle() {
+    if (ThingsManager.currentGroup?.isDefault ?: false) {
+      mTitleLayout.title = getString(R.string.default_list)
+    } else {
+      mTitleLayout.title = ThingsManager.currentGroup?.title ?: ""
+    }
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

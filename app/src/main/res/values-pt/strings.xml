@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clear List</string>
+    <string name="default_list">Clear List</string>
+    <string name="cant_remove">Não é possível remover grupo padrão</string>
+    <string name="groups">gruposs</string>
+    <string name="today">hoje</string>
+    <string name="tommorow">amanhã</string>
+    <string name="setting">cenário</string>
+    <string name="theme">tema</string>
+    <string name="sound">Sounds</string>
+    <string name="on">habilitar</string>
+    <string name="off">incapacitar</string>
+    <string name="version">versão</string>
+    <string name="reminder">lembrete</string>
+</resources>

@@ -177,16 +177,9 @@ class GroupEditorActivity : AppCompatActivity() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
       if (holder is GroupViewHolder) {
         val group = groups!!.get(position)
-        holder.mTxtTitle.text = group.title ?: ""
-
-//        if (group == ThingsManager.currentGroup) {
-//          holder.itemView.setBackgroundColor(this@GroupEditorActivity.resources.getColor(R.color.group_select_bg))
-//        } else {
-//          holder.itemView.background = null
-//        }
+        holder.mTxtTitle.text = if(group.isDefault) getString(R.string.default_list) else group.title
         holder.mTxtCount.text = "${group.unCompleteThingsCount}"
       } else if (holder is EditViewHolder) {
-        // no op
         holder.editText.requestFocus()
         mAddEditText = holder.editText
         ui(300) {

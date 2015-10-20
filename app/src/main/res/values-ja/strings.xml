@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Clear 清单</string>
+  <string name="default_list">Clear 清单</string>
+  <string name="cant_remove">削除できません</string>
+  <string name="groups">パケット</string>
+  <string name="today">今日</string>
+  <string name="tommorow">明日</string>
+  <string name="setting">設定</string>
+  <string name="theme">スタイル</string>
+  <string name="sound">音</string>
+  <string name="on">オープン</string>
+  <string name="off">クローズ</string>
+  <string name="version">バージョン</string>
+  <string name="reminder">リマインダー</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clear List</string>
+    <string name="default_list">Clear List</string>
+    <string name="cant_remove">Tidak dapat menghapus grup standar</string>
+    <string name="groups">Grup</string>
+    <string name="today">hari ini</string>
+    <string name="tommorow">besok</string>
+    <string name="setting">pengaturan</string>
+    <string name="theme">tema</string>
+    <string name="sound">suara</string>
+    <string name="on">memungkinkan</string>
+    <string name="off">melumpuhkan</string>
+    <string name="version">versi</string>
+    <string name="reminder">peringatan</string>
+</resources>

@@ -16,9 +16,9 @@ private val emptyTexts = arrayOf(
     "The only limit to our realization of tomorrow will be our doubts of today.	",
     "There is no doubt that good things will come, and when it comes, it will be a surprise. ",
     "Reality is merely an illusion, albeit a very persistent one.",
-    "The first and greatest victory is to conquer yourself; to be conquered by yourself is of all things most " +
+    "The first and greatest victory is to conquer yourself, to be conquered by yourself is of all things most " +
         "shameful and vile.",
-    "A pessimist sees the difficulty in every opportunity; an optimist sees the opportunity in every difficulty.",
+    "A pessimist sees the difficulty in every opportunity, an optimist sees the opportunity in every difficulty.",
     "There is nothing noble in being superior to some other man. The true nobility is in being superior to your " +
         "previous self. ",
     "A man is not old as long as he is seeking something. A man is not old until regrets take the place of dreams.",

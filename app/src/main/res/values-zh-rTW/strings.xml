@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clear 清單</string>
+    <string name="cant_remove">不能移除默認組</string>
+    <string name="groups">分組</string>
+    <string name="default_list">Clear 清單</string>
+    <string name="today">今天</string>
+    <string name="tommorow">明天</string>
+    <string name="setting">設定</string>
+    <string name="theme">主题</string>
+    <string name="sound">音效</string>
+    <string name="off">關</string>
+    <string name="on">開</string>
+    <string name="version">版本</string>
+    <string name="reminder">提醒</string>
+</resources>

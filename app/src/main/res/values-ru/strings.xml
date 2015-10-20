@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clear List</string>
+    <string name="default_list">Clear List</string>
+    <string name="cant_remove">Невозможно удалить группу по умолчанию</string>
+    <string name="groups">группы</string>
+    <string name="today">Cегодня</string>
+    <string name="tommorow">Завтра</string>
+    <string name="setting">установка</string>
+    <string name="theme">тема</string>
+    <string name="sound">Звукиs</string>
+    <string name="on">включить</string>
+    <string name="off">запрещать</string>
+    <string name="version">версияn</string>
+    <string name="reminder">напоминание</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clear List</string>
+    <string name="default_list">Clear List</string>
+    <string name="cant_remove">Kan standaard groep niet verwijderen</string>
+    <string name="groups">groepen</string>
+    <string name="today">vandaag</string>
+    <string name="tommorow">morgen</string>
+    <string name="setting">omgeving</string>
+    <string name="theme">thema</string>
+    <string name="sound">geluiden</string>
+    <string name="on">in staat stellen</string>
+    <string name="off">onbruikbaar maken</string>
+    <string name="version">versie</string>
+    <string name="reminder">herinnering</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clear 목록</string>
+    <string name="cant_remove">당신은 기본 그룹을 삭제할 수 없습니다</string>
+    <string name="groups">패킷</string>
+    <string name="default_list">Clear 목록</string>
+    <string name="today">오늘</string>
+    <string name="tommorow">내일</string>
+    <string name="setting">설정</string>
+    <string name="theme">스타일</string>
+    <string name="sound">소리</string>
+    <string name="off">가까운</string>
+    <string name="on">열린</string>
+    <string name="version">해제</string>
+    <string name="reminder">상기시킨다</string>
+</resources>

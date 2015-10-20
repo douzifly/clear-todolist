@@ -47,8 +47,8 @@ object ThingsManager {
         loadThings(group)
       }
       loadThingsCount(group)
-      onDataChanged?.invoke()
     }
+    onDataChanged?.invoke()
   }
 
   private fun loadThings(group: ThingGroup) {
