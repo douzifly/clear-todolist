@@ -43,7 +43,7 @@ object Sound {
     }
     val vol = 0.99f
     var sid = map.get(id)!!
-    val ret = sp.play(sid, vol, vol, 0, 0, 1f)
+    sp.play(sid, vol, vol, 0, 0, 1f)
   }
 
 }

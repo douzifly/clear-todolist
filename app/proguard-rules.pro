@@ -14,4 +14,18 @@
 # class:
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
-#}
+#
+-dontwarn kotlin.dom.**
+-keep class android.support.v7.** { *; }
+-keep class android.support.design.** { *; }
+-keep interface android.support.v7.** { *; }
+-keep class com.activeandroid.** { *; }
+-keeppackagenames com.mikepenz.**
+-keeppackagenames com.rey.material.**
+-keepattributes *Annotation* , EnclosingMethod
+-keepclasseswithmembers class * {
+	public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+-keepnames class * implements android.os.Parcelable {
+	public static final ** CREATOR;
+}

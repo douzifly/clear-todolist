@@ -2,23 +2,17 @@ package douzifly.list.ui.home
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -248,12 +242,12 @@ public class MainActivity : AppCompatActivity() {
 
   fun doDelete(thing: Thing) {
     "doDelete".logd(TAG)
-    ThingsManager.remove(thing!!)
+    ThingsManager.remove(thing)
   }
 
   fun doDone(thing: Thing) {
     "doDone".logd(TAG)
-    ThingsManager.makeComplete(thing!!, !thing!!.isComplete)
+    ThingsManager.makeComplete(thing, !thing.isComplete)
   }
 
   inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {

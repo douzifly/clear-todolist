@@ -2,10 +2,8 @@ package douzifly.list.widget
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.animation.ValueAnimatorCompat
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -69,8 +67,8 @@ class ColorPicker(context: Context, attrs: AttributeSet) : LinearLayout(context,
       view.tag = item
       view.setOnClickListener {
         v ->
-        val item = v.tag as Item
-        setNewSelected(item)
+        val i = v.tag as Item
+        setNewSelected(i)
       }
     }
 
