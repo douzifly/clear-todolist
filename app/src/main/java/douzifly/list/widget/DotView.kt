@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 
 /**
@@ -51,10 +52,10 @@ class DotView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     paint.color = color
     val cx = width / 2f
     val cy = height / 2f
-    val raduisOuter = (width - paddingLeft) / 2f - 5.0f
-    paint.strokeWidth = 3.0f
+    val raduisOuter = (width - paddingLeft) / 2f - 1.0f //TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.0f, resources.displayMetrics)
+    paint.strokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.0f, resources.displayMetrics)
     if (mode == Mode.Solid) {
-      val raduisInner = (width - paddingLeft) / 3.5f
+      val raduisInner = raduisOuter - TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2.5f, resources.displayMetrics)
       paint.style = Paint.Style.STROKE
       canvas.drawCircle(cx, cy, raduisOuter, paint)
       paint.style = Paint.Style.FILL

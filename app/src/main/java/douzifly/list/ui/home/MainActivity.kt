@@ -310,7 +310,7 @@ public class MainActivity : AppCompatActivity() {
       if (Settings.theme == Theme.Dot) {
         dotView.visibility = View.VISIBLE
         dotView.mode = if (thing.isComplete) DotView.Mode.Solid else DotView.Mode.Hollow
-        dotView.color = thing.color
+        dotView.color = if (thing.isComplete) resources.getColor(R.color.greyPrimary) else thing.color
         txtThing.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
         (itemView as CardView).setCardBackgroundColor(cardBackgroundColor)
       } else {
