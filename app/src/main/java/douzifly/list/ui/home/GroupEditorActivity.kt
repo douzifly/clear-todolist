@@ -151,7 +151,7 @@ class GroupEditorActivity : AppCompatActivity() {
     var showAddEditorBox = false
       set(value: Boolean) {
 //        if (value == $showAddEditorBox) return
-        $showAddEditorBox = value
+        field = value
         notifyDataSetChanged()
       }
 
@@ -164,7 +164,7 @@ class GroupEditorActivity : AppCompatActivity() {
 
     var groups: List<ThingGroup>? = null
       set(value: List<ThingGroup>?) {
-        $groups = value
+        field = value
         notifyDataSetChanged()
       }
 

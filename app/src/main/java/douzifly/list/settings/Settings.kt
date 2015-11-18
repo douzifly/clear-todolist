@@ -33,16 +33,16 @@ object Settings {
 
   var theme: Theme = Theme.Colorful
     set(value: Theme) {
-      if ($theme != value) {
-        $theme = value
+      if (field != value) {
+        field = value
         sp.edit().putInt(K_THEME, value.value).commit()
       }
     }
 
   var sounds: Boolean = true
     set(value: Boolean) {
-      if ($sounds != value) {
-        $sounds = value
+      if (field != value) {
+        field = value
         sp.edit().putBoolean(K_SOUNDS, value).commit()
       }
     }

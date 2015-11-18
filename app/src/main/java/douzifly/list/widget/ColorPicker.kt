@@ -42,7 +42,7 @@ class ColorPicker(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
   var selectedColor: Int = colors[0].toInt()
     private set(color: Int) {
-      $selectedColor = color
+      field = color
     }
 
   var selectItem: Item? = null
@@ -97,8 +97,8 @@ class ColorPicker(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
     var selected: Boolean = false
       set(value: Boolean) {
-        if ($selected == value) return
-        $selected = value
+        if (field == value) return
+        field = value
         updateUI()
       }
 

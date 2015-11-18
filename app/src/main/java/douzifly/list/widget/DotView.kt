@@ -24,12 +24,12 @@ class DotView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
   public var mode: Mode = Mode.Hollow
     set (value: Mode) {
-      $mode = value
+      field = value
       invalidate()
     }
   public var color: Int = Color.YELLOW
     set(value: Int) {
-      $color = value
+      field = value
       invalidate()
     }
 

@@ -38,7 +38,7 @@ class TitleLayout(context: Context, attrs: AttributeSet) : RelativeLayout(contex
   public var count: Int = 0
     set(value: Int) {
       txtCount.text = value.toString()
-      $count = value
+      field = value
     }
 
   public var titleClickListener: (()-> Unit)? = null

@@ -375,7 +375,7 @@ public class MainActivity : AppCompatActivity() {
 
     var things: List<Thing>? = null
       set(value: List<Thing>?) {
-        $things = value
+        field = value
         notifyDataSetChanged()
       }
 
