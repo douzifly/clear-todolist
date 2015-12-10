@@ -12,4 +12,6 @@
     <string name="off">Off</string>
     <string name="version">Version</string>
     <string name="reminder">Reminder</string>
+    <string name="edit_group">Edit Group</string>
+    <string name="default_group_title">Default</string>
 </resources>

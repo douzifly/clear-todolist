@@ -1,9 +1,10 @@
 package douzifly.list.model
 
-import android.support.v7.internal.widget.DialogTitle
 import com.activeandroid.Model
 import com.activeandroid.annotation.Column
 import com.activeandroid.annotation.Table
+import douzifly.list.ListApplication
+import douzifly.list.R
 import java.util.*
 
 /**
@@ -48,6 +49,9 @@ class ThingGroup() : Model() {
   }
 
   @Column(name="title") var title: String = ""
+    get() {
+      return if (isDefault) ListApplication.appContext?.getString(R.string.default_group_title) ?: field else field
+    }
   var things: ArrayList<Thing> = arrayListOf()
   @Column(name="selected") var selected: Boolean = false
   @Column(name="is_default") var isDefault: Boolean = false

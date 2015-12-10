@@ -13,4 +13,6 @@
     <string name="on">开</string>
     <string name="version">版本</string>
     <string name="reminder">提醒</string>
+    <string name="default_group_title">默认</string>
+    <string name="edit_group">编辑分组</string>
 </resources>

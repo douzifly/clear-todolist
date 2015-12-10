@@ -11,6 +11,30 @@
         android:layout_height="?attr/actionBarSize"
         />
 
+    <TextView
+        android:id="@+id/txt_edit_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/edit_group"
+        android:textColor="@color/greyPrimary"
+        android:textSize="@dimen/txt_size_large"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Default"
+        android:id="@+id/txt_group"
+        android:textSize="@dimen/txt_size_large"
+        android:layout_alignBottom="@id/txt_edit_group"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/greyPrimary"
+        android:maxWidth="100dp"
+        />
 
     <TextView
         android:id="@+id/txt_copyright"
@@ -28,7 +52,7 @@
         android:id="@+id/txt_theme_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header"
+        android:layout_below="@id/txt_edit_group"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/theme"

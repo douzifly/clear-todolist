@@ -1,7 +1,6 @@
 package douzifly.list.ui.home
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -17,12 +16,13 @@ import android.widget.Toast
 import com.daimajia.swipe.SwipeLayout
 import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.Iconics
-import com.mikepenz.iconics.IconicsDrawable
 import douzifly.list.R
 import douzifly.list.model.ThingGroup
 import douzifly.list.model.ThingsManager
-import douzifly.list.utils.*
+import douzifly.list.utils.colorResOf
+import douzifly.list.utils.fontRailway
+import douzifly.list.utils.fontSourceSansPro
+import douzifly.list.utils.ui
 
 /**
  * Created by air on 15/10/9.
@@ -177,7 +177,7 @@ class GroupEditorActivity : AppCompatActivity() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
       if (holder is GroupViewHolder) {
         val group = groups!!.get(position)
-        holder.mTxtTitle.text = if(group.isDefault) getString(R.string.default_list) else group.title
+        holder.mTxtTitle.text = group.title
         holder.mTxtCount.text = "${group.unCompleteThingsCount}"
       } else if (holder is EditViewHolder) {
         holder.editText.requestFocus()
