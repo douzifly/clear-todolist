@@ -114,11 +114,13 @@ public class MainActivity : AppCompatActivity() {
 
     fun handleInputDone() {
         val textString = mInputPanel.editText.text.toString().trim()
+        val contentString = mInputPanel.contentEditText.text.toString()
         if (textString.isBlank()) {
             return
         }
 
-        ThingsManager.addThing(textString, mInputPanel.reminderDate?.time ?: -1, mInputPanel.colorPicker.selectedColor)
+        ThingsManager.addThing(textString, contentString
+                ,mInputPanel.reminderDate?.time ?: -1, mInputPanel.colorPicker.selectedColor)
     }
 
     fun setFabAsCommit(asCommit: Boolean) {

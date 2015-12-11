@@ -14,4 +14,7 @@
     <string name="reminder">Reminder</string>
     <string name="edit_group">Edit Group</string>
     <string name="default_group_title">Default</string>
+
+    <string name="title_hint">Title</string>
+    <string name="content_hint">Content</string>
 </resources>

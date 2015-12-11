@@ -13,7 +13,6 @@ import douzifly.list.R
 import douzifly.list.model.Thing
 import douzifly.list.utils.colorOf
 import douzifly.list.utils.colorResOf
-import douzifly.list.utils.fontRailway
 import douzifly.list.utils.fontSourceSansPro
 import io.codetail.widget.RevealFrameLayout
 
@@ -42,6 +41,10 @@ class ActionPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(con
     findViewById(R.id.txt_title) as TextView
   }
 
+  val txtContent: TextView by lazy {
+    findViewById(R.id.txt_content) as TextView
+  }
+
   val revealView: View by lazy {
     getChildAt(0)
   }
@@ -57,10 +60,12 @@ class ActionPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(con
 
   fun show(cx: Int, cy: Int, thing: Thing) {
     txtTitle.visibility = View.INVISIBLE
+    txtContent.visibility = View.INVISIBLE
     actionDelete.visibility = View.INVISIBLE
     actionDone.visibility = View.INVISIBLE
 
     txtTitle.text = thing.title
+    txtContent.text = thing.content
     isShowing = true
     this.thing = thing
     visibility = View.VISIBLE
@@ -69,6 +74,7 @@ class ActionPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(con
       actionDone.visibility = View.VISIBLE
       actionDelete.visibility = View.VISIBLE
       txtTitle.visibility = View.VISIBLE
+      txtContent.visibility = View.VISIBLE
 
       val alphaIn0 = ObjectAnimator.ofFloat(actionDelete, "alpha", 0.0f, 1.0f)
       val alphaIn1 = ObjectAnimator.ofFloat(actionDone, "alpha", 0.0f, 1.0f)
@@ -117,7 +123,8 @@ class ActionPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(con
   override fun onFinishInflate() {
     super.onFinishInflate()
 
-//    txtTitle.typeface = fontRailway
+    txtTitle.typeface = fontSourceSansPro
+    txtContent.typeface = fontSourceSansPro
 
     setOnClickListener {
       // no ops, eat event

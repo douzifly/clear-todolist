@@ -12,14 +12,6 @@
                     android:background="@color/colorInputPanel"
         >
 
-        <View
-            android:layout_width="1px"
-            android:layout_height="1px"
-            android:visibility="invisible"
-            android:layout_centerInParent="true"
-            android:id="@+id/anchor"
-            />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,16 +21,19 @@
             android:textColor="@color/textDarkColor"
             android:text="hello"
             android:gravity="center"
-            android:layout_above="@id/anchor"
-            android:layout_marginBottom="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
             />
+
+
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/anchor"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:id="@+id/bottomContainer"
             >
 
             <com.github.clans.fab.FloatingActionButton
@@ -67,6 +62,20 @@
 
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:id="@+id/txt_content"
+            android:textSize="@dimen/txt_size_small"
+            android:textColor="@color/textDarkColor"
+            android:text="hello"
+            android:gravity="left"
+            android:layout_below="@id/txt_title"
+            android:layout_above="@id/bottomContainer"
+            android:layout_marginBottom="10dp"
+            />
 
     </RelativeLayout>
 </douzifly.list.widget.ActionPanel>

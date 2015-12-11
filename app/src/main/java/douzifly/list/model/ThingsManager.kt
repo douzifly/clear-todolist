@@ -113,10 +113,11 @@ object ThingsManager {
         groups.clear()
     }
 
-    fun addThing(text: String, reminder: Long, color: Int) {
+    fun addThing(text: String, content: String, reminder: Long, color: Int) {
         val t = Thing(text, currentGroup!!.id, color)
         t.creationTime = Date().time
         t.reminderTime = reminder
+        t.content = content
         t.save()
         currentGroup!!.things.add(t)
         currentGroup!!.save()
@@ -191,12 +192,16 @@ object ThingsManager {
             "${t.title} ${t.hashCode()}".logd("douzifly.list.ui.home.MainActivity")
         }
 
-        currentGroup!!.things = things.sortedWith(object : Comparator<Thing> {
-            override fun compare(p0: Thing?, p1: Thing?): Int {
-                return p0!!.compareTo(p1!!)
-            }
+//        currentGroup!!.things = things.sortedWith(object : Comparator<Thing> {
+//            override fun compare(p0: Thing?, p1: Thing?): Int {
+//                return p0!!.compareTo(p1!!)
+//            }
+//
+//        }) as ArrayList<Thing>
 
-        }) as ArrayList<Thing>
+        Collections.sort(currentGroup!!.things, Comparator { t: Thing, t1: Thing ->
+            return@Comparator  t.compareTo(t1)
+        })
 
         "afterSort:".logd("MainActivity")
 
