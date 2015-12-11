@@ -33,6 +33,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
         android:textColor="@color/greyPrimary"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:maxWidth="100dp"
         />
 
