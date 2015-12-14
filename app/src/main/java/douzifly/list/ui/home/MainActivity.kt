@@ -283,8 +283,7 @@ public class MainActivity : AppCompatActivity() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     var intent = Intent(this@MainActivity, DetailActivity::class.java)
                     val pairDelete = android.util.Pair.create(mFabButton as View, "tnDelete")
-                    txtThing.hashCode().toString().logd("xxxx")
-                    val pairTitle = android.util.Pair.create(txtThing as View, "tnTitle")
+                    val pairTitle = android.util.Pair.create(itemView.findViewById(R.id.txt_thing1) as View, "tnTitle")
                     val b = ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, pairDelete, pairTitle).toBundle()
                     intent.putExtra(DetailActivity.EXTRA_THING_ID, thing!!.id)
                     startActivityForResult(intent, 1, b)
