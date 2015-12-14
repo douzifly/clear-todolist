@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
@@ -277,10 +278,19 @@ public class MainActivity : AppCompatActivity() {
                 doDone(thing!!)
             } else if (v == itemView) {
                 Sound.play(Sound.S_CLICK_ITEM)
-                val cx = (itemView.left + itemView.right) / 2
-                val cy = itemView.top + itemView.height
-                mActionPanel.show(cx, cy, thing!!)
                 mFabButton.visibility = View.GONE
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                    val b = ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, txtThing, "title").toBundle()
+                    b.putLong(DetailActivity.EXTRA_THING_ID, thing!!.id)
+                    startActivityForResult(intent, 1, b)
+
+                } else {
+                    val cx = (itemView.left + itemView.right) / 2
+                    val cy = itemView.top + itemView.height
+                    mActionPanel.show(cx, cy, thing!!)
+                }
             }
         }
 

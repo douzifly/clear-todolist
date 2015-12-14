@@ -41,6 +41,13 @@
 
         </activity>
 
+        <activity
+            android:name=".ui.home.DetailActivity"
+            android:screenOrientation="portrait"
+            >
+
+        </activity>
+
         <receiver android:name=".alarm.AlarmReceiver">
             <intent-filter>
                 <action android:name="ClearAlarmPro" />

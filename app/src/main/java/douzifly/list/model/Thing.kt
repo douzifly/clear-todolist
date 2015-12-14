@@ -60,4 +60,11 @@ class ThingGroup() : Model() {
 
     var thingsLoaded: Boolean = false
     var unCompleteThingsCount: Int = 0
+
+    fun findThing(id: Long): Thing? {
+        return things.find {
+            t ->
+            t.id == id
+        }
+    }
 }
