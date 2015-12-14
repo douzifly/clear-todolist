@@ -281,9 +281,12 @@ public class MainActivity : AppCompatActivity() {
                 mFabButton.visibility = View.GONE
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                    val b = ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, txtThing, "title").toBundle()
-                    b.putLong(DetailActivity.EXTRA_THING_ID, thing!!.id)
+                    var intent = Intent(this@MainActivity, DetailActivity::class.java)
+                    val pairDelete = android.util.Pair.create(mFabButton as View, "tnDelete")
+                    txtThing.hashCode().toString().logd("xxxx")
+                    val pairTitle = android.util.Pair.create(txtThing as View, "tnTitle")
+                    val b = ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, pairDelete, pairTitle).toBundle()
+                    intent.putExtra(DetailActivity.EXTRA_THING_ID, thing!!.id)
                     startActivityForResult(intent, 1, b)
 
                 } else {
@@ -318,8 +321,6 @@ public class MainActivity : AppCompatActivity() {
         fun bind(thing: Thing, prevThing: Thing?) {
             this.thing = thing
             updateItemUI(thing, prevThing)
-            //      txtThing.visibility = View.INVISIBLE
-            //      txtReminder.visibility = View.GONE
         }
 
         fun updateItemUI(thing: Thing, prev: Thing?) {

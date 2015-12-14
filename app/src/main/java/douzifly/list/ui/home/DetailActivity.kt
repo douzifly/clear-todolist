@@ -1,6 +1,5 @@
 package douzifly.list.ui.home
 
-import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -79,15 +78,9 @@ class DetailActivity : AppCompatActivity() {
 
 
         actionDelete.setOnClickListener {
-
-            var locations = IntArray(2)
-            actionDelete.getLocationInWindow(locations)
         }
 
         actionDone.setOnClickListener {
-            var locations = IntArray(2)
-            actionDone.getLocationInWindow(locations)
-
         }
 
     }

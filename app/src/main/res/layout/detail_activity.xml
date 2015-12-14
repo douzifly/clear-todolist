@@ -1,83 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<douzifly.list.widget.ActionPanel
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorInputPanel">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorInputPanel"
-        >
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="hello"
+        android:textColor="@color/textDarkColor"
+        android:textSize="@dimen/txt_size_large"
+        android:textStyle="bold"
+        android:transitionName="tnTitle"
+        />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:id="@+id/txt_title"
-            android:textSize="@dimen/txt_size_large"
-            android:textColor="@color/textDarkColor"
-            android:text="hello"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="10dp"
-            android:transitionName="title"
-            />
+    <LinearLayout
+        android:id="@+id/bottomContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp">
 
-
-
-        <LinearLayout
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/action_delete"
+            app:fab_colorNormal="@color/redPrimary"
+            app:fab_colorPressed="@color/redPressed"
+            app:fab_colorRipple="@color/redRipple"
+            app:fab_label="delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="16dp"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/bottomContainer"
-            >
+            android:layout_centerVertical="true"
+            android:transitionName="tnDelete"
+            android:layout_marginRight="20dp" />
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/action_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                app:fab_label="delete"
-                android:layout_marginRight="20dp"
-                app:fab_colorPressed="@color/redPressed"
-                app:fab_colorRipple="@color/redRipple"
-                app:fab_colorNormal="@color/redPrimary"
-                />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/action_done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                app:fab_colorNormal="@color/whitePrimary"
-                app:fab_colorPressed="@color/whitePressed"
-                app:fab_colorRipple="@color/whiteRipple"
-                app:fab_label="done"
-                android:layout_marginLeft="20dp"
-                />
-
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/action_done"
+            app:fab_colorNormal="@color/whitePrimary"
+            app:fab_colorPressed="@color/whitePressed"
+            app:fab_colorRipple="@color/whiteRipple"
+            app:fab_label="done"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:id="@+id/txt_content"
-            android:textSize="@dimen/txt_size_big"
-            android:textColor="@color/textDarkColor"
-            android:text="hello"
-            android:gravity="left"
-            android:layout_below="@id/txt_title"
-            android:layout_above="@id/bottomContainer"
-            android:layout_marginBottom="10dp"
-            />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp" />
 
-    </RelativeLayout>
-</douzifly.list.widget.ActionPanel>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomContainer"
+        android:layout_below="@id/txt_title"
+        android:layout_marginBottom="10dp"
+        android:gravity="left"
+        android:padding="20dp"
+        android:text="hello"
+        android:textColor="@color/textDarkColor"
+        android:textSize="@dimen/txt_size_big" />
+
+</RelativeLayout>
