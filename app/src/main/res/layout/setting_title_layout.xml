@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<douzifly.list.widget.TitleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        app:fab_colorNormal="@color/whitePrimary"
+        app:fab_colorPressed="@color/whitePressed"
+        app:fab_colorRipple="@color/whiteRipple"
+        app:fab_elevationCompat="0dp"
+        android:layout_marginLeft="8dp"
+        android:transitionName="st"
+        app:fab_shadowRadius="0dp" />
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/fab_setting"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:ellipsize="end"
+        android:gravity="left|center_vertical"
+        android:maxWidth="240dp"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text="List"
+        android:textColor="@color/textTitle"
+        android:textSize="@dimen/txt_size_extra" />
+
+
+    <TextView
+        android:id="@+id/txt_count"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/txt_title"
+        android:layout_marginRight="6dp"
+        android:layout_toLeftOf="@id/fab_setting"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:text="List"
+        android:textColor="@color/textTitle"
+        android:textSize="@dimen/txt_size_big" />
+
+</douzifly.list.widget.TitleLayout>

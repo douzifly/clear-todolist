@@ -73,7 +73,6 @@ class SettingActivity : AppCompatActivity() {
 
         inputPanel.title = resources.getString(R.string.setting)
         inputPanel.txtCount.visibility = View.GONE
-        inputPanel.fabSetting.visibility = View.GONE
 
         (findViewById(R.id.txt_copyright) as TextView).typeface = fontRailway
         (findViewById(R.id.txt_theme_title) as TextView).typeface = fontRailway

@@ -35,6 +35,7 @@
         app:fab_elevationCompat="0dp"
         app:fab_shadowRadius="0dp"
         android:layout_alignTop="@id/txt_title"
+
         />
 
     <TextView

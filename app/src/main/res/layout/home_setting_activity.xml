@@ -6,7 +6,7 @@
 
     <include
         android:id="@+id/header"
-        layout="@layout/title_layout"
+        layout="@layout/setting_title_layout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         />
@@ -170,6 +170,5 @@
         android:paddingTop="8dp"
         android:id="@+id/txt_version"
         />
-
 
 </RelativeLayout>

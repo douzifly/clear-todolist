@@ -1,5 +1,6 @@
 package douzifly.list.ui.home
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -175,7 +176,8 @@ public class MainActivity : AppCompatActivity() {
         }
 
         mFabSetting.setOnClickListener {
-            startActivityForResult(Intent(this, SettingActivity::class.java), 0)
+            startActivityForResult(Intent(this, SettingActivity::class.java), 0,
+                    ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, mFabSetting , "st").toBundle())
         }
 
         ThingsManager.addListener(dataListener)
