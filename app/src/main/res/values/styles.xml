@@ -8,15 +8,15 @@
         <item name="android:navigationBarColor">@color/colorNavigationBar</item>
         <item name="android:windowContentTransitions">true</item>
 
+        <item name="android:windowSharedElementsUseOverlay">true</item>
+
         <!-- specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@android:transition/fade</item>
         <item name="android:windowExitTransition">@android:transition/fade</item>
 
-        <!-- specify shared element transition
-        <item name="android:windowSharedElementEnterTransition">
-            @transition/change_image_transform</item>
-        <item name="android:windowSharedElementExitTransition">
-            @transition/change_image_transform</item> -->
+        <!-- specify shared element transition -->
+        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
     </style>
 
     <style name="BoxEditorDialog" parent="Theme.AppCompat.Light.Dialog.Alert" >

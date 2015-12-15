@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.nineoldandroids.animation.ObjectAnimator
 import douzifly.list.R
 import douzifly.list.model.Thing
 import douzifly.list.model.ThingsManager
@@ -59,6 +60,10 @@ class DetailActivity : AppCompatActivity() {
         initView()
         parseIntent()
         loadData()
+
+        val alphaAnim = ObjectAnimator.ofFloat(txtContent, "alpha", 0.0f, 1.0f)
+        alphaAnim.setDuration(500)
+        alphaAnim.start()
     }
 
 
