@@ -1,5 +1,6 @@
 package douzifly.list.ui.home
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -21,6 +22,9 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         public val EXTRA_THING_ID = "thing_id"
+        private val TAG = "DetailActivity"
+        public val RESULT_DONE = 1
+        public val RESULT_DELETE = 2
     }
 
     var thing: Thing? = null
@@ -78,9 +82,17 @@ class DetailActivity : AppCompatActivity() {
 
 
         actionDelete.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra(EXTRA_THING_ID, thing!!.id)
+            setResult(RESULT_DELETE, intent)
+            finishAfterTransition()
         }
 
         actionDone.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra(EXTRA_THING_ID, thing!!.id)
+            setResult(RESULT_DONE, intent)
+            finishAfterTransition()
         }
 
     }

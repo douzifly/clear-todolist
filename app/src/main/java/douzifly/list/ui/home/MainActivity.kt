@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Pair
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,9 @@ public class MainActivity : AppCompatActivity() {
 
     companion object {
         val TAG = "MainActivity"
+        val REQ_SETTING = 1
+        val REQ_DETAIL = 2
+        val REQ_EDIT_GROUP = 3
     }
 
     val mRecyclerView: RecyclerView by lazy {
@@ -157,7 +161,7 @@ public class MainActivity : AppCompatActivity() {
 
         mTitleLayout.titleClickListener = {
             // click title, show box
-            startActivityForResult(Intent(this, GroupEditorActivity::class.java), 0)
+            startActivityForResult(Intent(this, GroupEditorActivity::class.java), REQ_EDIT_GROUP)
         }
 
         mActionPanel.onDeleteListener = {
@@ -177,7 +181,7 @@ public class MainActivity : AppCompatActivity() {
         }
 
         mFabSetting.setOnClickListener {
-            startActivityForResult(Intent(this, SettingActivity::class.java), 0,
+            startActivityForResult(Intent(this, SettingActivity::class.java), REQ_SETTING,
                     ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, mFabSetting , "st").toBundle())
         }
 
@@ -199,8 +203,20 @@ public class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //
-        if (resultCode == SettingActivity.RESULT_THEME_CHANGED) {
+        if (REQ_SETTING == requestCode && resultCode == SettingActivity.RESULT_THEME_CHANGED) {
             mRecyclerView.adapter.notifyDataSetChanged()
+        } else if (REQ_DETAIL == requestCode) {
+            val id = data?.extras?.getLong(DetailActivity.EXTRA_THING_ID) ?: -1L
+            var thing: Thing? = null
+            if (id > 0) {
+                thing = ThingsManager.currentGroup?.findThing(id)
+            }
+            if (thing == null) return
+            if (resultCode == DetailActivity.RESULT_DONE) {
+                doDone(thing)
+            } else {
+                doDelete(thing)
+            }
         }
     }
 
@@ -282,11 +298,12 @@ public class MainActivity : AppCompatActivity() {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     var intent = Intent(this@MainActivity, DetailActivity::class.java)
-                    val pairDelete = android.util.Pair.create(mFabButton as View, "tnDelete")
-                    val pairTitle = android.util.Pair.create(itemView.findViewById(R.id.txt_thing1) as View, "tnTitle")
+                    val pairDelete = Pair.create(mFabButton as View, "tnDelete")
+                    txtThing.transitionName = "tnTitle"
+                    val pairTitle = Pair.create(txtThing as View, "tnTitle")
                     val b = ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, pairDelete, pairTitle).toBundle()
                     intent.putExtra(DetailActivity.EXTRA_THING_ID, thing!!.id)
-                    startActivityForResult(intent, 1, b)
+                    startActivityForResult(intent, REQ_DETAIL, b)
 
                 } else {
                     val cx = (itemView.left + itemView.right) / 2
