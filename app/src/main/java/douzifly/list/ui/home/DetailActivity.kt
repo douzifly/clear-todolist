@@ -4,6 +4,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -14,6 +16,7 @@ import douzifly.list.model.ThingsManager
 import douzifly.list.utils.colorOf
 import douzifly.list.utils.colorResOf
 import douzifly.list.utils.fontSourceSansPro
+import douzifly.list.utils.showKeyboard
 
 /**
  * Created by douzifly on 12/14/15.
@@ -50,6 +53,10 @@ class DetailActivity : AppCompatActivity() {
         findViewById(R.id.txt_title) as TextView
     }
 
+    val editTitle: EditText by lazy {
+        findViewById(R.id.edit_title) as EditText
+    }
+
     val txtContent: TextView by lazy {
         findViewById(R.id.txt_content) as TextView
     }
@@ -84,6 +91,9 @@ class DetailActivity : AppCompatActivity() {
 
         txtTitle.typeface = fontSourceSansPro
         txtContent.typeface = fontSourceSansPro
+        editTitle.typeface = fontSourceSansPro
+
+        editTitle.visibility = View.GONE
 
 
         actionDelete.setOnClickListener {
@@ -100,6 +110,31 @@ class DetailActivity : AppCompatActivity() {
             finishAfterTransition()
         }
 
+        txtTitle.setOnClickListener(onClickListener)
+
+    }
+
+    fun toggleTitleEditMode() {
+        if (txtTitle.visibility == View.VISIBLE) {
+            // show edittext
+            txtTitle.visibility = View.GONE
+            editTitle.setText(txtTitle.text)
+            editTitle.visibility = View.VISIBLE
+            editTitle.requestFocus()
+            editTitle.showKeyboard()
+        } else {
+            txtTitle.visibility = View.VISIBLE
+            editTitle.visibility = View.GONE
+            txtTitle.setText(editTitle.text)
+        }
+    }
+
+
+    val onClickListener: (v: View)->Unit = {
+        v->
+        if (v == txtTitle) {
+            toggleTitleEditMode()
+        }
     }
 
 }

@@ -30,12 +30,14 @@
         android:id="@+id/txt_group"
         android:textSize="@dimen/txt_size_large"
         android:layout_alignBottom="@id/txt_edit_group"
+        android:layout_toRightOf="@id/txt_edit_group"
+        android:gravity="right"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
+        android:layout_marginLeft="10dp"
         android:textColor="@color/greyPrimary"
         android:maxLines="1"
         android:ellipsize="end"
-        android:maxWidth="100dp"
         />
 
     <TextView
@@ -146,10 +148,23 @@
         />
 
     <TextView
-        android:id="@+id/txt_version_title"
+        android:id="@+id/txt_backup_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/txt_sound_title"
+        android:layout_marginLeft="16dp"
+        android:text="@string/setting_backup"
+        android:textColor="@color/greyPrimary"
+        android:textSize="@dimen/txt_size_large"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_version_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_backup_title"
         android:layout_marginLeft="16dp"
         android:text="@string/version"
         android:textColor="@color/greyPrimary"

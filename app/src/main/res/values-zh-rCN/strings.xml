@@ -17,4 +17,5 @@
     <string name="edit_group">编辑分组</string>
     <string name="title_hint">标题</string>
     <string name="content_hint">正文</string>
+    <string name="setting_backup"><![CDATA[备份&恢复]]></string>
 </resources>

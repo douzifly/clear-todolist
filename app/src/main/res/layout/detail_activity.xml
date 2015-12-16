@@ -1,24 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorInputPanel">
 
-    <TextView
-        android:id="@+id/txt_title"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text="hello"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
-        android:textColor="@color/textDarkColor"
-        android:textSize="@dimen/txt_size_large"
-        android:textStyle="bold"
-        android:transitionName="tnTitle"
-        />
+        >
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="hello"
+            android:textColor="@color/textDarkColor"
+            android:textSize="@dimen/txt_size_large"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:transitionName="tnTitle" />
+
+
+        <EditText
+            android:id="@+id/edit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="hello"
+            android:textColor="@color/textDarkColor"
+            android:textSize="@dimen/txt_size_large"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
+            />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/bottomContainer"
@@ -30,26 +50,26 @@
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/action_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:transitionName="tnDelete"
             app:fab_colorNormal="@color/redPrimary"
             app:fab_colorPressed="@color/redPressed"
             app:fab_colorRipple="@color/redRipple"
-            app:fab_label="delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:transitionName="tnDelete"
-            android:layout_marginRight="20dp" />
+            app:fab_label="delete" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/action_done"
-            app:fab_colorNormal="@color/whitePrimary"
-            app:fab_colorPressed="@color/whitePressed"
-            app:fab_colorRipple="@color/whiteRipple"
-            app:fab_label="done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp" />
+            android:layout_marginLeft="20dp"
+            app:fab_colorNormal="@color/whitePrimary"
+            app:fab_colorPressed="@color/whitePressed"
+            app:fab_colorRipple="@color/whiteRipple"
+            app:fab_label="done" />
 
 
     </LinearLayout>
@@ -60,10 +80,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/bottomContainer"
         android:layout_below="@id/txt_title"
+        android:layout_margin="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="left"
         android:text="hello"
-        android:layout_margin="10dp"
         android:textColor="@color/textDarkColor"
         android:textSize="@dimen/txt_size_big" />
 

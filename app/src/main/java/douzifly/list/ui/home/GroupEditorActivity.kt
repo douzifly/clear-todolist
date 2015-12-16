@@ -19,10 +19,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R
 import douzifly.list.model.ThingGroup
 import douzifly.list.model.ThingsManager
-import douzifly.list.utils.colorResOf
-import douzifly.list.utils.fontRailway
-import douzifly.list.utils.fontSourceSansPro
-import douzifly.list.utils.ui
+import douzifly.list.utils.*
 
 /**
  * Created by air on 15/10/9.
@@ -69,8 +66,7 @@ class GroupEditorActivity : AppCompatActivity() {
   }
 
   fun commitNewItem() {
-    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .hideSoftInputFromWindow(mAddEditText!!.windowToken, 0)
+    mAddEditText?.hideKeyboard()
     val text = mAddEditText!!.text.toString()
     if (text.isNotBlank()) {
       ThingsManager.addGroup(text)
@@ -179,12 +175,12 @@ class GroupEditorActivity : AppCompatActivity() {
         val group = groups!!.get(position)
         holder.mTxtTitle.text = group.title
         holder.mTxtCount.text = "${group.unCompleteThingsCount}"
+        holder.itemView.background = if (group!!.selected) resources.getDrawable(R.color.material_grey_50) else resources.getDrawable(R.color.transparent)
       } else if (holder is EditViewHolder) {
         holder.editText.requestFocus()
         mAddEditText = holder.editText
         ui(300) {
-          val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-          imm.showSoftInput(holder.editText, InputMethodManager.SHOW_FORCED)
+          holder.editText.showKeyboard()
         }
       }
 
