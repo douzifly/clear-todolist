@@ -5,19 +5,26 @@
     android:layout_height="match_parent"
     android:background="@color/colorInputPanel">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        />
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
+        android:layout_below="@id/tool_bar"
+        android:id="@+id/title_container"
         >
 
         <TextView
             android:id="@+id/txt_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="left"
             android:text="hello"
             android:textColor="@color/textDarkColor"
             android:textSize="@dimen/txt_size_large"
@@ -30,13 +37,13 @@
             android:id="@+id/edit_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="left"
             android:text="hello"
             android:textColor="@color/textDarkColor"
             android:textSize="@dimen/txt_size_large"
             android:textStyle="bold"
             android:maxLines="1"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionNext"
             />
     </FrameLayout>
 
@@ -79,10 +86,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/bottomContainer"
-        android:layout_below="@id/txt_title"
+        android:layout_below="@id/title_container"
         android:layout_margin="10dp"
         android:layout_marginBottom="10dp"
-        android:gravity="left"
+        android:gravity="left|top"
         android:text="hello"
         android:textColor="@color/textDarkColor"
         android:textSize="@dimen/txt_size_big" />

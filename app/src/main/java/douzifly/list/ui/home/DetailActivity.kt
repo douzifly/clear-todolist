@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -61,12 +62,23 @@ class DetailActivity : AppCompatActivity() {
         findViewById(R.id.txt_content) as TextView
     }
 
+    val toolbar: Toolbar by lazy {
+        findViewById(R.id.tool_bar) as Toolbar
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.detail_activity)
         initView()
         parseIntent()
         loadData()
+
+        setSupportActionBar(toolbar)
+        supportActionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar.title = ""
+        toolbar.setNavigationOnClickListener {
+            finishAfterTransition()
+        }
 
         val alphaAnim = ObjectAnimator.ofFloat(txtContent, "alpha", 0.0f, 1.0f)
         alphaAnim.setDuration(500)
