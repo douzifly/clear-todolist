@@ -67,4 +67,11 @@ class ThingGroup() : Model() {
             t.id == id
         }
     }
+
+    fun clearAllDisplayColor() {
+        things.forEach {
+            thing ->
+            thing.displayColor = 0
+        }
+    }
 }

@@ -418,7 +418,7 @@ public class MainActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: VH?, position: Int) {
             val prev = if (position > 0 && position < itemCount) things?.get(position - 1) else null
-            holder?.bind(things!!.get(position), prev)
+            holder?.bind(things!![position], prev)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): VH? {

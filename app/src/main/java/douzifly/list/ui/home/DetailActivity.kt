@@ -141,6 +141,7 @@ class DetailActivity : AppCompatActivity() {
 
         if (thing!!.color != newColor) {
             thing!!.color = newColor
+            ThingsManager.currentGroup?.clearAllDisplayColor()
             changed = true
         }
 
