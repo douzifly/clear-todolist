@@ -115,7 +115,7 @@ class DetailActivity : AppCompatActivity() {
         editContent.setSelection(thing!!.content.length)
         editContent.setBackgroundColor(0x0000)
 
-        ui(800) {
+        ui(200) {
             colorPicker.setSelected(thing!!.color)
         }
     }
@@ -189,6 +189,9 @@ class DetailActivity : AppCompatActivity() {
             editContent.isFocusable = true
             editContent.isFocusableInTouchMode = true
             editContent.requestFocus()
+            ui(100) {
+               editContent.showKeyboard()
+            }
         }
     }
 
