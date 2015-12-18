@@ -131,6 +131,11 @@ object ThingsManager {
         }
     }
 
+    fun saveThing(thing: Thing) {
+        thing.save()
+        notifyListeners()
+    }
+
     fun remove(thing: Thing) {
         val ok = currentGroup!!.things.remove(thing)
         if (!ok) return

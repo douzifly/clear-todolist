@@ -3,6 +3,7 @@ package douzifly.list.settings
 import android.content.Context
 import android.content.SharedPreferences
 import douzifly.list.ListApplication
+import douzifly.list.utils.async
 
 /**
  * Created by air on 15/10/18.
@@ -30,12 +31,15 @@ object Settings {
 
   val K_THEME = "theme"
   val K_SOUNDS = "sounds"
+  val K_RANDOM_COLOR = "random_color"
 
   var theme: Theme = Theme.Colorful
     set(value: Theme) {
       if (field != value) {
         field = value
-        sp.edit().putInt(K_THEME, value.value).commit()
+        async {
+          sp.edit().putInt(K_THEME, value.value).commit()
+        }
       }
     }
 
@@ -43,7 +47,19 @@ object Settings {
     set(value: Boolean) {
       if (field != value) {
         field = value
-        sp.edit().putBoolean(K_SOUNDS, value).commit()
+        async {
+          sp.edit().putBoolean(K_SOUNDS, value).commit()
+        }
+      }
+    }
+
+  var randomColor: Boolean = true
+    set(value: Boolean) {
+      if (field != value) {
+        field = value
+        async {
+          sp.edit().putBoolean(K_RANDOM_COLOR, value).commit()
+        }
       }
     }
 
@@ -52,6 +68,7 @@ object Settings {
     theme = Theme.valueOf(sp.getInt(K_THEME, Theme.Colorful.value))
 //    theme = Theme.Colorful
     sounds = sp.getBoolean(K_SOUNDS, true)
+    randomColor = sp.getBoolean(K_RANDOM_COLOR, true)
   }
 
 }

@@ -13,6 +13,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import douzifly.list.R
+import douzifly.list.settings.Settings
 import douzifly.list.utils.*
 import io.codetail.widget.RevealFrameLayout
 import java.util.*
@@ -69,6 +70,16 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
         reminderDate = null
     }
 
+    override fun setVisibility(visibility: Int) {
+        super.setVisibility(visibility)
+        if (visibility == View.VISIBLE) {
+            colorPicker.setSelected(
+                    if (Settings.randomColor) colorPicker.randomColor()
+                    else colorPicker.colors[0].toInt()
+            )
+        }
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
 
@@ -88,6 +99,7 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
         }
 
         txtReminder.typeface = fontRailway
+
     }
 
     fun cancelPickTime() {

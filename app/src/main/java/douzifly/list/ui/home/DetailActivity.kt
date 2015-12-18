@@ -14,10 +14,8 @@ import com.nineoldandroids.animation.ObjectAnimator
 import douzifly.list.R
 import douzifly.list.model.Thing
 import douzifly.list.model.ThingsManager
-import douzifly.list.utils.colorOf
-import douzifly.list.utils.colorResOf
-import douzifly.list.utils.fontSourceSansPro
-import douzifly.list.utils.showKeyboard
+import douzifly.list.utils.*
+import douzifly.list.widget.ColorPicker
 
 /**
  * Created by douzifly on 12/14/15.
@@ -58,12 +56,27 @@ class DetailActivity : AppCompatActivity() {
         findViewById(R.id.edit_title) as EditText
     }
 
-    val txtContent: TextView by lazy {
-        findViewById(R.id.txt_content) as TextView
+    val editContent: EditText by lazy {
+        findViewById(R.id.txt_content) as EditText
     }
 
     val toolbar: Toolbar by lazy {
         findViewById(R.id.tool_bar) as Toolbar
+    }
+
+    val colorPicker: ColorPicker by lazy {
+        findViewById(R.id.color_picker) as ColorPicker
+    }
+
+    val focusChangeListener = View.OnFocusChangeListener{
+        v, hasFocus->
+        if (!hasFocus) {
+            when (v) {
+                editTitle -> {
+                    setTitleEditMode(false)
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,9 +91,10 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar.title = ""
         toolbar.setNavigationOnClickListener {
             finishAfterTransition()
+            saveData()
         }
 
-        val alphaAnim = ObjectAnimator.ofFloat(txtContent, "alpha", 0.0f, 1.0f)
+        val alphaAnim = ObjectAnimator.ofFloat(editContent, "alpha", 0.0f, 1.0f)
         alphaAnim.setDuration(500)
         alphaAnim.start()
     }
@@ -96,13 +110,56 @@ class DetailActivity : AppCompatActivity() {
     fun loadData() {
         if (thing == null) return
         txtTitle.text = thing!!.title
-        txtContent.text = thing!!.content
+        editTitle.setText(thing!!.title)
+        editContent.setText(thing!!.content)
+        editContent.setSelection(thing!!.content.length)
+        editContent.setBackgroundColor(0x0000)
+
+        ui(800) {
+            colorPicker.setSelected(thing!!.color)
+        }
+    }
+
+    fun saveData() {
+
+        editTitle.hideKeyboard()
+        editContent.hideKeyboard()
+
+
+        var changed = false
+        val newTitle = editTitle.text.toString()
+        val newContent = editContent.text.toString()
+        val newColor = colorPicker.selectedColor
+        if (thing!!.title != newTitle) {
+            thing!!.title = newTitle
+            changed = true
+        }
+        if (thing!!.content != newContent) {
+            thing!!.content = newContent
+            changed = true
+        }
+
+        if (thing!!.color != newColor) {
+            thing!!.color = newColor
+            changed = true
+        }
+
+        if (changed) {
+            async {
+                ThingsManager.saveThing(thing!!)
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        saveData()
     }
 
     fun initView() {
 
         txtTitle.typeface = fontSourceSansPro
-        txtContent.typeface = fontSourceSansPro
+        editContent.typeface = fontSourceSansPro
         editTitle.typeface = fontSourceSansPro
 
         editTitle.visibility = View.GONE
@@ -124,10 +181,19 @@ class DetailActivity : AppCompatActivity() {
 
         txtTitle.setOnClickListener(onClickListener)
 
+        editTitle.onFocusChangeListener = focusChangeListener
+        editContent.isFocusable = false
+        editContent.isFocusableInTouchMode = false
+        editContent.setOnClickListener {
+            v->
+            editContent.isFocusable = true
+            editContent.isFocusableInTouchMode = true
+            editContent.requestFocus()
+        }
     }
 
-    fun toggleTitleEditMode() {
-        if (txtTitle.visibility == View.VISIBLE) {
+    fun setTitleEditMode(editMode:Boolean) {
+        if (editMode) {
             // show edittext
             txtTitle.visibility = View.GONE
             editTitle.setText(txtTitle.text)
@@ -145,7 +211,7 @@ class DetailActivity : AppCompatActivity() {
     val onClickListener: (v: View)->Unit = {
         v->
         if (v == txtTitle) {
-            toggleTitleEditMode()
+            setTitleEditMode(true)
         }
     }
 
