@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import com.github.clans.fab.FloatingActionButton
@@ -187,12 +188,25 @@ class DetailActivity : AppCompatActivity() {
         editContent.isFocusableInTouchMode = false
         editContent.setOnClickListener {
             v->
-            editContent.isFocusable = true
-            editContent.isFocusableInTouchMode = true
-            editContent.requestFocus()
-            ui(100) {
-               editContent.showKeyboard()
+            editContentRequestFocus()
+        }
+
+        editTitle.setOnEditorActionListener {
+            textView, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                editContentRequestFocus()
+                true
             }
+            false
+        };
+    }
+
+    private fun editContentRequestFocus() {
+        editContent.isFocusable = true
+        editContent.isFocusableInTouchMode = true
+        editContent.requestFocus()
+        ui(100) {
+            editContent.showKeyboard()
         }
     }
 

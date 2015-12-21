@@ -67,6 +67,9 @@
             android:hint="@string/title_hint"
             android:textColor="@color/inputEditTextColor"
             android:textSize="@dimen/txt_size_big"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/edit_text_content"
             />
 
         <EditText

@@ -45,7 +45,7 @@
             android:maxLines="1"
             android:imeOptions="actionNext"
             android:layout_gravity="center"
-            android:nextFocusDown="@id/txt_content"
+            android:nextFocusForward="@id/txt_content"
             android:singleLine="true"
             />
     </FrameLayout>
