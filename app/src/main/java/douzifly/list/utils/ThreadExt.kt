@@ -14,7 +14,7 @@ private val handler: Handler by lazy {
 }
 
 
-fun async(t:()->Unit) {
+fun bg(t:()->Unit) {
   executor.execute {
     t()
   }

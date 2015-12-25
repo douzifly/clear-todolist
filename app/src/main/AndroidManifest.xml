@@ -55,7 +55,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- version 2: add content for thing-->
+        <!-- version 6: add content for thing-->
         <meta-data android:name="AA_DB_NAME" android:value="list.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="6" />
 

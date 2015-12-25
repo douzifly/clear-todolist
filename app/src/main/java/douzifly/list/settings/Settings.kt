@@ -3,7 +3,7 @@ package douzifly.list.settings
 import android.content.Context
 import android.content.SharedPreferences
 import douzifly.list.ListApplication
-import douzifly.list.utils.async
+import douzifly.list.utils.bg
 
 /**
  * Created by air on 15/10/18.
@@ -37,7 +37,7 @@ object Settings {
     set(value: Theme) {
       if (field != value) {
         field = value
-        async {
+        bg {
           sp.edit().putInt(K_THEME, value.value).commit()
         }
       }
@@ -47,7 +47,7 @@ object Settings {
     set(value: Boolean) {
       if (field != value) {
         field = value
-        async {
+        bg  {
           sp.edit().putBoolean(K_SOUNDS, value).commit()
         }
       }
@@ -57,7 +57,7 @@ object Settings {
     set(value: Boolean) {
       if (field != value) {
         field = value
-        async {
+        bg  {
           sp.edit().putBoolean(K_RANDOM_COLOR, value).commit()
         }
       }

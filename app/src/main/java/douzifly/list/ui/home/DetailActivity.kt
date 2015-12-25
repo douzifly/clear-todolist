@@ -147,7 +147,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         if (changed) {
-            async {
+            bg  {
                 ThingsManager.saveThing(thing!!)
             }
         }

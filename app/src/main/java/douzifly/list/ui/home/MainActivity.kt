@@ -186,7 +186,7 @@ public class MainActivity : AppCompatActivity() {
         }
 
         ThingsManager.addListener(dataListener)
-        async {
+        bg {
             ThingsManager.loadFromDb()
         }
         Sound.load(this)

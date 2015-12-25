@@ -5,7 +5,7 @@ import com.activeandroid.query.Select
 import douzifly.list.ListApplication
 import douzifly.list.R
 import douzifly.list.alarm.Alarm
-import douzifly.list.utils.async
+import douzifly.list.utils.bg
 import douzifly.list.utils.logd
 import java.util.*
 
@@ -30,7 +30,7 @@ object ThingsManager {
     fun removeListener(l: ()-> Unit) = onDataChanged.remove(l)
 
     fun notifyListeners() {
-        async {
+        bg {
             onDataChanged.forEach {
                 l ->
                 l.invoke()
