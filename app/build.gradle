@@ -35,6 +35,7 @@ dependencies {
     compile 'com.github.ozodrukh:CircularReveal:1.1.1'
     compile 'com.github.ozodrukh:RippleDrawable:2.0.0'
     compile 'com.wdullaer:materialdatetimepicker:1.5.4'
+    compile 'com.jakewharton:process-phoenix:1.0.2'
     compile project(':ActiveAndroid')
     compile project(':Fab')
 }

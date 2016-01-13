@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.jakewharton.processphoenix.ProcessPhoenix
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R
 import douzifly.list.backup.Backup
@@ -175,9 +176,7 @@ class SettingActivity : AppCompatActivity() {
     }
 
     fun restart() {
-        val i = baseContext.packageManager.getLaunchIntentForPackage(baseContext.packageName);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
+        ProcessPhoenix.triggerRebirth(this);
     }
 
     fun doRestore() {

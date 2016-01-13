@@ -24,7 +24,7 @@
     <string name="restore_empty">No backup file</string>
 
     <string name="confirm">Confirm</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Delete backup</string>
     <string name="restore_tip">Restore will wipe your current data, Please backup first!</string>
 
 
