@@ -15,7 +15,7 @@ data class Backup(val name:String, val path:String) {
     companion object {
         fun parseFromFile(f: File) : Backup? {
             try {
-                val name = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date(f.name))
+                val name = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date(f.name.toLong()))
                 val backup = Backup(name, f.path)
                 return backup
             } catch(e: Exception) {
@@ -23,6 +23,10 @@ data class Backup(val name:String, val path:String) {
                 return null
             }
         }
+    }
+
+    override fun toString(): String {
+        return name
     }
 
 }

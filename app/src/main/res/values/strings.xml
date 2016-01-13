@@ -21,6 +21,11 @@
     <string name="backup_success">Backup success</string>
     <string name="restore_failed">Restore failed</string>
     <string name="restore_success">Restore success</string>
+    <string name="restore_empty">No backup file</string>
+
+    <string name="confirm">Confirm</string>
+    <string name="delete">Delete</string>
+    <string name="restore_tip">Restore will wipe your current data, Please backup first!</string>
 
 
     <string name="title_hint">Title</string>

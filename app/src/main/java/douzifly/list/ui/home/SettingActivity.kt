@@ -8,16 +8,19 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R
+import douzifly.list.backup.Backup
 import douzifly.list.backup.BackupHelper
 import douzifly.list.model.ThingsManager
 import douzifly.list.settings.Settings
 import douzifly.list.settings.Theme
 import douzifly.list.utils.*
 import douzifly.list.widget.TitleLayout
+import java.io.File
 
 /**
  * Created by air on 15/10/18.
@@ -66,7 +69,7 @@ class SettingActivity : AppCompatActivity() {
         txtGroup.text = ThingsManager.currentGroup?.title ?: ""
     }
 
-    val dataListener : () -> Unit = {
+    val dataListener: () -> Unit = {
         ui {
             updateGroupName()
         }
@@ -146,10 +149,10 @@ class SettingActivity : AppCompatActivity() {
 
     fun onBackupClick() {
         AlertDialog.Builder(this).setTitle(R.string.setting_backup)
-            .setNegativeButton(R.string.backup) { dialogInterface: DialogInterface, i: Int ->
-                doBackup()
-            }.setPositiveButton(R.string.restore) { dialogInterface: DialogInterface, i: Int ->
-                doRestore()
+                .setNegativeButton(R.string.backup) { dialogInterface: DialogInterface, i: Int ->
+                    doBackup()
+                }.setPositiveButton(R.string.restore) { dialogInterface: DialogInterface, i: Int ->
+            doRestore()
         }.create().show()
     }
 
@@ -171,7 +174,64 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
+    fun restart() {
+        val i = baseContext.packageManager.getLaunchIntentForPackage(baseContext.packageName);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+    }
+
     fun doRestore() {
+        val pd = ProgressDialog(this)
+        pd.show()
+
+        bg {
+            val backups = BackupHelper.listBackupFiles()
+            ui (500) {
+                pd.dismiss()
+            }
+
+            if (backups.size > 0) {
+                val adapter = ArrayAdapter<Backup>(this, android.R.layout.select_dialog_item)
+                adapter.addAll(backups)
+
+                ui {
+                    AlertDialog.Builder(this)
+                            .setTitle(R.string.restore)
+                            .setAdapter(adapter) {
+                                dialog: DialogInterface, position: Int ->
+                                dialog.dismiss()
+
+                                AlertDialog.Builder(this)
+                                        .setMessage(R.string.restore_tip)
+                                        .setPositiveButton(R.string.confirm) {
+                                            tipDialog: DialogInterface, which: Int ->
+                                            bg {
+                                                val ret = BackupHelper.resotre(File(adapter.getItem(position).path), "list.db")
+                                                ui {
+                                                    if (ret) {
+                                                        R.string.restore_success.toResString(this).toast(this)
+                                                        restart()
+                                                    } else {
+                                                        R.string.restore_failed.toResString(this).toast(this)
+                                                    }
+                                                    tipDialog.dismiss()
+                                                }
+                                            }
+
+                                        }.setNegativeButton(R.string.delete) {
+                                            tipDialog: DialogInterface, which: Int ->
+                                            File(adapter.getItem(position).path).delete()
+                                            tipDialog.dismiss()
+
+                                }.show()
+                            }.show()
+                }
+            } else {
+                ui {
+                    R.string.restore_empty.toResString(this).toast(this)
+                }
+            }
+        }
 
     }
 
