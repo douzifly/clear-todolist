@@ -15,6 +15,12 @@
     <string name="edit_group">Edit Group</string>
     <string name="default_group_title">Default</string>
     <string name="setting_backup">Backup &amp; Restore</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Restore</string>
+    <string name="backup_failed">Backup failed</string>
+    <string name="backup_success">Backup success</string>
+    <string name="restore_failed">Restore failed</string>
+    <string name="restore_success">Restore success</string>
 
 
     <string name="title_hint">Title</string>

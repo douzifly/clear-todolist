@@ -2,6 +2,7 @@ package douzifly.list
 
 import android.content.Context
 import com.activeandroid.ActiveAndroid
+import com.activeandroid.Configuration
 import com.activeandroid.app.Application
 
 /**
@@ -9,13 +10,15 @@ import com.activeandroid.app.Application
  */
 class ListApplication : Application() {
 
-  companion object {
-    var appContext: Context? = null
-  }
+    companion object {
+        var appContext: Context? = null
+    }
 
-  override fun onCreate() {
-    super.onCreate()
-    appContext = this
-    ActiveAndroid.initialize(this)
-  }
+    override fun onCreate() {
+        super.onCreate()
+        appContext = this
+        val dbName = "list.db"
+        val config = Configuration.Builder(this).setDatabaseName(dbName).create()
+        ActiveAndroid.initialize(config)
+    }
 }

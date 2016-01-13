@@ -20,6 +20,7 @@ import android.widget.TextView
 import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R
+import douzifly.list.backup.BackupHelper
 import douzifly.list.model.Thing
 import douzifly.list.model.ThingsManager
 import douzifly.list.model.randomEmptyText
@@ -28,6 +29,7 @@ import douzifly.list.settings.Theme
 import douzifly.list.sounds.Sound
 import douzifly.list.utils.*
 import douzifly.list.widget.*
+import java.io.File
 import java.util.*
 
 public class MainActivity : AppCompatActivity() {
@@ -289,6 +291,7 @@ public class MainActivity : AppCompatActivity() {
         }
 
         override fun onClick(v: View?) {
+
             if (v == dotView) {
                 // undo complete
                 doDone(thing!!)

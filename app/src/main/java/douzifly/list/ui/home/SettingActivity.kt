@@ -1,20 +1,22 @@
 package douzifly.list.ui.home
 
+import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R
+import douzifly.list.backup.BackupHelper
 import douzifly.list.model.ThingsManager
 import douzifly.list.settings.Settings
 import douzifly.list.settings.Theme
-import douzifly.list.utils.colorResOf
-import douzifly.list.utils.fontRailway
-import douzifly.list.utils.ui
+import douzifly.list.utils.*
 import douzifly.list.widget.TitleLayout
 
 /**
@@ -54,6 +56,10 @@ class SettingActivity : AppCompatActivity() {
         findViewById(R.id.txt_group) as TextView
     }
 
+    val txtBackup: TextView by lazy {
+        findViewById(R.id.txt_backup_title) as TextView
+    }
+
     val initTheme: Theme = Settings.theme
 
     fun updateGroupName() {
@@ -80,6 +86,11 @@ class SettingActivity : AppCompatActivity() {
         (findViewById(R.id.txt_sound_title) as TextView).typeface = fontRailway
         txtVersion.typeface = fontRailway
         (findViewById(R.id.txt_version_title) as TextView).typeface = fontRailway
+        txtBackup.typeface = fontRailway
+
+        txtBackup.setOnClickListener {
+            onBackupClick()
+        }
 
         imgThemeColorSelected.setImageDrawable(
                 GoogleMaterial.Icon.gmd_done.colorResOf(R.color.yellowPrimary)
@@ -131,6 +142,37 @@ class SettingActivity : AppCompatActivity() {
     fun onSoundsClick() {
         Settings.sounds = !Settings.sounds
         updateSoundOnOff()
+    }
+
+    fun onBackupClick() {
+        AlertDialog.Builder(this).setTitle(R.string.setting_backup)
+            .setNegativeButton(R.string.backup) { dialogInterface: DialogInterface, i: Int ->
+                doBackup()
+            }.setPositiveButton(R.string.restore) { dialogInterface: DialogInterface, i: Int ->
+                doRestore()
+        }.create().show()
+    }
+
+    fun doBackup() {
+        val pd = ProgressDialog(this)
+        pd.show()
+        bg {
+            val ret = BackupHelper.backup("list.db")
+            ui {
+                ui(500) {
+                    pd.dismiss()
+                }
+                if (ret.isEmpty()) {
+                    R.string.backup_failed.toResString(this).toast(this)
+                } else {
+                    R.string.backup_success.toResString(this).toast(this)
+                }
+            }
+        }
+    }
+
+    fun doRestore() {
+
     }
 
     fun onThemeClick(theme: Theme) {
