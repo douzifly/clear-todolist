@@ -1,6 +1,5 @@
 package douzifly.list.ui.home
 
-import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,7 +7,9 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R

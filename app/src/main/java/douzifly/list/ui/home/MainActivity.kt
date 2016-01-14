@@ -88,8 +88,7 @@ public class MainActivity : AppCompatActivity() {
                 mInputPanel.visibility = View.INVISIBLE
                 setFabAsCommit(false)
                 ui {
-                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(mInputPanel.editText.windowToken, 0)
+                    mInputPanel.editText.hideKeyboard()
                     ui(100) {
                         handleInputDone()
                         mInputPanel.reset()
@@ -104,8 +103,7 @@ public class MainActivity : AppCompatActivity() {
             mInputPanel.visibility = View.VISIBLE
             startCircularReveal(cx, cy, mInputPanel.revealView, false) {
                 mInputPanel.editText.requestFocus()
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(mInputPanel.editText, InputMethodManager.SHOW_FORCED)
+                mInputPanel.editText.showKeyboard()
             }
             setFabAsCommit(true)
 
@@ -123,7 +121,7 @@ public class MainActivity : AppCompatActivity() {
     fun handleInputDone() {
         val textString = mInputPanel.editText.text.toString().trim()
         val contentString = mInputPanel.contentEditText.text.toString()
-        if (textString.isBlank()) {
+        if (textString.isBlank() && contentString.isBlank()) {
             return
         }
 
@@ -343,7 +341,11 @@ public class MainActivity : AppCompatActivity() {
 
         fun updateItemUI(thing: Thing, prev: Thing?) {
 
-            txtThing.text = thing.title
+            if (thing.title.isBlank()) {
+                txtThing.text = thing.content
+            } else {
+                txtThing.text = thing.title
+            }
 
             if (Settings.theme == Theme.Dot) {
                 dotView.visibility = View.VISIBLE
