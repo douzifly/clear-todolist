@@ -30,6 +30,7 @@
             android:textSize="@dimen/txt_size_large"
             android:textStyle="bold"
             android:maxLines="1"
+            android:hint="@string/title_hint"
             android:transitionName="tnTitle" />
 
 

@@ -179,6 +179,9 @@ class DetailActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_THING_ID, thing!!.id)
             setResult(RESULT_DONE, intent)
             finishAfterTransition()
+            bg {
+                saveData()
+            }
         }
 
         txtTitle.setOnClickListener(onClickListener)
