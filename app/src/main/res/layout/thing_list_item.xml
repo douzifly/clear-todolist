@@ -43,6 +43,8 @@
                 android:text="Test"
                 android:textColor="@color/blackPrimary"
                 android:textSize="@dimen/txt_size_big"
+                android:maxLines="2"
+                android:ellipsize="end"
                 />
 
             <TextView
