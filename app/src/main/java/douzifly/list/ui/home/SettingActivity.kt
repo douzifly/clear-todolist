@@ -8,9 +8,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R
@@ -158,8 +156,7 @@ class SettingActivity : AppCompatActivity() {
     }
 
     fun doBackup() {
-        val pd = ProgressDialog(this)
-        pd.show()
+        val pd = showProgressDialog(R.string.backuping.toResString(this))
         bg {
             val ret = BackupHelper.backup("list.db")
             ui {
@@ -179,51 +176,56 @@ class SettingActivity : AppCompatActivity() {
         ProcessPhoenix.triggerRebirth(this);
     }
 
+    fun showBackupListDailog(adapter: ArrayAdapter<Backup>) {
+        AlertDialog.Builder(this)
+                .setTitle(R.string.restore)
+                .setAdapter(adapter) {
+                    dialog: DialogInterface, position: Int ->
+                    dialog.dismiss()
+                    showConfirmDialog(adapter.getItem(position).path)
+                }.show()
+    }
+
+    fun showConfirmDialog(path: String) {
+        AlertDialog.Builder(this)
+                .setMessage(R.string.restore_tip)
+                .setPositiveButton(R.string.confirm) {
+                    tipDialog: DialogInterface, which: Int ->
+                    bg {
+                        val ret = BackupHelper.resotre(File(path), "list.db")
+                        ui {
+                            if (ret) {
+                                R.string.restore_success.toResString(this).toast(this)
+                                restart()
+                            } else {
+                                R.string.restore_failed.toResString(this).toast(this)
+                            }
+                            tipDialog.dismiss()
+                        }
+                    }
+
+                }.setNegativeButton(R.string.delete) {
+            tipDialog: DialogInterface, which: Int ->
+            tipDialog.dismiss()
+            showProgressDialogAndHide("", 500)
+            File(path).delete()
+
+        }.show()
+    }
+
     fun doRestore() {
-        val pd = ProgressDialog(this)
-        pd.show()
+        val pd = showProgressDialog("")
 
         bg {
             val backups = BackupHelper.listBackupFiles()
             ui (500) {
                 pd.dismiss()
             }
-
             if (backups.size > 0) {
                 val adapter = ArrayAdapter<Backup>(this, android.R.layout.select_dialog_item)
                 adapter.addAll(backups)
-
                 ui {
-                    AlertDialog.Builder(this)
-                            .setTitle(R.string.restore)
-                            .setAdapter(adapter) {
-                                dialog: DialogInterface, position: Int ->
-                                dialog.dismiss()
-
-                                AlertDialog.Builder(this)
-                                        .setMessage(R.string.restore_tip)
-                                        .setPositiveButton(R.string.confirm) {
-                                            tipDialog: DialogInterface, which: Int ->
-                                            bg {
-                                                val ret = BackupHelper.resotre(File(adapter.getItem(position).path), "list.db")
-                                                ui {
-                                                    if (ret) {
-                                                        R.string.restore_success.toResString(this).toast(this)
-                                                        restart()
-                                                    } else {
-                                                        R.string.restore_failed.toResString(this).toast(this)
-                                                    }
-                                                    tipDialog.dismiss()
-                                                }
-                                            }
-
-                                        }.setNegativeButton(R.string.delete) {
-                                            tipDialog: DialogInterface, which: Int ->
-                                            File(adapter.getItem(position).path).delete()
-                                            tipDialog.dismiss()
-
-                                }.show()
-                            }.show()
+                    showBackupListDailog(adapter)
                 }
             } else {
                 ui {

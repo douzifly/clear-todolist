@@ -19,6 +19,7 @@
     <string name="restore">Restore</string>
     <string name="backup_failed">Backup failed</string>
     <string name="backup_success">Backup success</string>
+    <string name="backuping">Backuping</string>
     <string name="restore_failed">Restore failed</string>
     <string name="restore_success">Restore success</string>
     <string name="restore_empty">No backup file</string>
