@@ -175,9 +175,9 @@ class DetailActivity : AppCompatActivity() {
         }
 
         actionDone.setOnClickListener {
-            val intent = Intent()
-            intent.putExtra(EXTRA_THING_ID, thing!!.id)
-            setResult(RESULT_DONE, intent)
+//            val intent = Intent()
+//            intent.putExtra(EXTRA_THING_ID, thing!!.id)
+//            setResult(RESULT_DONE, intent)
             finishAfterTransition()
             bg {
                 saveData()
