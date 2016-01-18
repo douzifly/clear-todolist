@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import com.github.clans.fab.FloatingActionButton
@@ -127,7 +126,7 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
         }
 
         ui {
-            (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(editText.windowToken, 0)
+            editText.hideKeyboard()
         }
         dpd.show((context as AppCompatActivity).getFragmentManager(), "Datepickerdialog");
     }
