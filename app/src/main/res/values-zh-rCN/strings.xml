@@ -18,4 +18,18 @@
     <string name="title_hint">标题</string>
     <string name="content_hint">正文</string>
     <string name="setting_backup"><![CDATA[备份&恢复]]></string>
+    <string name="confirm">确认</string>
+    <string name="delete">删除备份</string>
+    <string name="delete_item">删除</string>
+    <string name="doing">未完成</string>
+    <string name="done">完成</string>
+    <string name="restore">恢复</string>
+    <string name="restore_empty">无备份文件</string>
+    <string name="restore_failed">恢复失败</string>
+    <string name="restore_success">恢复成功</string>
+    <string name="restore_tip">恢复备份会清空当前的数据，请先备份当前数据</string>
+    <string name="backup">备份</string>
+    <string name="backup_failed">备份失败</string>
+    <string name="backup_success">备份成功</string>
+    <string name="backuping">备份中</string>
 </resources>

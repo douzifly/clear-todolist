@@ -31,6 +31,7 @@
             android:paddingRight="6dp"
             android:gravity="center"
             android:background="@color/greenPrimary"
+            android:layout_gravity="right"
             />
 
         <TextView

@@ -128,7 +128,7 @@ public class MainActivity : AppCompatActivity() {
         }
 
         ThingsManager.addThing(textString, contentString
-                ,mInputPanel.reminderDate?.time ?: -1, mInputPanel.colorPicker.selectedColor)
+                , mInputPanel.reminderDate?.time ?: -1, mInputPanel.colorPicker.selectedColor)
     }
 
     fun setFabAsCommit(asCommit: Boolean) {
@@ -184,7 +184,7 @@ public class MainActivity : AppCompatActivity() {
 
         mFabSetting.setOnClickListener {
             startActivityForResult(Intent(this, SettingActivity::class.java), REQ_SETTING,
-                    ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, mFabSetting , "st").toBundle())
+                    ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, mFabSetting, "st").toBundle())
         }
 
         ThingsManager.addListener(dataListener)
@@ -298,7 +298,7 @@ public class MainActivity : AppCompatActivity() {
             } else if (v!!.id == R.id.content) {
                 Sound.play(Sound.S_CLICK_ITEM)
 
-                if (swipeLayout.openStatus != SwipeLayout.Status.Close) {
+                if (swipeLayout.openStatus == SwipeLayout.Status.Open) {
                     swipeLayout.close(true)
                     return
                 }
@@ -320,10 +320,16 @@ public class MainActivity : AppCompatActivity() {
                 }
             } else if (v == txtDone) {
                 val thing = v.tag as Thing
-                doDone(thing)
+                swipeLayout.close(true)
+                ui(500) {
+                    doDone(thing)
+                }
             } else if (v == txtDelete) {
                 val thing = v.tag as Thing
-                doDelete(thing)
+                swipeLayout.close(true)
+                ui(500) {
+                    doDelete(thing)
+                }
             }
         }
 
@@ -424,13 +430,18 @@ public class MainActivity : AppCompatActivity() {
 
             // done text
             txtDone.tag = thing
-            txtDone.visibility = if (Settings.theme == Theme.Dot) View.GONE else View.VISIBLE
-            val status =  if (thing.isComplete) R.string.doing.toResString(this@MainActivity) else R.string.done
-                    .toResString(this@MainActivity)
-            txtDone.text = status
-            txtDone.setBackgroundColor(if (thing.isComplete) resources.getColor(R.color.redPressed) else resources.getColor(R.color.greenPrimary))
+
+            txtDone.text =
+                    if (thing.isComplete) R.string.doing.toResString(this@MainActivity)
+                    else R.string.done.toResString(this@MainActivity)
+
+            txtDone.setBackgroundColor(
+                    if (thing.isComplete) resources.getColor(R.color.greyPrimary)
+                    else resources.getColor(R.color.greenPrimary)
+            )
 
             txtDelete.tag = thing
+            "update txtDone".logd(TAG)
         }
 
         fun makeThingColor(prevThing: Thing?): Int {
