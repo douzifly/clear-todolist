@@ -1,9 +1,10 @@
 package douzifly.list.ui.home
 
 import android.app.ActivityOptions
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -15,12 +16,10 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R
-import douzifly.list.backup.BackupHelper
 import douzifly.list.model.Thing
 import douzifly.list.model.ThingsManager
 import douzifly.list.model.randomEmptyText
@@ -29,8 +28,10 @@ import douzifly.list.settings.Theme
 import douzifly.list.sounds.Sound
 import douzifly.list.utils.*
 import douzifly.list.widget.*
-import java.io.File
 import java.util.*
+import kotlin.collections.size
+import kotlin.text.isBlank
+import kotlin.text.trim
 
 public class MainActivity : AppCompatActivity() {
 
@@ -310,6 +311,9 @@ public class MainActivity : AppCompatActivity() {
                     val cy = itemView.top + itemView.height
                     mActionPanel.show(cx, cy, thing!!)
                 }
+            } else if (v == txtDone) {
+                val thing = v.tag as Thing
+                doDone(thing)
             }
         }
 
@@ -334,6 +338,13 @@ public class MainActivity : AppCompatActivity() {
             text
         }
 
+        val txtDone: TextView by lazy {
+            val text = itemView.findViewById(R.id.btn_done) as TextView
+            text.setOnClickListener(this)
+            text.typeface = fontSourceSansPro
+            text
+        }
+
         fun bind(thing: Thing, prevThing: Thing?) {
             this.thing = thing
             updateItemUI(thing, prevThing)
@@ -354,17 +365,16 @@ public class MainActivity : AppCompatActivity() {
                 txtThing.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
                 (itemView as CardView).setCardBackgroundColor(cardBackgroundColor)
             } else {
+                dotView.visibility = View.GONE
+                txtThing.setTextColor(resources.getColor(R.color.whitePrimary))
+                (itemView as CardView).setCardBackgroundColor(makeThingColor(prev))
+
                 if (thing.isComplete) {
-                    dotView.visibility = View.VISIBLE
-                    dotView.mode = DotView.Mode.Done
+                    txtThing.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
+                    txtThing.setTypeface(txtThing.typeface, Typeface.ITALIC)
                 } else {
-                    dotView.visibility = View.GONE
-                }
-                txtThing.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.whitePrimary))
-                if (thing.isComplete) {
-                    (itemView as CardView).setCardBackgroundColor(resources.getColor(R.color.whitePressed))
-                } else {
-                    (itemView as CardView).setCardBackgroundColor(makeThingColor(prev))
+                    txtThing.paint.flags = Paint.ANTI_ALIAS_FLAG
+                    txtThing.setTypeface(txtThing.typeface, Typeface.BOLD)
                 }
             }
 
@@ -390,6 +400,12 @@ public class MainActivity : AppCompatActivity() {
             } else {
                 txtReminder.visibility = View.GONE
             }
+
+            txtDone.tag = thing
+            txtDone.visibility = if (Settings.theme == Theme.Dot) View.GONE else View.VISIBLE
+            val status =  if (thing.isComplete) R.string.doing.toResString(this@MainActivity) else R.string.done
+                    .toResString(this@MainActivity)
+            txtDone.text = status
         }
 
         fun makeThingColor(prevThing: Thing?): Int {
