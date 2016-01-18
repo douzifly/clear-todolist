@@ -28,8 +28,8 @@
     <string name="delete">Delete backup</string>
     <string name="restore_tip">Restore will wipe your current data, Please backup first!</string>
     <string name="done">DONE</string>
-    <string name="doing">DOING</string>
-
+    <string name="doing">UNDONE</string>
+    <string name="delete_item">DELETE</string>
 
     <string name="title_hint">Title</string>
     <string name="content_hint">Content</string>

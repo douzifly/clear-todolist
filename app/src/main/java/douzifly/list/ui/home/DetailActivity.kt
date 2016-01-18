@@ -92,7 +92,7 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar.title = ""
         toolbar.setNavigationOnClickListener {
             finishAfterTransition()
-            saveData()
+//            saveData()
         }
 
         val alphaAnim = ObjectAnimator.ofFloat(editContent, "alpha", 0.0f, 1.0f)
@@ -155,7 +155,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        saveData()
+//        saveData()
     }
 
     fun initView() {

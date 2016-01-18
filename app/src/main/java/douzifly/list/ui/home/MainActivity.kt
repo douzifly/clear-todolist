@@ -17,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.daimajia.swipe.SwipeLayout
 import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R
@@ -286,7 +287,7 @@ public class MainActivity : AppCompatActivity() {
         }
 
         init {
-            itemView.setOnClickListener(this)
+            itemView.findViewById(R.id.content).setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
@@ -294,8 +295,14 @@ public class MainActivity : AppCompatActivity() {
             if (v == dotView) {
                 // undo complete
                 doDone(thing!!)
-            } else if (v == itemView) {
+            } else if (v!!.id == R.id.content) {
                 Sound.play(Sound.S_CLICK_ITEM)
+
+                if (swipeLayout.openStatus != SwipeLayout.Status.Close) {
+                    swipeLayout.close(true)
+                    return
+                }
+
                 mFabButton.visibility = View.GONE
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -314,6 +321,9 @@ public class MainActivity : AppCompatActivity() {
             } else if (v == txtDone) {
                 val thing = v.tag as Thing
                 doDone(thing)
+            } else if (v == txtDelete) {
+                val thing = v.tag as Thing
+                doDelete(thing)
             }
         }
 
@@ -343,6 +353,17 @@ public class MainActivity : AppCompatActivity() {
             text.setOnClickListener(this)
             text.typeface = fontSourceSansPro
             text
+        }
+
+        val txtDelete: TextView by lazy {
+            val text = itemView.findViewById(R.id.btn_delete) as TextView
+            text.setOnClickListener(this)
+            text.typeface = fontSourceSansPro
+            text
+        }
+
+        val swipeLayout: SwipeLayout by lazy {
+            itemView.findViewById(R.id.swipe_layout) as SwipeLayout
         }
 
         fun bind(thing: Thing, prevThing: Thing?) {
@@ -401,11 +422,15 @@ public class MainActivity : AppCompatActivity() {
                 txtReminder.visibility = View.GONE
             }
 
+            // done text
             txtDone.tag = thing
             txtDone.visibility = if (Settings.theme == Theme.Dot) View.GONE else View.VISIBLE
             val status =  if (thing.isComplete) R.string.doing.toResString(this@MainActivity) else R.string.done
                     .toResString(this@MainActivity)
             txtDone.text = status
+            txtDone.setBackgroundColor(if (thing.isComplete) resources.getColor(R.color.redPressed) else resources.getColor(R.color.greenPrimary))
+
+            txtDelete.tag = thing
         }
 
         fun makeThingColor(prevThing: Thing?): Int {
