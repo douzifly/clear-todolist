@@ -43,7 +43,9 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     fun updateTimeUI(date: Date?) {
         if (date == null) {
             txtReminder.text = ""
+            delReminder.visibility = View.GONE
         } else {
+            delReminder.visibility = View.VISIBLE
             txtReminder.text = formatDateTime(date)
             formatTextViewcolor(txtReminder, date)
         }
@@ -104,6 +106,14 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         findViewById(R.id.color_picker) as ColorPicker
     }
 
+    val delReminder: View by lazy {
+        val v = findViewById(R.id.reminder_del)
+        v.setOnClickListener {
+            cancelPickTime()
+        }
+        v
+    }
+
     val focusChangeListener = View.OnFocusChangeListener {
         v, hasFocus ->
         if (!hasFocus) {
@@ -149,7 +159,7 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
 
     fun cancelPickTime() {
         reminderDate = null
-        txtReminder.text = ""
+        updateTimeUI(reminderDate)
     }
 
     fun showDatePicker() {
@@ -162,9 +172,6 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         );
 
         dpd.accentColor = colorPicker.selectedColor
-        dpd.setOnCancelListener {
-            cancelPickTime()
-        }
 
         ui {
             editTitle.hideKeyboard()

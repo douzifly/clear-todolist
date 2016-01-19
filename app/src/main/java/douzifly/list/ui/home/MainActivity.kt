@@ -326,27 +326,12 @@ public class MainActivity : AppCompatActivity() {
                 swipeLayout.close(true)
                 ui(500) {
                     doDone(thing)
-                    resetDrag()
                 }
             } else if (v == txtDelete) {
                 val thing = v.tag as Thing
                 swipeLayout.close(true)
                 ui(500) {
                     doDelete(thing)
-                }
-            }
-        }
-
-        fun resetDrag() {
-            val filed  = swipeLayout.javaClass.getDeclaredField("mDragHelper")
-            filed.isAccessible = true
-            val drapHelper = filed.get(swipeLayout) as ViewDragHelper
-            drapHelper.javaClass.declaredMethods.forEach {
-                method->
-                if (method.name.contains("setDragState")) {
-                    method.isAccessible = true
-                    "invoke setDragState".logd(TAG)
-                    method.invoke(drapHelper, 0)
                 }
             }
         }
