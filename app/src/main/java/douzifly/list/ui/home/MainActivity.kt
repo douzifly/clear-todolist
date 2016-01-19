@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.widget.ViewDragHelper
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
@@ -30,7 +31,9 @@ import douzifly.list.sounds.Sound
 import douzifly.list.utils.*
 import douzifly.list.widget.*
 import java.util.*
+import kotlin.collections.forEach
 import kotlin.collections.size
+import kotlin.text.contains
 import kotlin.text.isBlank
 import kotlin.text.trim
 
@@ -323,12 +326,27 @@ public class MainActivity : AppCompatActivity() {
                 swipeLayout.close(true)
                 ui(500) {
                     doDone(thing)
+                    resetDrag()
                 }
             } else if (v == txtDelete) {
                 val thing = v.tag as Thing
                 swipeLayout.close(true)
                 ui(500) {
                     doDelete(thing)
+                }
+            }
+        }
+
+        fun resetDrag() {
+            val filed  = swipeLayout.javaClass.getDeclaredField("mDragHelper")
+            filed.isAccessible = true
+            val drapHelper = filed.get(swipeLayout) as ViewDragHelper
+            drapHelper.javaClass.declaredMethods.forEach {
+                method->
+                if (method.name.contains("setDragState")) {
+                    method.isAccessible = true
+                    "invoke setDragState".logd(TAG)
+                    method.invoke(drapHelper, 0)
                 }
             }
         }

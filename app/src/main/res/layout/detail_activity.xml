@@ -54,7 +54,7 @@
     <RelativeLayout
         android:id="@+id/bottom_container"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="186dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp">
 
@@ -66,6 +66,38 @@
             >
 
         </douzifly.list.widget.ColorPicker>
+
+        <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_add_reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="18dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+                android:text="Add Reminder"
+                android:textSize="14sp"
+                app:fab_colorNormal="@color/colorInputPanel"
+                app:fab_colorPressed="@color/whitePressed"
+                app:fab_colorRipple="@color/whiteRipple"
+                app:fab_shadowRadius="0dp"
+                app:fab_elevationCompat="0dp"
+                android:layout_below="@id/color_picker"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_alignTop="@id/fab_add_reminder"
+                android:layout_alignBottom="@id/fab_add_reminder"
+                android:layout_toRightOf="@id/fab_add_reminder"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/greyPrimary"
+                android:textSize="@dimen/txt_size_small"
+                android:id="@+id/txt_reminder"
+                android:text="Reminder"
+                />
 
         <View
             android:layout_width="1px"
@@ -84,7 +116,7 @@
             app:fab_colorNormal="@color/redPrimary"
             app:fab_colorPressed="@color/redPressed"
             app:fab_colorRipple="@color/redRipple"
-            android:layout_below="@id/color_picker"
+            android:layout_below="@id/fab_add_reminder"
             android:layout_toLeftOf="@id/center_marker"
             app:fab_label="delete" />
 
@@ -97,7 +129,7 @@
             app:fab_colorNormal="@color/whitePrimary"
             app:fab_colorPressed="@color/whitePressed"
             app:fab_colorRipple="@color/whiteRipple"
-            android:layout_below="@id/color_picker"
+            android:layout_below="@id/fab_add_reminder"
             android:layout_toRightOf="@id/center_marker"
             app:fab_label="done" />
 
