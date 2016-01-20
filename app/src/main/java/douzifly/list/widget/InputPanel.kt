@@ -62,6 +62,14 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
         findViewById(R.id.txt_reminder) as TextView
     }
 
+    val reminderDel: View by lazy {
+        val v = findViewById(R.id.reminder_del)
+        v.setOnClickListener {
+            cancelPickTime()
+        }
+        v
+    }
+
     fun reset() {
         editText.setText("")
         txtReminder.setText("")
@@ -103,12 +111,18 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
 
     fun cancelPickTime() {
         reminderDate = null
-        txtReminder.text = ""
+        updateTimeUI()
     }
 
     fun updateTimeUI() {
-        txtReminder.text = formatDateTime(reminderDate!!)
-        formatTextViewcolor(txtReminder, reminderDate!!)
+        if (reminderDate == null) {
+            txtReminder.text = ""
+            reminderDel.visibility = View.GONE
+        } else {
+            reminderDel.visibility = View.VISIBLE
+            txtReminder.text = formatDateTime(reminderDate!!)
+            formatTextViewcolor(txtReminder, reminderDate!!)
+        }
     }
 
     fun showDatePicker() {
@@ -122,7 +136,7 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
 
         dpd.accentColor = colorPicker.selectedColor
         dpd.setOnCancelListener {
-            cancelPickTime()
+            // do nothing
         }
 
         ui {

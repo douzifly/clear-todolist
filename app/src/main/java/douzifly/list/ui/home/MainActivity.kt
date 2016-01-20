@@ -186,8 +186,18 @@ public class MainActivity : AppCompatActivity() {
         }
 
         mFabSetting.setOnClickListener {
-            startActivityForResult(Intent(this, SettingActivity::class.java), REQ_SETTING,
-                    ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, mFabSetting, "st").toBundle())
+            var bundle: Bundle? = null
+
+            try {
+                bundle = ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, mFabSetting, "st").toBundle()
+            } catch(e: Exception) {
+                // ignore
+                // device not support activity transition animation
+            } catch(e: Error) {
+                // ignore
+            }
+
+            startActivityForResult(Intent(this, SettingActivity::class.java), REQ_SETTING, bundle)
         }
 
         ThingsManager.addListener(dataListener)

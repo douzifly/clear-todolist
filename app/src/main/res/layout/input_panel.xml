@@ -44,6 +44,19 @@
             android:id="@+id/txt_reminder"
             />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close"
+            android:layout_toRightOf="@id/txt_reminder"
+            android:layout_alignTop="@id/txt_reminder"
+            android:layout_alignBottom="@id/txt_reminder"
+            android:scaleType="centerInside"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/reminder_del"
+            android:visibility="gone"
+            />
+
         <douzifly.list.widget.ColorPicker
             android:id="@+id/color_picker"
             android:layout_width="wrap_content"
