@@ -127,13 +127,21 @@ object ThingsManager {
         notifyListeners()
 
         if (reminder > System.currentTimeMillis()) {
-            Alarm.setAlarm(t.id, reminder, text, color)
+            val subLen = if (t.content.length > 10) 10 else t.content.length
+            val content = if (t.title.isNotBlank()) t.title else t.content.substring(0, subLen)
+            Alarm.setAlarm(t.id, reminder, content, color)
         }
     }
 
     fun saveThing(thing: Thing) {
         thing.save()
         notifyListeners()
+
+        if (thing.reminderTime > System.currentTimeMillis()) {
+            val subLen = if (thing.content.length > 10) 10 else thing.content.length
+            val content = if (thing.title.isNotBlank()) thing.title else thing.content.substring(0, subLen)
+            Alarm.setAlarm(thing.id, thing.reminderTime, content, thing.color)
+        }
     }
 
     fun remove(thing: Thing) {
