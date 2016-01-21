@@ -32,4 +32,5 @@
     <string name="backup_failed">备份失败</string>
     <string name="backup_success">备份成功</string>
     <string name="backuping">备份中</string>
+    <string name="day_diff">%d 天前</string>
 </resources>

@@ -439,6 +439,12 @@ public class MainActivity : AppCompatActivity() {
             itemView.findViewById(R.id.thumb_up)
         }
 
+        val txtTimeDiff: TextView by lazy {
+            val text = itemView.findViewById(R.id.txt_duration) as TextView
+            text.typeface = fontSourceSansPro
+            text
+        }
+
         fun bind(thing: Thing, prevThing: Thing?) {
             this.thing = thing
             updateItemUI(thing, prevThing)
@@ -457,10 +463,12 @@ public class MainActivity : AppCompatActivity() {
                 dotView.mode = if (thing.isComplete) DotView.Mode.Solid else DotView.Mode.Hollow
                 dotView.color = if (thing.isComplete) resources.getColor(R.color.greyPrimary) else thing.color
                 txtThing.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
+                txtTimeDiff.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
                 (itemView as CardView).setCardBackgroundColor(cardBackgroundColor)
             } else {
                 dotView.visibility = View.GONE
                 txtThing.setTextColor(resources.getColor(R.color.whitePrimary))
+                txtTimeDiff.setTextColor(resources.getColor(R.color.whitePrimary))
                 (itemView as CardView).setCardBackgroundColor(makeThingColor(prev))
 
                 if (thing.isComplete) {
@@ -509,6 +517,9 @@ public class MainActivity : AppCompatActivity() {
 
             txtDelete.tag = thing
             "update txtDone".logd(TAG)
+
+            // time text
+            txtTimeDiff.text = "${Date(thing.creationTime).formatDaysAgoFromNow(this@MainActivity)}"
         }
 
         fun makeThingColor(prevThing: Thing?): Int {
