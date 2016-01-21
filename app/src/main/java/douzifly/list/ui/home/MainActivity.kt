@@ -21,6 +21,8 @@ import android.widget.TextView
 import com.daimajia.swipe.SwipeLayout
 import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.nineoldandroids.animation.Animator
+import com.nineoldandroids.animation.ObjectAnimator
 import douzifly.list.R
 import douzifly.list.model.Thing
 import douzifly.list.model.ThingsManager
@@ -89,7 +91,7 @@ public class MainActivity : AppCompatActivity() {
 
             val cx = (mFabButton.left + mFabButton.right) / 2
             val cy = mFabButton.top + mFabButton.height / 2
-            startCircularReveal(cx, cy, mInputPanel.revealView, true) {
+            startCircularReveal(cx, cy, mInputPanel.revealView, true, 200) {
                 mInputPanel.visibility = View.INVISIBLE
                 setFabAsCommit(false)
                 ui {
@@ -106,7 +108,7 @@ public class MainActivity : AppCompatActivity() {
             val cx = (mFabButton.left + mFabButton.right) / 2
             val cy = mFabButton.top + mFabButton.height / 2
             mInputPanel.visibility = View.VISIBLE
-            startCircularReveal(cx, cy, mInputPanel.revealView, false) {
+            startCircularReveal(cx, cy, mInputPanel.revealView, false, 200) {
                 mInputPanel.editText.requestFocus()
                 mInputPanel.editText.showKeyboard()
             }
@@ -241,12 +243,12 @@ public class MainActivity : AppCompatActivity() {
         ThingsManager.release()
     }
 
-    fun startCircularReveal(cx: Int, cy: Int, viewRoot: View, reverse: Boolean, end: (() -> Unit)? = null) {
+    fun startCircularReveal(cx: Int, cy: Int, viewRoot: View, reverse: Boolean, duration: Int, end: (() -> Unit)? = null) {
         val endRadius = Math.max(viewRoot.width, viewRoot.height).toFloat()
         val startRadius = if (reverse) endRadius else 0f
         val finalRadius = if (reverse) 0f else endRadius
         val anim = io.codetail.animation.ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, startRadius, finalRadius)
-        anim.setDuration(200)
+        anim.setDuration(duration)
         anim.addListener(object : io.codetail.animation.SupportAnimator.AnimatorListener {
             override fun onAnimationRepeat() {
             }
@@ -336,6 +338,10 @@ public class MainActivity : AppCompatActivity() {
                 swipeLayout.close(true)
                 ui(500) {
                     doDone(thing)
+
+                    if (thing.isComplete) {
+                        showThumbUp()
+                    }
                 }
             } else if (v == txtDelete) {
                 val thing = v.tag as Thing
@@ -344,6 +350,44 @@ public class MainActivity : AppCompatActivity() {
                     doDelete(thing)
                 }
             }
+        }
+
+        fun showThumbUp() {
+            thumbUp.visibility = View.VISIBLE
+            val cx = (thumbUp.left + thumbUp.right) / 2
+            val cy = thumbUp.top + thumbUp.height / 2
+            startCircularReveal(cx, cy, thumbUp, false, 600) {
+                hideThumbUp()
+            }
+        }
+
+        fun hideThumbUp() {
+//            val cx = (thumbUp.left + thumbUp.right) / 2
+//            val cy = thumbUp.top + thumbUp.height / 2
+//            startCircularReveal(cx, cy, thumbUp, true, 300) {
+//                thumbUp.visibility = View.INVISIBLE
+//            }
+
+            val alpha = ObjectAnimator.ofFloat(thumbUp, "alpha", 1.0f, 0.0f)
+            alpha.setDuration(300)
+            alpha.addListener(object: Animator.AnimatorListener {
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                    thumbUp.visibility = View.INVISIBLE
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    thumbUp.visibility = View.INVISIBLE
+                }
+
+                override fun onAnimationStart(animation: Animator?) {
+                }
+
+            })
+            alpha.start()
+
         }
 
         var thing: Thing? = null
@@ -383,6 +427,10 @@ public class MainActivity : AppCompatActivity() {
 
         val swipeLayout: SwipeLayout by lazy {
             itemView.findViewById(R.id.swipe_layout) as SwipeLayout
+        }
+
+        val thumbUp: View by lazy {
+            itemView.findViewById(R.id.thumb_up)
         }
 
         fun bind(thing: Thing, prevThing: Thing?) {
