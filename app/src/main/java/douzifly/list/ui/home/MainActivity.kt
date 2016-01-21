@@ -337,10 +337,13 @@ public class MainActivity : AppCompatActivity() {
                 val thing = v.tag as Thing
                 swipeLayout.close(true)
                 ui(500) {
-                    doDone(thing)
-
-                    if (thing.isComplete) {
+                    var delay:Long = 100
+                    if (!thing.isComplete) {
+                        delay = 1000
                         showThumbUp()
+                    }
+                    ui (delay) {
+                        doDone(thing)
                     }
                 }
             } else if (v == txtDelete) {
@@ -356,6 +359,9 @@ public class MainActivity : AppCompatActivity() {
             thumbUp.visibility = View.VISIBLE
             val cx = (thumbUp.left + thumbUp.right) / 2
             val cy = thumbUp.top + thumbUp.height / 2
+            val alpha = ObjectAnimator.ofFloat(thumbUp, "alpha", 0.0f, 1.0f)
+            alpha.setDuration(200)
+            alpha.start()
             startCircularReveal(cx, cy, thumbUp, false, 600) {
                 hideThumbUp()
             }
