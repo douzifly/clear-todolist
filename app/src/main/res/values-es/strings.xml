@@ -4,8 +4,8 @@
     <string name="default_list">Clear List</string>
     <string name="cant_remove">No se puede eliminar el grupo predeterminado</string>
     <string name="groups">Grupos</string>
-    <string name="today">Hoy</string>
-    <string name="tommorow">Mañana</string>
+    <string name="today">Hoy a las</string>
+    <string name="tommorow">Mañana a las</string>
     <string name="setting">Ajustes</string>
     <string name="theme">Tema</string>
     <string name="sound">Sonidos</string>
