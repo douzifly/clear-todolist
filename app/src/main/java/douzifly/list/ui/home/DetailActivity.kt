@@ -219,6 +219,10 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
                 if (thing!!.reminderTime > 0) Date(thing!!.reminderTime)
                 else null
         )
+
+        if (thing!!.reminderTime > 0) {
+            reminderDate = Date(thing!!.reminderTime)
+        }
     }
 
     fun saveData() {
@@ -231,6 +235,8 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         val newTitle = editTitle.text.toString()
         val newContent = editContent.text.toString()
         val newColor = colorPicker.selectedColor
+        val newReminderTime = reminderDate?.time ?: 0
+
         if (thing!!.title != newTitle) {
             thing!!.title = newTitle
             changed = true
@@ -246,8 +252,8 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             changed = true
         }
 
-        if (thing!!.reminderTime != reminderDate?.time) {
-            thing!!.reminderTime = reminderDate?.time ?: 0
+        if (thing!!.reminderTime != newReminderTime) {
+            thing!!.reminderTime = newReminderTime
             changed = true
         }
 
