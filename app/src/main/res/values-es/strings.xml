@@ -4,13 +4,13 @@
     <string name="default_list">Clear List</string>
     <string name="cant_remove">No se puede eliminar el grupo predeterminado</string>
     <string name="groups">Grupos</string>
-    <string name="today">Este Dia</string>
-    <string name="tommorow">mañana</string>
-    <string name="setting">Ajuste</string>
-    <string name="theme">tema</string>
+    <string name="today">Hoy</string>
+    <string name="tommorow">Mañana</string>
+    <string name="setting">Ajustes</string>
+    <string name="theme">Tema</string>
     <string name="sound">Sonidos</string>
-    <string name="on">habilitar</string>
-    <string name="off">inhabilitar</string>
+    <string name="on">Habilitar</string>
+    <string name="off">Inhabilitar</string>
     <string name="version">Versión</string>
-    <string name="reminder">recuerdo</string>
+    <string name="reminder">Recordatorio</string>
 </resources>
