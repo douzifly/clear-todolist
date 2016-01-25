@@ -9,8 +9,30 @@
     <string name="setting">Ajustes</string>
     <string name="theme">Tema</string>
     <string name="sound">Sonidos</string>
-    <string name="on">Habilitar</string>
-    <string name="off">Inhabilitar</string>
+    <string name="on">Sí</string>
+    <string name="off">No</string>
     <string name="version">Versión</string>
     <string name="reminder">Recordatorio</string>
+    <string name="edit_group">Editar Grupos</string>
+    <string name="default_group_title">Default</string>
+    <string name="setting_backup">Backup y Restauración</string>
+    <string name="backup">Hacer Backup</string>
+    <string name="restore">Restaurar Backup</string>
+    <string name="backup_failed">Ha fallado el Backup</string>
+    <string name="backup_success">Backup Realizado</string>
+    <string name="backuping">Creando Backup</string>
+    <string name="restore_failed">No se ha podido Restaurar</string>
+    <string name="restore_success">Se ha restaurado el Backup</string>
+    <string name="restore_empty">No hay archivo de Backup</string>
+
+    <string name="confirm">Confirmar</string>
+    <string name="delete">Borrar Backup</string>
+    <string name="restore_tip">Restaurar sustituirá tus datos actuales. Por favor antes haz un backup!</string>
+    <string name="done">COMPLETADA</string>
+    <string name="doing">NO INICIADA</string>
+    <string name="delete_item">BORRAR</string>
+
+    <string name="title_hint">Título</string>
+    <string name="content_hint">Contenido</string>
+    <string name="day_diff">hace %d días</string>
 </resources>
