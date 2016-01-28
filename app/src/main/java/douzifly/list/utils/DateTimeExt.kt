@@ -38,8 +38,7 @@ fun Date.dayDiff(otherDate: Date): Long {
 
 fun Date.formatDaysAgoFromNow(context: Context): String {
     val diff = this.dayDiff(Date(System.currentTimeMillis()))
-    if (diff < 0) return ""
-    if (diff == 0L) return R.string.today.toResString(context)
+    if (diff <= 0) return ""
     if (diff > 0) return R.string.day_diff.toResString(context).format(diff)
     return ""
 }

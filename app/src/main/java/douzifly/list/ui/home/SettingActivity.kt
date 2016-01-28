@@ -159,12 +159,17 @@ class SettingActivity : AppCompatActivity() {
     fun doBackup() {
         val pd = showProgressDialog(R.string.backuping.toResString(this))
         bg {
-            val ret = BackupHelper.backup("list.db")
+            val ret = BackupHelper.backup("list.db", this)
             ui {
                 ui(500) {
                     pd.dismiss()
                 }
                 if (ret.isEmpty()) {
+                    if (BackupHelper.needCheckPermisson &&
+                            BackupHelper.currentPermissionStatus != BackupHelper.PERMISSION_GRANT) {
+                        // user not grant this permission, do nothing
+                        return@ui
+                    }
                     R.string.backup_failed.toResString(this).toast(this)
                 } else {
                     R.string.backup_success.toResString(this).toast(this)
@@ -193,12 +198,17 @@ class SettingActivity : AppCompatActivity() {
                 .setPositiveButton(R.string.confirm) {
                     tipDialog: DialogInterface, which: Int ->
                     bg {
-                        val ret = BackupHelper.resotre(File(path), "list.db")
+                        val ret = BackupHelper.resotre(File(path), "list.db", this)
                         ui {
                             if (ret) {
                                 R.string.restore_success.toResString(this).toast(this)
                                 restart()
                             } else {
+                                if (BackupHelper.needCheckPermisson &&
+                                        BackupHelper.currentPermissionStatus != BackupHelper.PERMISSION_GRANT) {
+                                    // user not grant this permission, do nothing
+                                    return@ui
+                                }
                                 R.string.restore_failed.toResString(this).toast(this)
                             }
                             tipDialog.dismiss()
@@ -218,7 +228,7 @@ class SettingActivity : AppCompatActivity() {
         val pd = showProgressDialog("")
 
         bg {
-            val backups = BackupHelper.listBackupFiles()
+            val backups = BackupHelper.listBackupFiles(this)
             ui (500) {
                 pd.dismiss()
             }
@@ -230,6 +240,11 @@ class SettingActivity : AppCompatActivity() {
                 }
             } else {
                 ui {
+                    if (BackupHelper.needCheckPermisson &&
+                            BackupHelper.currentPermissionStatus != BackupHelper.PERMISSION_GRANT) {
+                        // user not grant this permission, do nothing
+                        return@ui
+                    }
                     R.string.restore_empty.toResString(this).toast(this)
                 }
             }
@@ -266,4 +281,17 @@ class SettingActivity : AppCompatActivity() {
         txtSoundOnOff.text = if (Settings.sounds) resources.getString(R.string.on) else resources.getString(R.string.off)
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>?, grantResults: IntArray?) {
+        if (requestCode == BackupHelper.MY_PERMISSIONS_REQUEST_SDCARD) {
+            BackupHelper.onRequestPermissionsResult(permissions, grantResults) {
+                // redo
+                pendingOpreation->
+                when(pendingOpreation) {
+                    BackupHelper.PENDING_RESTORE -> doRestore()
+                    BackupHelper.PENDING_BACKUP -> doBackup()
+                    BackupHelper.PENDING_LIST_BACKUP -> doRestore()
+                }
+            }
+        }
+    }
 }

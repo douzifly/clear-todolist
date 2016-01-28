@@ -34,4 +34,7 @@
     <string name="title_hint">Title</string>
     <string name="content_hint">Content</string>
     <string name="day_diff">%d days ago</string>
+
+    <string name="permission_rationable_title">Require Permission</string>
+    <string name="permission_rationable_text">Clear List will save your backup data on sdcard, Please grant the permission</string>
 </resources>

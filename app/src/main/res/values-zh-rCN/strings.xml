@@ -33,4 +33,6 @@
     <string name="backup_success">备份成功</string>
     <string name="backuping">备份中</string>
     <string name="day_diff">%d 天前</string>
+    <string name="permission_rationable_title">权限请求</string>
+    <string name="permission_rationable_text">请给Clear List授予读写外部存储器的权限，因为备份文件将保存其中</string>
 </resources>
