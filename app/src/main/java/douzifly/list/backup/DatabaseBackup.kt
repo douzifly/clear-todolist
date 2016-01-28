@@ -54,13 +54,10 @@ object BackupHelper {
     val PENDING_RESTORE = 3
 
     var pendingOperation = 0
-    var pendingActivity: Activity? = null
-    var pendingRestoreFile: File? = null
-    var pendingDbName: String = ""
 
-    val PERMISSION_GRANT = 0
-    val PERMISSION_DECLINE = 1
-    val PERMISSION_PENDING = 2
+    val PERMISSION_GRANT = 1
+    val PERMISSION_DECLINE = 2
+    val PERMISSION_PENDING = 3
 
     var currentPermissionStatus = PERMISSION_GRANT
 
@@ -96,7 +93,6 @@ object BackupHelper {
                                                 MY_PERMISSIONS_REQUEST_SDCARD)
 
                                         pendingOperation = pendingType
-                                        pendingActivity = activity
                                     })
                             .show();
                 }
@@ -113,7 +109,6 @@ object BackupHelper {
                 // app-defined int constant. The callback method gets the
                 // result of the request.
                 pendingOperation = pendingType
-                pendingActivity = activity
             }
 
             currentPermissionStatus = PERMISSION_PENDING
@@ -130,22 +125,16 @@ object BackupHelper {
                 && grantResults?.get(0) == PackageManager.PERMISSION_GRANTED) {
 
             currentPermissionStatus = PERMISSION_GRANT
-            if (pendingActivity != null) {
+            if (pendingOperation > 0) {
                 reDo(pendingOperation)
-                pendingActivity = null
                 pendingOperation = 0
-                pendingDbName = ""
-                pendingRestoreFile = null
             }
 
         } else {
             currentPermissionStatus == PERMISSION_DECLINE
             // permission denied, boo! Disable the
             // functionality that depends on this permission.
-            pendingActivity = null
             pendingOperation = 0
-            pendingDbName = ""
-            pendingRestoreFile = null
         }
     }
 
@@ -173,8 +162,6 @@ object BackupHelper {
 
     fun resotre(backupDB: File, restoreDbName: String, activity: Activity): Boolean {
         if (checkPermission(activity, 0, PENDING_RESTORE) != PERMISSION_GRANT) {
-            pendingRestoreFile = backupDB
-            pendingDbName = restoreDbName
             return false
         }
         try {
@@ -203,7 +190,6 @@ object BackupHelper {
 
     fun backup(dbName: String, activity: Activity): String {
         if (checkPermission(activity, 1, PENDING_BACKUP) != PERMISSION_GRANT) {
-            pendingDbName = dbName
             return ""
         }
         try {
