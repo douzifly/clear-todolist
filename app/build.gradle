@@ -8,8 +8,8 @@ android {
         applicationId "douzifly.list"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 8
-        versionName "1.4.4"
+        versionCode 9
+        versionName "1.4.5"
     }
     buildTypes {
         release {
