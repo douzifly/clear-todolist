@@ -34,5 +34,8 @@
 
     <string name="title_hint">Título</string>
     <string name="content_hint">Contenido</string>
-    <string name="day_diff">hace %d días</string>
+    <string name="day_diff">Hace %d días</string>
+    
+    <string name="permission_rationable_title">Se necesitan permisos</string>
+    <string name="permission_rationable_text">Clear List guardará los backups en la tarjeta SD, asegúrate de que tiene permisos de escritura</string>
 </resources>
