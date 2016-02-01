@@ -9,8 +9,8 @@
     <string name="setting">réglage</string>
     <string name="theme">thème</string>
     <string name="sound">sons</string>
-    <string name="on">aktivieren</string>
-    <string name="off">deaktivieren</string>
+    <string name="on">activer</string>
+    <string name="off">désactiver</string>
     <string name="version">version</string>
     <string name="reminder">rappel</string>
 </resources>
