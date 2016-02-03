@@ -19,11 +19,12 @@ import douzifly.list.model.ThingsManager
 import douzifly.list.settings.Settings
 import douzifly.list.settings.Theme
 import douzifly.list.utils.*
+import douzifly.list.widget.FontSizeBar
 import douzifly.list.widget.TitleLayout
 import java.io.File
 
 /**
- * Created by air on 15/10/18.
+ * Created by douzifly on 15/10/18.
  */
 class SettingActivity : AppCompatActivity() {
 
@@ -63,6 +64,10 @@ class SettingActivity : AppCompatActivity() {
         findViewById(R.id.txt_backup_title) as TextView
     }
 
+    val fontSizeBar: FontSizeBar by lazy {
+        findViewById(R.id.font_size_bar) as FontSizeBar
+    }
+
     val initTheme: Theme = Settings.theme
 
     fun updateGroupName() {
@@ -89,7 +94,12 @@ class SettingActivity : AppCompatActivity() {
         (findViewById(R.id.txt_sound_title) as TextView).typeface = fontRailway
         txtVersion.typeface = fontRailway
         (findViewById(R.id.txt_version_title) as TextView).typeface = fontRailway
+        (findViewById(R.id.txt_font_size_title) as TextView).typeface = fontRailway
         txtBackup.typeface = fontRailway
+
+        fontSizeBar.txtSmall.typeface = fontRailway
+        fontSizeBar.txtNormal.typeface = fontRailway
+        fontSizeBar.txtLarge.typeface = fontRailway
 
         txtBackup.setOnClickListener {
             onBackupClick()
@@ -133,6 +143,13 @@ class SettingActivity : AppCompatActivity() {
         txtGroup.setOnClickListener {
             startActivityForResult(Intent(this, GroupEditorActivity::class.java), 0)
         }
+
+        fontSizeBar.fontSizeChangeListener = {
+            fontSize->
+            Settings.fontSize = fontSize
+        }
+
+        fontSizeBar.fontSize = Settings.fontSize
 
         ThingsManager.addListener(dataListener)
     }

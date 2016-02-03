@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -18,8 +19,10 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import douzifly.list.R
 import douzifly.list.model.Thing
 import douzifly.list.model.ThingsManager
+import douzifly.list.settings.Settings
 import douzifly.list.utils.*
 import douzifly.list.widget.ColorPicker
+import douzifly.list.widget.FontSizeBar
 import java.util.*
 
 /**
@@ -210,6 +213,11 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         editContent.setText(thing!!.content)
         editContent.setSelection(thing!!.content.length)
         editContent.setBackgroundColor(0x0000)
+
+        txtTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeBar.fontSizeToDp(Settings.fontSize) + 2)
+        editTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeBar.fontSizeToDp(Settings.fontSize) + 2)
+
+        editContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeBar.fontSizeToDp(Settings.fontSize))
 
         ui(200) {
             colorPicker.setSelected(thing!!.color)

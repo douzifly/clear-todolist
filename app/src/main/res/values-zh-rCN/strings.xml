@@ -35,4 +35,8 @@
     <string name="day_diff">%d 天前</string>
     <string name="permission_rationable_title">权限请求</string>
     <string name="permission_rationable_text">请给Clear List授予读写外部存储器的权限，因为备份文件将保存其中</string>
+    <string name="font_size_large">大</string>
+    <string name="font_size_normal">正常</string>
+    <string name="font_size_small">小</string>
+    <string name="font_size_title">文字大小</string>
 </resources>

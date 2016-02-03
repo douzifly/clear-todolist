@@ -13,6 +13,7 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Pair
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -85,6 +86,8 @@ public class MainActivity : AppCompatActivity() {
         }
     }
 
+    var mFontSize = Settings.fontSize
+
     val mFabListener: (v: View) -> Unit = {
 
         if (mInputPanel.visibility == View.VISIBLE) {
@@ -115,6 +118,14 @@ public class MainActivity : AppCompatActivity() {
             setFabAsCommit(true)
 
             Sound.play(Sound.S_CLICK_ADD)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (mFontSize != Settings.fontSize) {
+            mFontSize = Settings.fontSize
+            mRecyclerView.adapter.notifyDataSetChanged()
         }
     }
 
@@ -480,6 +491,9 @@ public class MainActivity : AppCompatActivity() {
                 }
             }
 
+            // font size
+            val fontSize = FontSizeBar.fontSizeToDp(mFontSize)
+            txtThing.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
 
             // update reminder text
             if (thing.reminderTime > 0) {

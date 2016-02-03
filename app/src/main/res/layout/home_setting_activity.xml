@@ -161,10 +161,32 @@
         />
 
     <TextView
+        android:id="@+id/txt_font_size_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_backup_title"
+        android:layout_marginLeft="16dp"
+        android:text="@string/font_size_title"
+        android:textColor="@color/greyPrimary"
+        android:textSize="@dimen/txt_size_large"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        />
+
+    <douzifly.list.widget.FontSizeBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_font_size_title"
+        android:id="@+id/font_size_bar"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        />
+
+    <TextView
         android:id="@+id/txt_version_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt_backup_title"
+        android:layout_below="@id/font_size_bar"
         android:layout_marginLeft="16dp"
         android:text="@string/version"
         android:textColor="@color/greyPrimary"

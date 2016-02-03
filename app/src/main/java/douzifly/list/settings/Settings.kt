@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Environment
 import douzifly.list.ListApplication
 import douzifly.list.utils.bg
+import douzifly.list.widget.FontSizeBar
 
 /**
  * Created by air on 15/10/18.
@@ -33,6 +34,7 @@ object Settings {
     val K_THEME = "theme"
     val K_SOUNDS = "sounds"
     val K_RANDOM_COLOR = "random_color"
+    val K_FONT_SIZE = "font_size"
 
     val APP_DIR: String by lazy {
         try {
@@ -80,6 +82,15 @@ object Settings {
                 }
             }
         }
+    var fontSize: Int = FontSizeBar.FONT_NORMAL
+        set(value: Int) {
+            if (field != value) {
+                field = value
+                bg {
+                    sp.edit().putInt(K_FONT_SIZE, value).commit()
+                }
+            }
+        }
 
 
     init {
@@ -87,6 +98,7 @@ object Settings {
         //    theme = Theme.Colorful
         sounds = sp.getBoolean(K_SOUNDS, true)
         randomColor = sp.getBoolean(K_RANDOM_COLOR, true)
+        fontSize = sp.getInt(K_FONT_SIZE, FontSizeBar.FONT_NORMAL)
     }
 
 }
