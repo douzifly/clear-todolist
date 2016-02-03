@@ -2,6 +2,7 @@ package douzifly.list.ui.home
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -58,7 +59,6 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     companion object {
         public val EXTRA_THING_ID = "thing_id"
         private val TAG = "DetailActivity"
-        public val RESULT_DONE = 1
         public val RESULT_DELETE = 2
     }
 
@@ -138,8 +138,7 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         supportActionBar.setDisplayHomeAsUpEnabled(true)
         supportActionBar.title = ""
         toolbar.setNavigationOnClickListener {
-            finishAfterTransition()
-            //            saveData()
+            finishCompact()
         }
 
         val alphaAnim = ObjectAnimator.ofFloat(editContent, "alpha", 0.0f, 1.0f)
@@ -158,6 +157,14 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         txtReminder.typeface = fontRailway
 
         loadData()
+    }
+
+    fun finishCompact() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition()
+        } else {
+            finish()
+        }
     }
 
     fun cancelPickTime() {
@@ -272,11 +279,6 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        //        saveData()
-    }
-
     fun initView() {
 
         txtTitle.typeface = fontSourceSansPro
@@ -290,14 +292,11 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             val intent = Intent()
             intent.putExtra(EXTRA_THING_ID, thing!!.id)
             setResult(RESULT_DELETE, intent)
-            finishAfterTransition()
+            finishCompact()
         }
 
         actionDone.setOnClickListener {
-            //            val intent = Intent()
-            //            intent.putExtra(EXTRA_THING_ID, thing!!.id)
-            //            setResult(RESULT_DONE, intent)
-            finishAfterTransition()
+            finishCompact()
             bg {
                 saveData()
             }

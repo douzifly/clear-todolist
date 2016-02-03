@@ -69,10 +69,6 @@ public class MainActivity : AppCompatActivity() {
         findViewById(R.id.header) as TitleLayout
     }
 
-    val mActionPanel: ActionPanel by lazy {
-        findViewById(R.id.action_panel) as ActionPanel
-    }
-
     val mFabSetting: FloatingActionButton by lazy {
         findViewById(R.id.fab_setting) as FloatingActionButton
     }
@@ -182,22 +178,6 @@ public class MainActivity : AppCompatActivity() {
             startActivityForResult(Intent(this, GroupEditorActivity::class.java), REQ_EDIT_GROUP)
         }
 
-        mActionPanel.onDeleteListener = {
-            thing ->
-            doDelete(thing)
-            Sound.play(Sound.S_DELETE)
-        }
-
-        mActionPanel.onDoneListener = {
-            thing ->
-            doDone(thing)
-            Sound.play(Sound.S_DONE)
-        }
-
-        mActionPanel.onHide = {
-            mFabButton.visibility = View.VISIBLE
-        }
-
         mFabSetting.setOnClickListener {
             var bundle: Bundle? = null
 
@@ -240,9 +220,7 @@ public class MainActivity : AppCompatActivity() {
                 thing = ThingsManager.currentGroup?.findThing(id)
             }
             if (thing == null) return
-            if (resultCode == DetailActivity.RESULT_DONE) {
-                doDone(thing)
-            } else {
+            if (resultCode == DetailActivity.RESULT_DELETE) {
                 doDelete(thing)
             }
         }
@@ -284,10 +262,6 @@ public class MainActivity : AppCompatActivity() {
                 mFabListener.invoke(mFabButton)
                 return false
             }
-            if (mActionPanel.isShowing) {
-                mActionPanel.hide(mActionPanel.width / 2, mActionPanel.height / 2)
-                return false
-            }
         }
         return super.onKeyDown(keyCode, event)
     }
@@ -295,11 +269,13 @@ public class MainActivity : AppCompatActivity() {
     fun doDelete(thing: Thing) {
         "doDelete".logd(TAG)
         ThingsManager.remove(thing)
+        Sound.play(Sound.S_DELETE)
     }
 
     fun doDone(thing: Thing) {
         "doDone".logd(TAG)
         ThingsManager.makeComplete(thing, !thing.isComplete)
+        Sound.play(Sound.S_DONE)
     }
 
     inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -329,26 +305,20 @@ public class MainActivity : AppCompatActivity() {
                     return
                 }
 
-                mFabButton.visibility = View.GONE
-
+                var intent = Intent(this@MainActivity, DetailActivity::class.java)
+                var b: Bundle? = null
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    var intent = Intent(this@MainActivity, DetailActivity::class.java)
                     val pairDelete = Pair.create(mFabButton as View, "tnDelete")
                     val pairTitle = Pair.create(txtThing as View, "tnTitle")
-                    val b = ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, pairDelete, pairTitle).toBundle()
-                    intent.putExtra(DetailActivity.EXTRA_THING_ID, thing!!.id)
-                    startActivityForResult(intent, REQ_DETAIL, b)
-
-                } else {
-                    val cx = (itemView.left + itemView.right) / 2
-                    val cy = itemView.top + itemView.height
-                    mActionPanel.show(cx, cy, thing!!)
+                    b = ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, pairDelete, pairTitle).toBundle()
                 }
+                intent.putExtra(DetailActivity.EXTRA_THING_ID, thing!!.id)
+                startActivityForResult(intent, REQ_DETAIL, b)
             } else if (v == txtDone) {
                 val thing = v.tag as Thing
                 swipeLayout.close(true)
                 ui(500) {
-                    var delay:Long = 100
+                    var delay: Long = 100
                     if (!thing.isComplete) {
                         delay = 1000
                         showThumbUp()
@@ -379,15 +349,15 @@ public class MainActivity : AppCompatActivity() {
         }
 
         fun hideThumbUp() {
-//            val cx = (thumbUp.left + thumbUp.right) / 2
-//            val cy = thumbUp.top + thumbUp.height / 2
-//            startCircularReveal(cx, cy, thumbUp, true, 300) {
-//                thumbUp.visibility = View.INVISIBLE
-//            }
+            //            val cx = (thumbUp.left + thumbUp.right) / 2
+            //            val cy = thumbUp.top + thumbUp.height / 2
+            //            startCircularReveal(cx, cy, thumbUp, true, 300) {
+            //                thumbUp.visibility = View.INVISIBLE
+            //            }
 
             val alpha = ObjectAnimator.ofFloat(thumbUp, "alpha", 1.0f, 0.0f)
             alpha.setDuration(300)
-            alpha.addListener(object: Animator.AnimatorListener {
+            alpha.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationRepeat(animation: Animator?) {
                 }
 
