@@ -298,7 +298,7 @@ class SettingActivity : AppCompatActivity() {
         txtSoundOnOff.text = if (Settings.sounds) resources.getString(R.string.on) else resources.getString(R.string.off)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>?, grantResults: IntArray?) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == BackupHelper.MY_PERMISSIONS_REQUEST_SDCARD) {
             BackupHelper.onRequestPermissionsResult(permissions, grantResults) {
                 // redo
@@ -311,4 +311,5 @@ class SettingActivity : AppCompatActivity() {
             }
         }
     }
+
 }

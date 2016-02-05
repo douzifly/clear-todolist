@@ -26,7 +26,7 @@ private val emptyTexts = arrayOf(
 )
 
 fun randomEmptyText(): String {
-  val n = Random().nextInt(emptyTexts.size())
+  val n = Random().nextInt(emptyTexts.size)
   "next ${n}".logd("ListApp")
   return emptyTexts[n]
 }

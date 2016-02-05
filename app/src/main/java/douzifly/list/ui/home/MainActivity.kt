@@ -7,11 +7,11 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.widget.ViewDragHelper
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Pair
 import android.util.TypedValue
 import android.view.KeyEvent
@@ -19,6 +19,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import co.paulburke.android.itemtouchhelperdemo.helper.ItemTouchHelperAdapter
+import co.paulburke.android.itemtouchhelperdemo.helper.ItemTouchHelperViewHolder
+import co.paulburke.android.itemtouchhelperdemo.helper.OnStartDragListener
+import co.paulburke.android.itemtouchhelperdemo.helper.SimpleItemTouchHelperCallback
 import com.daimajia.swipe.SwipeLayout
 import com.github.clans.fab.FloatingActionButton
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -34,13 +38,12 @@ import douzifly.list.sounds.Sound
 import douzifly.list.utils.*
 import douzifly.list.widget.*
 import java.util.*
-import kotlin.collections.forEach
-import kotlin.collections.size
-import kotlin.text.contains
-import kotlin.text.isBlank
-import kotlin.text.trim
 
-public class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnStartDragListener {
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder?) {
+        mItemTouchHelper?.startDrag(viewHolder)
+    }
 
     companion object {
         val TAG = "MainActivity"
@@ -126,7 +129,7 @@ public class MainActivity : AppCompatActivity() {
     }
 
     fun checkShowEmptyText() {
-        mTxtEmpty.visibility = if (ThingsManager.currentGroup?.things?.size() == 0) View.VISIBLE else View.GONE
+        mTxtEmpty.visibility = if (ThingsManager.currentGroup?.things?.size == 0) View.VISIBLE else View.GONE
         if (mTxtEmpty.visibility == View.VISIBLE) {
             (mTxtEmpty as TextView).text = randomEmptyText()
         }
@@ -161,13 +164,22 @@ public class MainActivity : AppCompatActivity() {
         }
     }
 
+    var mItemTouchHelper : ItemTouchHelper? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mFabButton.setOnClickListener(mFabListener)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
-        mRecyclerView.adapter = ThingsAdapter()
+        val adapter = ThingsAdapter(this)
+        mRecyclerView.adapter = adapter
+
+        // drag and drop
+        val callback = SimpleItemTouchHelperCallback(adapter)
+        mItemTouchHelper = ItemTouchHelper(callback)
+        mItemTouchHelper!!.attachToRecyclerView(mRecyclerView)
+        //
+
         (mTxtEmpty as TextView).typeface = fontAlegreya
 
         setFabAsCommit(false)
@@ -278,7 +290,16 @@ public class MainActivity : AppCompatActivity() {
         Sound.play(Sound.S_DONE)
     }
 
-    inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView),
+            View.OnClickListener, ItemTouchHelperViewHolder {
+
+        override fun onItemSelected() {
+            itemView.alpha = 0.5f
+        }
+
+        override fun onItemClear() {
+            itemView.alpha = 1f
+        }
 
         val cardBackgroundColor: Int by lazy {
             val a = this@MainActivity.obtainStyledAttributes(null, android.support.v7.cardview.R.styleable.CardView, 0,
@@ -341,7 +362,7 @@ public class MainActivity : AppCompatActivity() {
             val cx = (thumbUp.left + thumbUp.right) / 2
             val cy = thumbUp.top + thumbUp.height / 2
             val alpha = ObjectAnimator.ofFloat(thumbUp, "alpha", 0.0f, 1.0f)
-            alpha.setDuration(200)
+            alpha.duration = 200
             alpha.start()
             startCircularReveal(cx, cy, thumbUp, false, 600) {
                 hideThumbUp()
@@ -349,14 +370,8 @@ public class MainActivity : AppCompatActivity() {
         }
 
         fun hideThumbUp() {
-            //            val cx = (thumbUp.left + thumbUp.right) / 2
-            //            val cy = thumbUp.top + thumbUp.height / 2
-            //            startCircularReveal(cx, cy, thumbUp, true, 300) {
-            //                thumbUp.visibility = View.INVISIBLE
-            //            }
-
             val alpha = ObjectAnimator.ofFloat(thumbUp, "alpha", 1.0f, 0.0f)
-            alpha.setDuration(300)
+            alpha.duration = 300
             alpha.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationRepeat(animation: Animator?) {
                 }
@@ -523,7 +538,16 @@ public class MainActivity : AppCompatActivity() {
         }
     }
 
-    inner class ThingsAdapter : RecyclerView.Adapter<VH>() {
+    inner class ThingsAdapter(val dragListener: OnStartDragListener) : RecyclerView.Adapter<VH>(), ItemTouchHelperAdapter {
+
+        override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+            "onItemMode from:$fromPosition, to: $toPosition".logd("xxxx")
+            notifyItemMoved(fromPosition, toPosition)
+            return true
+        }
+
+        override fun onItemDismiss(position: Int) {
+        }
 
         var things: List<Thing>? = null
             set(value: List<Thing>?) {
@@ -532,12 +556,17 @@ public class MainActivity : AppCompatActivity() {
             }
 
         override fun getItemCount(): Int {
-            return things?.size() ?: 0
+            return things?.size ?: 0
         }
 
         override fun onBindViewHolder(holder: VH?, position: Int) {
             val prev = if (position > 0 && position < itemCount) things?.get(position - 1) else null
             holder?.bind(things!![position], prev)
+            holder?.itemView?.setOnLongClickListener {
+                v->
+                dragListener.onStartDrag(holder)
+                false
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): VH? {

@@ -135,8 +135,8 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         parseIntent()
 
         setSupportActionBar(toolbar)
-        supportActionBar.setDisplayHomeAsUpEnabled(true)
-        supportActionBar.title = ""
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
         toolbar.setNavigationOnClickListener {
             finishCompact()
         }

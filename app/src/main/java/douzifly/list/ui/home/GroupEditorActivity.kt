@@ -1,6 +1,5 @@
 package douzifly.list.ui.home
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -9,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -187,7 +185,7 @@ class GroupEditorActivity : AppCompatActivity() {
     }
 
     override fun getItemCount(): Int {
-      var size = groups?.size() ?: 0
+      var size = groups?.size ?: 0
       if (showAddEditorBox) size++
       return size
     }

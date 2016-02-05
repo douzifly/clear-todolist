@@ -41,7 +41,7 @@ object ThingsManager {
     fun loadFromDb() {
         "load from db".logd(TAG)
         groups = Select().from(ThingGroup::class.java).execute()
-        if (groups.size() == 0) {
+        if (groups.size == 0) {
             // add default group and save to database
             val homeGroup = ThingGroup(ListApplication.appContext!!.resources.getString(R.string.default_list))
             homeGroup.selected = true
@@ -195,7 +195,7 @@ object ThingsManager {
 
         val things = group.things
 
-        if (things.size() < 2) {
+        if (things.size < 2) {
             return
         }
 
