@@ -38,4 +38,9 @@
     
     <string name="permission_rationable_title">Se necesitan permisos</string>
     <string name="permission_rationable_text">Clear List guardará los backups en la tarjeta SD, asegúrate de que tiene permisos de escritura</string>
+    
+    <string name="font_size_title">Tamaño de la fuente</string>
+    <string name="font_size_small">Pequeño</string>
+    <string name="font_size_normal">Normal</string>
+    <string name="font_size_large">Grande</string>
 </resources>
