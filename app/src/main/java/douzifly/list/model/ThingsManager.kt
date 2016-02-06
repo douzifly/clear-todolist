@@ -67,6 +67,7 @@ object ThingsManager {
         group.things.addAll(
                 Select().from(Thing::class.java).where("pid=${group.id}").execute()
         )
+
         group.thingsLoaded = true
         sort(group)
     }
@@ -119,6 +120,7 @@ object ThingsManager {
         t.reminderTime = reminder
         t.content = content
         t.save()
+        t.position = currentGroup!!.things.size
         currentGroup!!.things.add(t)
         currentGroup!!.save()
         currentGroup!!.unCompleteThingsCount++
@@ -133,9 +135,11 @@ object ThingsManager {
         }
     }
 
-    fun saveThing(thing: Thing) {
+    fun saveThing(thing: Thing, notify: Boolean = true) {
         thing.save()
-        notifyListeners()
+        if (notify) {
+            notifyListeners()
+        }
 
         if (thing.reminderTime > System.currentTimeMillis()) {
             val subLen = if (thing.content.length > 10) 10 else thing.content.length

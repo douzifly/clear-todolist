@@ -37,6 +37,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperAdapter mAdapter;
 
+    private boolean mSwipeEnable = false;
+
     public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
         mAdapter = adapter;
     }
@@ -60,7 +62,10 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             return makeMovementFlags(dragFlags, swipeFlags);
         } else {
             final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            int swipeFlags = 0;
+            if (mSwipeEnable) {
+                swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            }
             return makeMovementFlags(dragFlags, swipeFlags);
         }
     }

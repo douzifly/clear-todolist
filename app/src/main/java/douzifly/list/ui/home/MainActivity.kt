@@ -294,11 +294,16 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
             View.OnClickListener, ItemTouchHelperViewHolder {
 
         override fun onItemSelected() {
-            itemView.alpha = 0.5f
+            itemView.scaleX = 1.02f
+            itemView.scaleY = 1.1f
+            (itemView as CardView).elevation = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP
+                , 50f, resources.displayMetrics)
         }
 
         override fun onItemClear() {
-            itemView.alpha = 1f
+            itemView.scaleX = 1f
+            itemView.scaleY = 1f
+            (itemView as CardView).elevation = 0f
         }
 
         val cardBackgroundColor: Int by lazy {
@@ -541,7 +546,13 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
     inner class ThingsAdapter(val dragListener: OnStartDragListener) : RecyclerView.Adapter<VH>(), ItemTouchHelperAdapter {
 
         override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-            "onItemMode from:$fromPosition, to: $toPosition".logd("xxxx")
+            things!![fromPosition].position = toPosition
+            things!![toPosition].position = fromPosition
+            bg {
+                ThingsManager.saveThing(things!![fromPosition], false)
+                ThingsManager.saveThing(things!![toPosition], false)
+            }
+
             notifyItemMoved(fromPosition, toPosition)
             return true
         }
