@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
         }
     }
 
-    var mItemTouchHelper : ItemTouchHelper? = null
+    var mItemTouchHelper: ItemTouchHelper? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -296,14 +296,26 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
         override fun onItemSelected() {
             itemView.scaleX = 1.02f
             itemView.scaleY = 1.1f
-            (itemView as CardView).elevation = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP
-                , 50f, resources.displayMetrics)
+            try {
+                (itemView as CardView).elevation = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP
+                        , 50f, resources.displayMetrics)
+            } catch (e: Exception) {
+
+            } catch (e: Error) {
+
+            }
         }
 
         override fun onItemClear() {
             itemView.scaleX = 1f
             itemView.scaleY = 1f
-            (itemView as CardView).elevation = 0f
+            try {
+                (itemView as CardView).elevation = 0f
+            } catch (e: Exception) {
+
+            } catch (e: Error) {
+
+            }
         }
 
         val cardBackgroundColor: Int by lazy {
@@ -546,13 +558,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
     inner class ThingsAdapter(val dragListener: OnStartDragListener) : RecyclerView.Adapter<VH>(), ItemTouchHelperAdapter {
 
         override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-            things!![fromPosition].position = toPosition
-            things!![toPosition].position = fromPosition
-            bg {
-                ThingsManager.saveThing(things!![fromPosition], false)
-                ThingsManager.saveThing(things!![toPosition], false)
-            }
-
+            ThingsManager.swapThings(fromPosition, toPosition)
             notifyItemMoved(fromPosition, toPosition)
             return true
         }
@@ -574,7 +580,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
             val prev = if (position > 0 && position < itemCount) things?.get(position - 1) else null
             holder?.bind(things!![position], prev)
             holder?.itemView?.setOnLongClickListener {
-                v->
+                v ->
                 dragListener.onStartDrag(holder)
                 false
             }

@@ -114,6 +114,22 @@ object ThingsManager {
         groups.clear()
     }
 
+    fun swapThings(fromPosition: Int, toPosition: Int) {
+        val thingA = currentGroup!!.things[fromPosition]
+        val thingB = currentGroup!!.things[toPosition]
+
+        thingA.position = toPosition
+        thingB.position = fromPosition
+
+        currentGroup!!.things[fromPosition] = thingB
+        currentGroup!!.things[toPosition] = thingA
+
+        bg {
+            thingA.save()
+            thingB.save()
+        }
+    }
+
     fun addThing(text: String, content: String, reminder: Long, color: Int) {
         val t = Thing(text, currentGroup!!.id, color)
         t.creationTime = Date().time
