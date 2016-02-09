@@ -125,6 +125,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
         if (mFontSize != Settings.fontSize) {
             mFontSize = Settings.fontSize
             mRecyclerView.adapter.notifyDataSetChanged()
+            mInputPanel.updateFontSize()
         }
     }
 

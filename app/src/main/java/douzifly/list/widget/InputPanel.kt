@@ -3,6 +3,7 @@ package douzifly.list.widget
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -106,7 +107,12 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
         }
 
         txtReminder.typeface = fontRailway
+        updateFontSize()
+    }
 
+    fun updateFontSize() {
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeBar.fontSizeToDp(Settings.fontSize) + 2)
+        contentEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeBar.fontSizeToDp(Settings.fontSize))
     }
 
     fun cancelPickTime() {
