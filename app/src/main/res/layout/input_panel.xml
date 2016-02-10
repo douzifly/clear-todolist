@@ -69,6 +69,8 @@
         </douzifly.list.widget.ColorPicker>
 
 
+
+
         <EditText
             android:id="@+id/edit_text"
             android:layout_width="match_parent"
@@ -85,11 +87,22 @@
             android:nextFocusForward="@+id/edit_text_content"
             />
 
+        <TextView
+            android:id="@+id/txt_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/color_picker"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="@dimen/txt_size_small"
+            android:text="hello"
+            />
+
         <EditText
             android:id="@+id/edit_text_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/color_picker"
+            android:layout_above="@id/txt_group"
             android:layout_below="@id/edit_text"
             android:background="#0000"
             android:gravity="top|left"
@@ -98,6 +111,8 @@
             android:textColor="@color/inputEditTextColor"
             android:textSize="@dimen/txt_size_small"
             />
+
+
 
 
     </RelativeLayout>

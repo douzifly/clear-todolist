@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
         val REQ_SETTING = 1
         val REQ_DETAIL = 2
         val REQ_EDIT_GROUP = 3
+        val REQ_INPUT_PANEL_GROUP = 4
     }
 
     val mRecyclerView: RecyclerView by lazy {
@@ -140,6 +141,12 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
         val textString = mInputPanel.editText.text.toString().trim()
         val contentString = mInputPanel.contentEditText.text.toString()
         if (textString.isBlank() && contentString.isBlank()) {
+
+            // restore group change
+            if (mInputPanel.savedGroupId != ThingsManager.currentGroup!!.id && mInputPanel.savedGroupId > 0) {
+                ThingsManager.changeGroup(mInputPanel.savedGroupId)
+            }
+
             return
         }
 
@@ -223,7 +230,10 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        //
+        if (REQ_INPUT_PANEL_GROUP == requestCode) {
+            mInputPanel.updateGroupText()
+        }
+
         if (REQ_SETTING == requestCode && resultCode == SettingActivity.RESULT_THEME_CHANGED) {
             mRecyclerView.adapter.notifyDataSetChanged()
         } else if (REQ_DETAIL == requestCode) {

@@ -1,6 +1,8 @@
 package douzifly.list.widget
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -13,7 +15,10 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import douzifly.list.R
+import douzifly.list.model.ThingsManager
 import douzifly.list.settings.Settings
+import douzifly.list.ui.home.GroupEditorActivity
+import douzifly.list.ui.home.MainActivity
 import douzifly.list.utils.*
 import io.codetail.widget.RevealFrameLayout
 import java.util.*
@@ -37,7 +42,8 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
         showTimePicker()
     }
 
-    public var reminderDate: Date? = null
+    var reminderDate: Date? = null
+    var reqCode = -1
 
     val editText: EditText by lazy {
         findViewById(R.id.edit_text) as EditText
@@ -71,6 +77,10 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
         v
     }
 
+    val txtGroup: TextView by lazy {
+        findViewById(R.id.txt_group) as TextView
+    }
+
     fun reset() {
         editText.setText("")
         txtReminder.setText("")
@@ -85,14 +95,19 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
                     if (Settings.randomColor) colorPicker.randomColor()
                     else colorPicker.colors[0].toInt()
             )
+            updateGroupText()
+            savedGroupId = ThingsManager.currentGroup?.id ?: -1L
         }
     }
+
+    var savedGroupId: Long = -1L
 
     override fun onFinishInflate() {
         super.onFinishInflate()
 
         editText.typeface = fontSourceSansPro
         contentEditText.typeface = fontSourceSansPro
+        txtGroup.typeface = fontSourceSansPro
 
         setOnClickListener {
             // eat event
@@ -108,11 +123,26 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
 
         txtReminder.typeface = fontRailway
         updateFontSize()
+
+        txtGroup.setOnClickListener {
+            showGroupChoose()
+        }
+    }
+
+    fun showGroupChoose() {
+        this.reqCode = reqCode
+        (context as Activity)
+                .startActivityForResult(Intent(context, GroupEditorActivity::class.java), MainActivity.REQ_INPUT_PANEL_GROUP)
+    }
+
+    fun updateGroupText() {
+        txtGroup.text = ThingsManager.currentGroup?.title ?: "Unknown"
     }
 
     fun updateFontSize() {
         editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeBar.fontSizeToDp(Settings.fontSize) + 2)
         contentEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeBar.fontSizeToDp(Settings.fontSize))
+        txtGroup.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeBar.fontSizeToDp(Settings.fontSize))
     }
 
     fun cancelPickTime() {
