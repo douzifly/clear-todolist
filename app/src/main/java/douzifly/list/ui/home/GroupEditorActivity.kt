@@ -173,7 +173,7 @@ class GroupEditorActivity : AppCompatActivity() {
         val group = groups!!.get(position)
         holder.mTxtTitle.text = group.title
         holder.mTxtCount.text = "${group.unCompleteThingsCount}"
-        holder.itemView.background = if (group!!.selected) resources.getDrawable(R.color.material_grey_50) else resources.getDrawable(R.color.transparent)
+        holder.itemView.background = if (group!!.isGroupSelected()) resources.getDrawable(R.color.material_grey_50) else resources.getDrawable(R.color.transparent)
       } else if (holder is EditViewHolder) {
         holder.editText.requestFocus()
         mAddEditText = holder.editText

@@ -5,6 +5,7 @@ import com.activeandroid.annotation.Column
 import com.activeandroid.annotation.Table
 import douzifly.list.ListApplication
 import douzifly.list.R
+import douzifly.list.settings.Settings
 import java.util.*
 
 /**
@@ -58,7 +59,7 @@ class ThingGroup() : Model() {
             return if (isDefault) ListApplication.appContext?.getString(R.string.default_group_title) ?: field else field
         }
     var things: ArrayList<Thing> = arrayListOf()
-    @Column(name = "selected") var selected: Boolean = false
+    @Column (name = "selected") @Deprecated("use Setings.selectedGroupId") var selected: Boolean = false
     @Column(name = "is_default") var isDefault: Boolean = false
     @Column(name = "creation") var creationTime: Long = 0
 
@@ -77,5 +78,9 @@ class ThingGroup() : Model() {
             thing ->
             thing.displayColor = 0
         }
+    }
+
+    fun isGroupSelected():Boolean {
+        return Settings.selectedGroupId == id
     }
 }

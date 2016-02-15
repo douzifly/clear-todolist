@@ -35,6 +35,8 @@ object Settings {
     val K_SOUNDS = "sounds"
     val K_RANDOM_COLOR = "random_color"
     val K_FONT_SIZE = "font_size"
+    val K_SELECTED_GROUP_ID = "selected_group_id"
+    val INVALID_GROUP_ID = -1L
 
     val APP_DIR: String by lazy {
         try {
@@ -92,6 +94,15 @@ object Settings {
             }
         }
 
+    var selectedGroupId: Long = INVALID_GROUP_ID
+        set(value: Long) {
+            if (field != value) {
+                field = value
+                bg {
+                    sp.edit().putLong(K_SELECTED_GROUP_ID, value).commit()
+                }
+            }
+        }
 
     init {
         theme = Theme.valueOf(sp.getInt(K_THEME, Theme.Colorful.value))
@@ -99,6 +110,7 @@ object Settings {
         sounds = sp.getBoolean(K_SOUNDS, true)
         randomColor = sp.getBoolean(K_RANDOM_COLOR, true)
         fontSize = sp.getInt(K_FONT_SIZE, FontSizeBar.FONT_NORMAL)
+        selectedGroupId = sp.getLong(K_SELECTED_GROUP_ID, INVALID_GROUP_ID)
     }
 
 }

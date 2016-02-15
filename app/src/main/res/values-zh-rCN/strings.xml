@@ -39,4 +39,5 @@
     <string name="font_size_normal">正常</string>
     <string name="font_size_small">小</string>
     <string name="font_size_title">文字大小</string>
+    <string name="group_all">全部</string>
 </resources>

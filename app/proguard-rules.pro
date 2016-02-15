@@ -15,7 +15,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #
--dontwarn kotlin.dom.**
+-dontwarn kotlin.**
 -keep class android.support.v7.** { *; }
 -keep class android.support.design.** { *; }
 -keep interface android.support.v7.** { *; }

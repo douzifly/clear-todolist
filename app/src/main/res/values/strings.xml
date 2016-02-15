@@ -42,4 +42,6 @@
     <string name="font_size_small">Small</string>
     <string name="font_size_normal">Normal</string>
     <string name="font_size_large">Large</string>
+
+    <string name="group_all">All</string>
 </resources>

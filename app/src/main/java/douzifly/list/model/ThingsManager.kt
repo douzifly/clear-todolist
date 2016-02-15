@@ -5,6 +5,7 @@ import com.activeandroid.query.Select
 import douzifly.list.ListApplication
 import douzifly.list.R
 import douzifly.list.alarm.Alarm
+import douzifly.list.settings.Settings
 import douzifly.list.utils.bg
 import douzifly.list.utils.logd
 import java.util.*
@@ -44,18 +45,27 @@ object ThingsManager {
         if (groups.size == 0) {
             // add default group and save to database
             val homeGroup = ThingGroup(ListApplication.appContext!!.resources.getString(R.string.default_list))
-            homeGroup.selected = true
             homeGroup.isDefault = true
             homeGroup.creationTime = Date().time
             homeGroup.save()
+            Settings.selectedGroupId = homeGroup.id
             groups.add(homeGroup)
         }
 
         groups.forEach {
             group ->
-            if (group.selected) {
-                currentGroup = group
-                loadThings(group)
+            if (Settings.selectedGroupId == Settings.INVALID_GROUP_ID) {
+                // restore selected id to Settings
+                if (group.selected) {
+                    Settings.selectedGroupId = group.id
+                    currentGroup = group
+                    loadThings(group)
+                }
+            } else {
+                if (Settings.selectedGroupId == group.id) {
+                    currentGroup = group
+                    loadThings(group)
+                }
             }
             loadThingsCount(group)
         }
@@ -85,18 +95,13 @@ object ThingsManager {
         groups.forEach {
             group ->
             if (group.id == id) {
-
                 // old unselected
-                val oldGroup = currentGroup
                 currentGroup = group
-                group.selected = true
-                oldGroup?.selected = false
 
                 loadThings(group)
                 notifyListeners()
 
-                // save to db
-                oldGroup?.save()
+                Settings.selectedGroupId = id
                 group.save()
             }
         }
@@ -135,8 +140,8 @@ object ThingsManager {
         t.creationTime = Date().time
         t.reminderTime = reminder
         t.content = content
-        t.save()
         t.position = currentGroup!!.things.size
+        t.save()
         currentGroup!!.things.add(t)
         currentGroup!!.save()
         currentGroup!!.unCompleteThingsCount++
@@ -187,7 +192,7 @@ object ThingsManager {
 
                 groups.remove(group)
                 currentGroup = groups[0]
-                currentGroup!!.selected = true
+                Settings.selectedGroupId = currentGroup!!.id
                 notifyListeners()
                 group.delete()
                 currentGroup!!.save()
@@ -225,14 +230,7 @@ object ThingsManager {
             "${t.title} ${t.hashCode()}".logd("douzifly.list.ui.home.MainActivity")
         }
 
-//        currentGroup!!.things = things.sortedWith(object : Comparator<Thing> {
-//            override fun compare(p0: Thing?, p1: Thing?): Int {
-//                return p0!!.compareTo(p1!!)
-//            }
-//
-//        }) as ArrayList<Thing>
-
-        Collections.sort(currentGroup!!.things, Comparator { t: Thing, t1: Thing ->
+        Collections.sort(things, Comparator { t: Thing, t1: Thing ->
             return@Comparator  t.compareTo(t1)
         })
 
