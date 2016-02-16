@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -110,11 +111,14 @@ class GroupEditorActivity : AppCompatActivity() {
     inner class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         override fun onClick(p0: View?) {
-
             val id = itemView.findViewById(R.id.content_panel).tag as Long
+            if (id == Settings.selectedGroupId) {
+                return
+            }
             val success = ThingsManager.removeGroup(id)
             if (success) {
                 mRecyclerView.adapter.notifyDataSetChanged()
+
             } else {
                 Toast.makeText(this@GroupEditorActivity, R.string.cant_remove, Toast.LENGTH_SHORT).show()
                 swipeLayout.close()
@@ -197,6 +201,7 @@ class GroupEditorActivity : AppCompatActivity() {
                                                     resources.getDrawable(R.color.material_grey_50)
                                                     else resources.getDrawable(R.color.transparent)
                     holder.itemView.findViewById(R.id.content_panel).tag = ThingGroup.SHOW_ALL_GROUP_ID
+                    holder.swipeLayout.isSwipeEnabled = Settings.selectedGroupId != ThingGroup.SHOW_ALL_GROUP_ID
                 }
 
                 return
@@ -211,9 +216,9 @@ class GroupEditorActivity : AppCompatActivity() {
                 val group = groups!!.get(realPos)
                 holder.mTxtTitle.text = group.title
                 holder.mTxtCount.text = "${group.inCompleteThingsCount}"
-                holder.itemView.background = if (group!!.isGroupSelected()) resources.getDrawable(R.color.material_grey_50)
+                holder.itemView.background = if (group.isGroupSelected()) resources.getDrawable(R.color.material_grey_50)
                 else resources.getDrawable(R.color.transparent)
-
+                holder.swipeLayout.isSwipeEnabled = !group.isGroupSelected()
                 holder.itemView.findViewById(R.id.content_panel).tag = group.id
             } else if (holder is EditViewHolder) {
                 holder.editText.requestFocus()
@@ -223,6 +228,9 @@ class GroupEditorActivity : AppCompatActivity() {
                 }
             }
 
+            if (!addShowAllItem && holder is GroupViewHolder) {
+                holder.swipeLayout.isSwipeEnabled = false
+            }
         }
 
         override fun getItemCount(): Int {

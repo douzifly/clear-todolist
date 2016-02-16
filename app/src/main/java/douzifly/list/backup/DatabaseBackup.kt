@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import douzifly.list.ListApplication
 import douzifly.list.R
+import douzifly.list.model.ThingGroup
 import douzifly.list.settings.Settings
 import douzifly.list.utils.logd
 import douzifly.list.utils.loge
@@ -181,6 +182,7 @@ object BackupHelper {
             src.close()
             dst.close()
             "restore success".logd(TAG)
+            Settings.selectedGroupId = ThingGroup.SHOW_ALL_GROUP_ID
             return true
         } catch (e: Exception) {
             "restore failed ${e.message}".loge(TAG)
