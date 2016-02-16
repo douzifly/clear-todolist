@@ -151,9 +151,9 @@ object ThingsManager {
         return true
     }
 
-    fun addThing(group: ThingGroup, text: String, content: String, reminder: Long, color: Int, isComplete: Boolean = false) {
+    fun addThing(group: ThingGroup, text: String, content: String, reminder: Long, color: Int, isComplete: Boolean = false, creationTime: Long? = null) {
         val t = Thing(text, group.id, color)
-        t.creationTime = Date().time
+        t.creationTime = creationTime ?: Date().time
         t.reminderTime = reminder
         t.content = content
         t.position = group.things.size
@@ -180,7 +180,7 @@ object ThingsManager {
 
         if (newGroup != null) {
             remove(thing)
-            addThing(newGroup, thing.title, thing.content, thing.reminderTime, thing.color, thing.isComplete)
+            addThing(newGroup, thing.title, thing.content, thing.reminderTime, thing.color, thing.isComplete, thing.creationTime)
         } else {
             thing.save()
         }
