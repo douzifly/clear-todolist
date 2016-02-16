@@ -20,25 +20,6 @@ object ThingsManager {
     // current things
     var groups: MutableList<ThingGroup> = arrayListOf()
 
-    var currentGroup: ThingGroup? = null
-        private set
-
-
-    private var onDataChanged: MutableList<() -> Unit> = ArrayList()
-
-    fun addListener(l: () -> Unit)  = onDataChanged.add(l)
-
-    fun removeListener(l: ()-> Unit) = onDataChanged.remove(l)
-
-    fun notifyListeners() {
-        bg {
-            onDataChanged.forEach {
-                l ->
-                l.invoke()
-            }
-        }
-    }
-
     fun loadFromDb() {
         "load from db".logd(TAG)
         groups = Select().from(ThingGroup::class.java).execute()
@@ -54,22 +35,8 @@ object ThingsManager {
 
         groups.forEach {
             group ->
-            if (Settings.selectedGroupId == Settings.INVALID_GROUP_ID) {
-                // restore selected id to Settings
-                if (group.selected) {
-                    Settings.selectedGroupId = group.id
-                    currentGroup = group
-                    loadThings(group)
-                }
-            } else {
-                if (Settings.selectedGroupId == group.id) {
-                    currentGroup = group
-                    loadThings(group)
-                }
-            }
             loadThingsCount(group)
         }
-        notifyListeners()
     }
 
     private fun loadThings(group: ThingGroup) {
@@ -78,34 +45,79 @@ object ThingsManager {
                 Select().from(Thing::class.java).where("pid=${group.id}").execute()
         )
 
+        group.things.forEach {
+            thing ->
+            thing.group = group
+        }
+
         group.thingsLoaded = true
-        sort(group)
+        sort(group.things)
     }
 
     private fun loadThingsCount(group: ThingGroup) {
-        group.unCompleteThingsCount =
+        group.inCompleteThingsCount =
                 Select().from(Thing::class.java).where("pid=${group.id} and isComplete=0").count()
     }
 
-    fun changeGroup(id: Long) {
-        if (currentGroup?.id == id) {
-            // not changed
-            return
+    fun getThingsByGroupId(groupId: Long): List<Thing> {
+        "getThingsByGroupId: $groupId".logd("xxxx")
+        if (groupId == ThingGroup.SHOW_ALL_GROUP_ID) {
+            return allThings;
         }
+        val group = getGroupByGroupId(groupId)
+        return group?.things ?: arrayListOf()
+    }
+
+    fun getGroupByGroupId(groupId: Long): ThingGroup? {
         groups.forEach {
             group ->
-            if (group.id == id) {
-                // old unselected
-                currentGroup = group
-
-                loadThings(group)
-                notifyListeners()
-
-                Settings.selectedGroupId = id
-                group.save()
+            if (group.id == groupId) {
+                if (!group.thingsLoaded) {
+                    loadThings(group)
+                }
+                return group
             }
         }
+        return null
     }
+
+    fun getThingByIdAtCurrentGroup(thingId: Long): Thing? {
+        if (Settings.selectedGroupId == ThingGroup.SHOW_ALL_GROUP_ID) {
+            allThings.forEach { thing ->
+                if (thing.id == thingId)
+                    return thing
+            }
+        } else {
+            return getGroupByGroupId(Settings.selectedGroupId)?.findThing(thingId)
+        }
+        return null
+    }
+
+    private var allThings: MutableList<Thing> = arrayListOf()
+        get() {
+            if (field.size > 0) {
+                return field
+            }
+            groups.forEach {
+                group ->
+                if (!group.thingsLoaded) {
+                    loadThings(group)
+                }
+                "add things to all things, count: ${group.things.size} group: ${group.title}".logd("xxxx")
+                field.addAll(group.things)
+            }
+            sort(field)
+            return field
+        }
+        private set
+
+    val allThingsInComplete: Int
+        get() {
+            return groups.map {
+                group ->
+                group.inCompleteThingsCount
+            }.reduce { a, b -> a + b }
+        }
 
     fun addGroup(title: String) {
         val group = ThingGroup(title)
@@ -115,19 +127,18 @@ object ThingsManager {
     }
 
     fun release() {
-        onDataChanged.clear()
         groups.clear()
     }
 
-    fun swapThings(fromPosition: Int, toPosition: Int) {
-        val thingA = currentGroup!!.things[fromPosition]
-        val thingB = currentGroup!!.things[toPosition]
+    fun swapThings(group: ThingGroup, fromPosition: Int, toPosition: Int) {
+        val thingA = group.things[fromPosition]
+        val thingB = group.things[toPosition]
 
         thingA.position = toPosition
         thingB.position = fromPosition
 
-        currentGroup!!.things[fromPosition] = thingB
-        currentGroup!!.things[toPosition] = thingA
+        group.things[fromPosition] = thingB
+        group.things[toPosition] = thingA
 
         bg {
             thingA.save()
@@ -135,19 +146,20 @@ object ThingsManager {
         }
     }
 
-    fun addThing(text: String, content: String, reminder: Long, color: Int) {
-        val t = Thing(text, currentGroup!!.id, color)
+    fun addThing(group: ThingGroup, text: String, content: String, reminder: Long, color: Int) {
+        val t = Thing(text, group.id, color)
         t.creationTime = Date().time
         t.reminderTime = reminder
         t.content = content
-        t.position = currentGroup!!.things.size
+        t.position = group.things.size
+        t.group = group
         t.save()
-        currentGroup!!.things.add(t)
-        currentGroup!!.save()
-        currentGroup!!.unCompleteThingsCount++
-        sort(currentGroup!!)
-        // add to db
-        notifyListeners()
+        allThings.add(t)
+        sort(allThings)
+        group.things.add(t)
+        group.save()
+        group.inCompleteThingsCount++
+        sort(group.things)
 
         if (reminder > System.currentTimeMillis()) {
             val subLen = if (t.content.length > 10) 10 else t.content.length
@@ -156,10 +168,13 @@ object ThingsManager {
         }
     }
 
-    fun saveThing(thing: Thing, notify: Boolean = true) {
-        thing.save()
-        if (notify) {
-            notifyListeners()
+    fun saveThing(thing: Thing, newGroup: ThingGroup?) {
+
+        if (newGroup != null) {
+            remove(thing)
+            addThing(newGroup, thing.title, thing.content, thing.reminderTime, thing.color)
+        } else {
+            thing.save()
         }
 
         if (thing.reminderTime > System.currentTimeMillis()) {
@@ -170,17 +185,21 @@ object ThingsManager {
     }
 
     fun remove(thing: Thing) {
-        val ok = currentGroup!!.things.remove(thing)
+        val group = thing.group ?: return
+        val ok = group.things.remove(thing)
         if (!ok) return
         if (!thing.isComplete) {
-            currentGroup!!.unCompleteThingsCount--
+            group.inCompleteThingsCount--
         }
         thing.delete()
-        // remove from db
-        notifyListeners()
+        allThings.remove(thing)
+        sort(allThings)
     }
 
     fun removeGroup(id: Long): Boolean {
+        if (id == ThingGroup.SHOW_ALL_GROUP_ID) {
+            return false
+        }
 
         groups.forEach {
             group ->
@@ -190,13 +209,13 @@ object ThingsManager {
                     return false
                 }
 
-                groups.remove(group)
-                currentGroup = groups[0]
-                Settings.selectedGroupId = currentGroup!!.id
-                notifyListeners()
-                group.delete()
-                currentGroup!!.save()
+                group.things.forEach {
+                    thing ->
+                    allThings.remove(thing)
+                }
 
+                groups.remove(group)
+                group.delete()
                 Delete().from(Thing::class.java).where("pid=${group.id}").execute<Thing>()
                 return true
             }
@@ -205,20 +224,21 @@ object ThingsManager {
     }
 
     fun makeComplete(thing: Thing, complete: Boolean) {
+        val group = thing.group ?: return
         thing.isComplete = complete
         if (complete) {
-            currentGroup!!.unCompleteThingsCount--
+            group.inCompleteThingsCount--
         } else {
-            currentGroup!!.unCompleteThingsCount++
+            group.inCompleteThingsCount++
         }
         thing.save()
-        sort(currentGroup!!)
-        notifyListeners()
+        sort(group.things)
+        sort(allThings)
     }
 
-    private fun sort(group: ThingGroup) {
+    fun isShowAllGroup() = Settings.selectedGroupId == ThingGroup.SHOW_ALL_GROUP_ID
 
-        val things = group.things
+    private fun sort(things: MutableList<Thing>) {
 
         if (things.size < 2) {
             return
@@ -231,7 +251,7 @@ object ThingsManager {
         }
 
         Collections.sort(things, Comparator { t: Thing, t1: Thing ->
-            return@Comparator  t.compareTo(t1)
+            return@Comparator t.compareTo(t1)
         })
 
         "afterSort:".logd("MainActivity")

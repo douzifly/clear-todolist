@@ -15,6 +15,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import douzifly.list.R
 import douzifly.list.backup.Backup
 import douzifly.list.backup.BackupHelper
+import douzifly.list.model.ThingGroup
 import douzifly.list.model.ThingsManager
 import douzifly.list.settings.Settings
 import douzifly.list.settings.Theme
@@ -30,6 +31,7 @@ class SettingActivity : AppCompatActivity() {
 
     companion object {
         val RESULT_THEME_CHANGED = 1002
+        val RESULT_GROUP_CHANGED = 1003
     }
 
     val inputPanel: TitleLayout by lazy {
@@ -70,13 +72,11 @@ class SettingActivity : AppCompatActivity() {
 
     val initTheme: Theme = Settings.theme
 
-    fun updateGroupName() {
-        txtGroup.text = ThingsManager.currentGroup?.title ?: ""
-    }
-
-    val dataListener: () -> Unit = {
-        ui {
-            updateGroupName()
+    fun updateGroupName(id: Long) {
+        if (id == ThingGroup.SHOW_ALL_GROUP_ID) {
+            txtGroup.text = R.string.group_all.toResString(this)
+        } else {
+            txtGroup.text = ThingsManager.getGroupByGroupId(id)!!.title
         }
     }
 
@@ -134,14 +134,14 @@ class SettingActivity : AppCompatActivity() {
 
         txtVersion.text = packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES).versionName
 
-        updateGroupName()
+        updateGroupName(Settings.selectedGroupId)
 
         txtEditGroup.setOnClickListener {
-            startActivityForResult(Intent(this, GroupEditorActivity::class.java), 0)
+            showEditGroupActivity()
         }
 
         txtGroup.setOnClickListener {
-            startActivityForResult(Intent(this, GroupEditorActivity::class.java), 0)
+            showEditGroupActivity()
         }
 
         fontSizeBar.fontSizeChangeListener = {
@@ -150,13 +150,30 @@ class SettingActivity : AppCompatActivity() {
         }
 
         fontSizeBar.fontSize = Settings.fontSize
+    }
 
-        ThingsManager.addListener(dataListener)
+    fun showEditGroupActivity() {
+        val intent = Intent(this, GroupEditorActivity::class.java)
+        startActivityForResult(intent, 0)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        ThingsManager.removeListener(dataListener)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            val id = data!!.getLongExtra("id", -1)
+            if (Settings.selectedGroupId != id) {
+                // group changed
+                val intent = Intent()
+                Settings.selectedGroupId = id
+                intent.putExtra("id", id)
+                setResult(RESULT_GROUP_CHANGED, intent)
+                updateGroupName(id)
+            }
+        }
     }
 
     fun onSoundsClick() {

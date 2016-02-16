@@ -15,6 +15,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import douzifly.list.R
+import douzifly.list.model.ThingGroup
 import douzifly.list.model.ThingsManager
 import douzifly.list.settings.Settings
 import douzifly.list.ui.home.GroupEditorActivity
@@ -95,12 +96,16 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
                     if (Settings.randomColor) colorPicker.randomColor()
                     else colorPicker.colors[0].toInt()
             )
-            updateGroupText()
-            savedGroupId = ThingsManager.currentGroup?.id ?: -1L
+
+            var group:ThingGroup? = null
+            if (Settings.selectedGroupId == ThingGroup.SHOW_ALL_GROUP_ID) {
+                group = ThingsManager.groups[0]
+            } else {
+                group = ThingsManager.getGroupByGroupId(Settings.selectedGroupId)
+            }
+            updateGroupText(group!!)
         }
     }
-
-    var savedGroupId: Long = -1L
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -130,13 +135,21 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
     }
 
     fun showGroupChoose() {
+        ui {
+            editText.hideKeyboard()
+            contentEditText.hideKeyboard()
+        }
         this.reqCode = reqCode
-        (context as Activity)
-                .startActivityForResult(Intent(context, GroupEditorActivity::class.java), MainActivity.REQ_INPUT_PANEL_GROUP)
+        val intent = Intent(context, GroupEditorActivity::class.java)
+        intent.putExtra(GroupEditorActivity.EXTRA_KEY_SHOW_ALL, false)
+        (context as Activity).startActivityForResult(intent, MainActivity.REQ_INPUT_PANEL_GROUP)
     }
 
-    fun updateGroupText() {
-        txtGroup.text = ThingsManager.currentGroup?.title ?: "Unknown"
+    var selectedGroup: ThingGroup? = null
+
+    fun updateGroupText(group: ThingGroup) {
+        selectedGroup = group
+        txtGroup.text = selectedGroup?.title ?: "Unknown"
     }
 
     fun updateFontSize() {
@@ -177,6 +190,7 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
 
         ui {
             editText.hideKeyboard()
+            contentEditText.hideKeyboard()
         }
         dpd.show((context as AppCompatActivity).getFragmentManager(), "Datepickerdialog");
     }

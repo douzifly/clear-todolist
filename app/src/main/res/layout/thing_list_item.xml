@@ -2,19 +2,19 @@
 
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    app:cardUseCompatPadding="true"
-    app:paddingEnd="16dp"
-    app:paddingStart="16dp">
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    app:cardUseCompatPadding="true"
+                                    app:paddingEnd="16dp"
+                                    app:paddingStart="16dp">
 
-    <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipe_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <com.daimajia.swipe.SwipeLayout android:id="@+id/swipe_layout"
+                                    xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/btn_done"
@@ -30,7 +30,7 @@
             android:shadowRadius="2.0"
             android:text="@string/done"
             android:textColor="#FFF"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/btn_delete"
@@ -46,7 +46,7 @@
             android:shadowRadius="2.0"
             android:text="@string/delete_item"
             android:textColor="#FFF"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
-                    android:padding="12dp" />
+                    android:padding="12dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -77,16 +77,35 @@
                     android:layout_toRightOf="@id/dot_view"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txt_thing"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:text="Test"
-                        android:textColor="@color/blackPrimary"
-                        android:textSize="@dimen/txt_size_big"
-                        android:textStyle="bold" />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/txt_group"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="#Test"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/blackPrimary"
+                            android:textSize="@dimen/txt_size_small"
+                            />
+
+                        <TextView
+                            android:id="@+id/txt_thing"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="Test"
+                            android:layout_marginRight="4dp"
+                            android:layout_toLeftOf="@id/txt_group"
+                            android:textColor="@color/blackPrimary"
+                            android:textSize="@dimen/txt_size_big"
+                            />
+                    </RelativeLayout>
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -100,18 +119,18 @@
                             android:id="@+id/txt_reminder"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="left"
                             android:textSize="@dimen/txt_size_small"
                             android:visibility="gone"
-                            android:layout_gravity="left"
                             />
 
                         <TextView
                             android:id="@+id/txt_duration"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/txt_size_small"
                             android:layout_gravity="right"
                             android:textColor="@color/whitePrimary"
+                            android:textSize="@dimen/txt_size_small"
                             />
                     </FrameLayout>
                 </LinearLayout>
@@ -129,7 +148,7 @@
                     android:background="@color/greenPrimary"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_thumb_up_white"
-                    android:visibility="invisible" />
+                    android:visibility="invisible"/>
             </io.codetail.widget.RevealFrameLayout>
         </FrameLayout>
 

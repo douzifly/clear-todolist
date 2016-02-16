@@ -13,7 +13,7 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/tool_bar"
         android:id="@+id/title_container"
@@ -150,12 +150,22 @@
     </RelativeLayout>
 
 
+    <TextView
+        android:id="@+id/txt_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_container"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="@dimen/txt_size_small"
+        android:text="group"
+        />
 
     <EditText
         android:id="@+id/txt_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/bottom_container"
+        android:layout_above="@id/txt_group"
         android:layout_below="@id/title_container"
         android:layout_margin="10dp"
         android:layout_marginBottom="10dp"

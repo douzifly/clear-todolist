@@ -30,6 +30,7 @@ import com.nineoldandroids.animation.Animator
 import com.nineoldandroids.animation.ObjectAnimator
 import douzifly.list.R
 import douzifly.list.model.Thing
+import douzifly.list.model.ThingGroup
 import douzifly.list.model.ThingsManager
 import douzifly.list.model.randomEmptyText
 import douzifly.list.settings.Settings
@@ -49,8 +50,9 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
         val TAG = "MainActivity"
         val REQ_SETTING = 1
         val REQ_DETAIL = 2
-        val REQ_EDIT_GROUP = 3
+        val REQ_CHANGE_GROUP = 3
         val REQ_INPUT_PANEL_GROUP = 4
+        val REQ_INPUT_SELECT_CHOOSE_GROUP = 5;
     }
 
     val mRecyclerView: RecyclerView by lazy {
@@ -77,12 +79,16 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
         findViewById(R.id.fab_setting) as FloatingActionButton
     }
 
-    val dataListener = {
+    fun refreshList() {
         ui {
             checkShowEmptyText()
             updateTitle()
-            (mRecyclerView.adapter as ThingsAdapter).things = ThingsManager.currentGroup?.things
-            mTitleLayout.count = ThingsManager.currentGroup?.unCompleteThingsCount ?: 0
+            if (Settings.selectedGroupId == ThingGroup.SHOW_ALL_GROUP_ID) {
+                mTitleLayout.count = ThingsManager.allThingsInComplete
+            } else {
+                mTitleLayout.count = ThingsManager.getGroupByGroupId(Settings.selectedGroupId)?.inCompleteThingsCount ?: 0
+            }
+            (mRecyclerView.adapter as ThingsAdapter).things = ThingsManager.getThingsByGroupId(Settings.selectedGroupId)
         }
     }
 
@@ -100,7 +106,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
                 ui {
                     mInputPanel.editText.hideKeyboard()
                     ui(100) {
-                        handleInputDone()
+                        handleInputFinished()
                         mInputPanel.reset()
                         Sound.play(Sound.S_CLICK_DONE)
                     }
@@ -131,27 +137,34 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
     }
 
     fun checkShowEmptyText() {
-        mTxtEmpty.visibility = if (ThingsManager.currentGroup?.things?.size == 0) View.VISIBLE else View.GONE
+        val things = ThingsManager.getThingsByGroupId(Settings.selectedGroupId)
+        mTxtEmpty.visibility = if (things.size == 0) View.VISIBLE else View.GONE
         if (mTxtEmpty.visibility == View.VISIBLE) {
             (mTxtEmpty as TextView).text = randomEmptyText()
         }
     }
 
-    fun handleInputDone() {
+    fun handleInputFinished() {
         val textString = mInputPanel.editText.text.toString().trim()
         val contentString = mInputPanel.contentEditText.text.toString()
         if (textString.isBlank() && contentString.isBlank()) {
-
-            // restore group change
-            if (mInputPanel.savedGroupId != ThingsManager.currentGroup!!.id && mInputPanel.savedGroupId > 0) {
-                ThingsManager.changeGroup(mInputPanel.savedGroupId)
-            }
-
             return
         }
 
-        ThingsManager.addThing(textString, contentString
-                , mInputPanel.reminderDate?.time ?: -1, mInputPanel.colorPicker.selectedColor)
+        val selectedGroup = mInputPanel.selectedGroup
+
+        bg {
+            ThingsManager.addThing(selectedGroup!!, textString, contentString
+                    , mInputPanel.reminderDate?.time ?: -1, mInputPanel.colorPicker.selectedColor)
+
+            ui {
+                if (Settings.selectedGroupId != ThingGroup.SHOW_ALL_GROUP_ID && selectedGroup.id != Settings.selectedGroupId) {
+                    // user choose another group and home list group wont show this new item, switch it
+                    Settings.selectedGroupId = selectedGroup.id
+                }
+                refreshList()
+            }
+        }
     }
 
     fun setFabAsCommit(asCommit: Boolean) {
@@ -195,7 +208,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
 
         mTitleLayout.titleClickListener = {
             // click title, show box
-            startActivityForResult(Intent(this, GroupEditorActivity::class.java), REQ_EDIT_GROUP)
+            startActivityForResult(Intent(this, GroupEditorActivity::class.java), REQ_CHANGE_GROUP)
         }
 
         mFabSetting.setOnClickListener {
@@ -213,45 +226,62 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
             startActivityForResult(Intent(this, SettingActivity::class.java), REQ_SETTING, bundle)
         }
 
-        ThingsManager.addListener(dataListener)
         bg {
             ThingsManager.loadFromDb()
+            ui {
+                refreshList()
+            }
         }
         Sound.load(this)
     }
 
     private fun updateTitle() {
-        if (ThingsManager.currentGroup?.isDefault ?: false) {
-            mTitleLayout.title = getString(R.string.default_list)
+        val group = ThingsManager.getGroupByGroupId(Settings.selectedGroupId)
+        if (Settings.selectedGroupId == ThingGroup.SHOW_ALL_GROUP_ID) {
+            mTitleLayout.title = R.string.default_list.toResString(this@MainActivity)
+        } else if (group!!.isDefault) {
+            mTitleLayout.title = getString(R.string.default_group_title)
         } else {
-            mTitleLayout.title = ThingsManager.currentGroup?.title ?: ""
+            mTitleLayout.title = group.title
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (REQ_INPUT_PANEL_GROUP == requestCode) {
-            mInputPanel.updateGroupText()
-        }
-
-        if (REQ_SETTING == requestCode && resultCode == SettingActivity.RESULT_THEME_CHANGED) {
-            mRecyclerView.adapter.notifyDataSetChanged()
-        } else if (REQ_DETAIL == requestCode) {
-            val id = data?.extras?.getLong(DetailActivity.EXTRA_THING_ID) ?: -1L
-            var thing: Thing? = null
-            if (id > 0) {
-                thing = ThingsManager.currentGroup?.findThing(id)
+            // input panel choose group
+            if (resultCode == RESULT_OK) {
+                val id = data?.getLongExtra("id", -1) ?: -1
+                mInputPanel.updateGroupText(ThingsManager.getGroupByGroupId(id)!!)
             }
-            if (thing == null) return
+        } else if (REQ_CHANGE_GROUP == requestCode && resultCode == RESULT_OK) {
+            // change group
+            val id = data!!.getLongExtra("id", -1)
+            Settings.selectedGroupId = id
+            refreshList()
+        } else if (REQ_SETTING == requestCode) {
+            if (resultCode == SettingActivity.RESULT_THEME_CHANGED) {
+                mRecyclerView.adapter.notifyDataSetChanged()
+            } else if (resultCode == SettingActivity.RESULT_GROUP_CHANGED) {
+                refreshList()
+            }
+        } else if (REQ_DETAIL == requestCode) {
             if (resultCode == DetailActivity.RESULT_DELETE) {
+                val id = data?.extras?.getLong(DetailActivity.EXTRA_THING_ID) ?: -1L
+                var thing: Thing? = null
+                if (id > 0) {
+                    thing = ThingsManager.getThingByIdAtCurrentGroup(id)
+                }
+                if (thing == null) return
                 doDelete(thing)
+            } else if (resultCode == DetailActivity.RESULT_UPDATE) {
+                refreshList()
             }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        ThingsManager.removeListener(dataListener)
         ThingsManager.release()
     }
 
@@ -291,14 +321,24 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
 
     fun doDelete(thing: Thing) {
         "doDelete".logd(TAG)
-        ThingsManager.remove(thing)
-        Sound.play(Sound.S_DELETE)
+        bg {
+            ThingsManager.remove(thing)
+            Sound.play(Sound.S_DELETE)
+            ui {
+                refreshList()
+            }
+        }
     }
 
     fun doDone(thing: Thing) {
         "doDone".logd(TAG)
-        ThingsManager.makeComplete(thing, !thing.isComplete)
-        Sound.play(Sound.S_DONE)
+        bg {
+            ThingsManager.makeComplete(thing, !thing.isComplete)
+            Sound.play(Sound.S_DONE)
+            ui {
+                refreshList()
+            }
+        }
     }
 
     inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -469,6 +509,12 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
             text
         }
 
+        val txtGroup: TextView by lazy {
+            val text = itemView.findViewById(R.id.txt_group) as TextView
+            text.typeface = fontSourceSansPro
+            text
+        }
+
         fun bind(thing: Thing, prevThing: Thing?) {
             this.thing = thing
             updateItemUI(thing, prevThing)
@@ -487,11 +533,13 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
                 dotView.mode = if (thing.isComplete) DotView.Mode.Solid else DotView.Mode.Hollow
                 dotView.color = if (thing.isComplete) resources.getColor(R.color.greyPrimary) else thing.color
                 txtThing.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
+                txtGroup.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
                 txtTimeDiff.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
                 (itemView as CardView).setCardBackgroundColor(cardBackgroundColor)
             } else {
                 dotView.visibility = View.GONE
                 txtThing.setTextColor(resources.getColor(R.color.whitePrimary))
+                txtGroup.setTextColor(resources.getColor(R.color.whitePrimary))
                 txtTimeDiff.setTextColor(resources.getColor(R.color.whitePrimary))
                 (itemView as CardView).setCardBackgroundColor(makeThingColor(prev))
 
@@ -507,6 +555,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
             // font size
             val fontSize = FontSizeBar.fontSizeToDp(mFontSize)
             txtThing.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+            txtGroup.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 6)
 
             // update reminder text
             if (thing.reminderTime > 0) {
@@ -547,6 +596,15 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
 
             // time text
             txtTimeDiff.text = "${Date(thing.creationTime).formatDaysAgoFromNow(this@MainActivity)}"
+
+            // txtGroup
+            if (Settings.selectedGroupId == ThingGroup.SHOW_ALL_GROUP_ID) {
+                // show group text
+                txtGroup.visibility = View.VISIBLE
+                txtGroup.text = "#${thing.group!!.title}"
+            } else {
+                txtGroup.visibility = View.GONE
+            }
         }
 
         fun makeThingColor(prevThing: Thing?): Int {
@@ -569,7 +627,8 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
     inner class ThingsAdapter(val dragListener: OnStartDragListener) : RecyclerView.Adapter<VH>(), ItemTouchHelperAdapter {
 
         override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-            ThingsManager.swapThings(fromPosition, toPosition)
+            if (Settings.selectedGroupId == ThingGroup.SHOW_ALL_GROUP_ID) return false
+            ThingsManager.swapThings(ThingsManager.getGroupByGroupId(Settings.selectedGroupId)!!, fromPosition, toPosition)
             notifyItemMoved(fromPosition, toPosition)
             return true
         }

@@ -27,6 +27,7 @@ class Thing() : Model(), Comparable<Thing> {
     @Column(name = "content") var content: String = ""
 
     var displayColor: Int = 0
+    var group: ThingGroup? = null
 
     constructor(title: String, pid: Long, color: Int) : this() {
         this.title = title
@@ -50,6 +51,11 @@ class Thing() : Model(), Comparable<Thing> {
 @Table(name = "tbGroup")
 class ThingGroup() : Model() {
 
+    companion object  {
+        val SHOW_ALL_GROUP_ID = -1L
+    }
+
+
     constructor(title: String) : this() {
         this.title = title
     }
@@ -64,7 +70,7 @@ class ThingGroup() : Model() {
     @Column(name = "creation") var creationTime: Long = 0
 
     var thingsLoaded: Boolean = false
-    var unCompleteThingsCount: Int = 0
+    var inCompleteThingsCount: Int = 0
 
     fun findThing(id: Long): Thing? {
         return things.find {
