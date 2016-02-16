@@ -347,26 +347,11 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
         override fun onItemSelected() {
             itemView.scaleX = 1.02f
             itemView.scaleY = 1.1f
-            try {
-                (itemView as CardView).elevation = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP
-                        , 50f, resources.displayMetrics)
-            } catch (e: Exception) {
-
-            } catch (e: Error) {
-
-            }
         }
 
         override fun onItemClear() {
             itemView.scaleX = 1f
             itemView.scaleY = 1f
-            try {
-                (itemView as CardView).elevation = 0f
-            } catch (e: Exception) {
-
-            } catch (e: Error) {
-
-            }
         }
 
         val cardBackgroundColor: Int by lazy {
