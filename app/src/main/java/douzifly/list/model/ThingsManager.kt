@@ -159,7 +159,9 @@ object ThingsManager {
         sort(allThings)
         group.things.add(t)
         group.save()
-        group.inCompleteThingsCount++
+        if (!isComplete) {
+            group.inCompleteThingsCount++
+        }
         sort(group.things)
 
         if (reminder > System.currentTimeMillis()) {
@@ -172,7 +174,9 @@ object ThingsManager {
     fun saveThing(thing: Thing, newGroup: ThingGroup?) {
 
         if (newGroup != null) {
-            thing.group!!.inCompleteThingsCount--
+            if (!thing.isComplete) {
+                thing.group!!.inCompleteThingsCount--
+            }
             remove(thing)
             addThing(newGroup, thing.title, thing.content, thing.reminderTime, thing.color, thing.isComplete)
         } else {
