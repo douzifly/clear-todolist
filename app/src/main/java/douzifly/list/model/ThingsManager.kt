@@ -172,6 +172,7 @@ object ThingsManager {
     fun saveThing(thing: Thing, newGroup: ThingGroup?) {
 
         if (newGroup != null) {
+            thing.group!!.inCompleteThingsCount--
             remove(thing)
             addThing(newGroup, thing.title, thing.content, thing.reminderTime, thing.color, thing.isComplete)
         } else {
