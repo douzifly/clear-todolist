@@ -146,13 +146,14 @@ object ThingsManager {
         }
     }
 
-    fun addThing(group: ThingGroup, text: String, content: String, reminder: Long, color: Int) {
+    fun addThing(group: ThingGroup, text: String, content: String, reminder: Long, color: Int, isComplete: Boolean = false) {
         val t = Thing(text, group.id, color)
         t.creationTime = Date().time
         t.reminderTime = reminder
         t.content = content
         t.position = group.things.size
         t.group = group
+        t.isComplete = isComplete
         t.save()
         allThings.add(t)
         sort(allThings)
@@ -172,7 +173,7 @@ object ThingsManager {
 
         if (newGroup != null) {
             remove(thing)
-            addThing(newGroup, thing.title, thing.content, thing.reminderTime, thing.color)
+            addThing(newGroup, thing.title, thing.content, thing.reminderTime, thing.color, thing.isComplete)
         } else {
             thing.save()
         }
