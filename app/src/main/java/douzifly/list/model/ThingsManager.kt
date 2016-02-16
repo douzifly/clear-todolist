@@ -130,9 +130,12 @@ object ThingsManager {
         groups.clear()
     }
 
-    fun swapThings(group: ThingGroup, fromPosition: Int, toPosition: Int) {
+    fun swapThings(group: ThingGroup, fromPosition: Int, toPosition: Int): Boolean {
         val thingA = group.things[fromPosition]
         val thingB = group.things[toPosition]
+        if (thingA.isComplete || thingB.isComplete) {
+            return false
+        }
 
         thingA.position = toPosition
         thingB.position = fromPosition
@@ -144,6 +147,8 @@ object ThingsManager {
             thingA.save()
             thingB.save()
         }
+
+        return true
     }
 
     fun addThing(group: ThingGroup, text: String, content: String, reminder: Long, color: Int, isComplete: Boolean = false) {
@@ -174,9 +179,6 @@ object ThingsManager {
     fun saveThing(thing: Thing, newGroup: ThingGroup?) {
 
         if (newGroup != null) {
-            if (!thing.isComplete) {
-                thing.group!!.inCompleteThingsCount--
-            }
             remove(thing)
             addThing(newGroup, thing.title, thing.content, thing.reminderTime, thing.color, thing.isComplete)
         } else {

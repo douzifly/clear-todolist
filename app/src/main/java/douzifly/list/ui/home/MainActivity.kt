@@ -613,7 +613,10 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
 
         override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
             if (Settings.selectedGroupId == ThingGroup.SHOW_ALL_GROUP_ID) return false
-            ThingsManager.swapThings(ThingsManager.getGroupByGroupId(Settings.selectedGroupId)!!, fromPosition, toPosition)
+            val success= ThingsManager.swapThings(ThingsManager.getGroupByGroupId(Settings.selectedGroupId)!!, fromPosition, toPosition)
+            if (!success) {
+                return false
+            }
             notifyItemMoved(fromPosition, toPosition)
             return true
         }
