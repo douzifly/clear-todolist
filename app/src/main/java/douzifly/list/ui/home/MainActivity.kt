@@ -521,6 +521,13 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
                 txtGroup.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
                 txtTimeDiff.setTextColor(if (thing.isComplete) resources.getColor(R.color.greyPrimary) else resources.getColor(R.color.blackPrimary))
                 (itemView as CardView).setCardBackgroundColor(cardBackgroundColor)
+                if (thing.isComplete) {
+                    txtThing.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
+                    txtThing.setTypeface(txtThing.typeface, Typeface.ITALIC)
+                } else {
+                    txtThing.paint.flags = Paint.ANTI_ALIAS_FLAG
+                    txtThing.setTypeface(txtThing.typeface, Typeface.NORMAL)
+                }
             } else {
                 dotView.visibility = View.GONE
                 txtThing.setTextColor(resources.getColor(R.color.whitePrimary))
@@ -533,7 +540,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
                     txtThing.setTypeface(txtThing.typeface, Typeface.ITALIC)
                 } else {
                     txtThing.paint.flags = Paint.ANTI_ALIAS_FLAG
-                    txtThing.setTypeface(txtThing.typeface, Typeface.BOLD)
+                    txtThing.setTypeface(txtThing.typeface, Typeface.NORMAL)
                 }
             }
 
