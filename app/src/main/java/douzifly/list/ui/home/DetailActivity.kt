@@ -279,7 +279,7 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
 
         if (thing!!.color != newColor) {
             thing!!.color = newColor
-            ThingsManager.getGroupByGroupId(Settings.selectedGroupId)!!.clearAllDisplayColor()
+            ThingsManager.getGroupByGroupId(Settings.selectedGroupId)?.clearAllDisplayColor()
             changed = true
         }
 
