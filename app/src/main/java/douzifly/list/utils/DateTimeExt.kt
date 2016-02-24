@@ -21,7 +21,7 @@ fun formatDateTime(date: Date): String {
         return "${ListApplication.appContext?.resources?.getString(R.string.tommorow)} ${SimpleDateFormat("HH:mm").format(date)}"
     }
 
-    return SimpleDateFormat("MM/dd/yyy HH:mm").format(date)
+    return SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
 }
 
 fun formatTextViewcolor(tv: TextView, date: Date) {
