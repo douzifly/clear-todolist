@@ -242,7 +242,6 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         txtTitle.text = thing!!.title
         editTitle.setText(thing!!.title)
         editContent.setText(thing!!.content)
-        editContent.setSelection(thing!!.content.length)
         editContent.setBackgroundColor(0x0000)
 
         txtTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeBar.fontSizeToDp(Settings.fontSize) + 2)
