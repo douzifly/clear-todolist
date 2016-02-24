@@ -31,10 +31,11 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
-    override fun onTimeSet(view: RadialPickerLayout?, hourOfDay: Int, minute: Int) {
+    override fun onTimeSet(view: RadialPickerLayout?, hourOfDay: Int, minute: Int, second: Int) {
         "${hourOfDay} : ${minute}".logd("oooo")
         reminderDate?.hours = hourOfDay
         reminderDate?.minutes = minute
+        initDate = reminderDate
         updateTimeUI()
     }
 
@@ -45,6 +46,7 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
 
     var reminderDate: Date? = null
     var reqCode = -1
+    var initDate: Date? = null
 
     val editText: EditText by lazy {
         findViewById(R.id.edit_text) as EditText
@@ -175,12 +177,15 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
     }
 
     fun showDatePicker() {
-        val now = Calendar.getInstance();
+        val selectedDate = Calendar.getInstance();
+        if (initDate != null) {
+            selectedDate.time = initDate
+        }
         val dpd = DatePickerDialog.newInstance(
                 this,
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
+                selectedDate.get(Calendar.YEAR),
+                selectedDate.get(Calendar.MONTH),
+                selectedDate.get(Calendar.DAY_OF_MONTH)
         );
 
         dpd.accentColor = colorPicker.selectedColor
@@ -196,16 +201,16 @@ class InputPanel(context: Context, attrs: AttributeSet) : RevealFrameLayout(cont
     }
 
     fun showTimePicker() {
-        val now = Calendar.getInstance();
+        val selectedTime = Calendar.getInstance();
+        if (initDate != null) {
+            selectedTime.time = initDate
+        }
         val dpd = TimePickerDialog.newInstance(
                 this,
-                now.get(Calendar.HOUR_OF_DAY),
-                now.get(Calendar.MINUTE),
+                selectedTime.get(Calendar.HOUR_OF_DAY),
+                selectedTime.get(Calendar.MINUTE),
                 true)
         dpd.accentColor = colorPicker.selectedColor
-        dpd.setOnCancelListener {
-            cancelPickTime()
-        }
 
         dpd.show((context as AppCompatActivity).getFragmentManager(), "Timepickerdialog");
     }

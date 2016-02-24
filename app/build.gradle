@@ -8,8 +8,8 @@ android {
         applicationId "douzifly.list"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 15
-        versionName "1.5.1"
+        versionCode 20
+        versionName "1.5.5"
     }
     buildTypes {
         release {
@@ -38,7 +38,7 @@ dependencies {
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     compile 'com.github.ozodrukh:CircularReveal:1.1.1'
     compile 'com.github.ozodrukh:RippleDrawable:2.0.0'
-    compile 'com.wdullaer:materialdatetimepicker:1.5.4'
+    compile 'com.wdullaer:materialdatetimepicker:2.2.0'
     compile 'com.jakewharton:process-phoenix:1.0.2'
     compile project(':ActiveAndroid')
     compile project(':Fab')
