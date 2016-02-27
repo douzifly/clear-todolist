@@ -549,10 +549,10 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
                 (itemView as CardView).setCardBackgroundColor(cardBackgroundColor)
                 if (thing.isComplete) {
                     txtThing.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
-                    txtThing.setTypeface(txtThing.typeface, Typeface.ITALIC)
+                    txtReminder.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
                 } else {
                     txtThing.paint.flags = Paint.ANTI_ALIAS_FLAG
-                    txtThing.setTypeface(txtThing.typeface, Typeface.NORMAL)
+                    txtReminder.paint.flags = Paint.ANTI_ALIAS_FLAG
                 }
             } else {
                 dotView.visibility = View.GONE
@@ -562,11 +562,11 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
                 (itemView as CardView).setCardBackgroundColor(makeThingColor(prev))
 
                 if (thing.isComplete) {
+                    txtReminder.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
                     txtThing.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
-                    txtThing.setTypeface(txtThing.typeface, Typeface.ITALIC)
                 } else {
                     txtThing.paint.flags = Paint.ANTI_ALIAS_FLAG
-                    txtThing.setTypeface(txtThing.typeface, Typeface.NORMAL)
+                    txtReminder.paint.flags = Paint.ANTI_ALIAS_FLAG
                 }
             }
 
@@ -587,11 +587,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
                         formatTextViewcolor(txtReminder, date)
                     }
                 } else {
-                    if (thing.isComplete) {
-                        txtReminder.setTextColor(resources.getColor(R.color.greyPrimary))
-                    } else {
-                        txtReminder.setTextColor(resources.getColor(R.color.whitePrimary))
-                    }
+                    txtReminder.setTextColor(resources.getColor(R.color.whitePressed))
                 }
             } else {
                 txtReminder.visibility = View.GONE
