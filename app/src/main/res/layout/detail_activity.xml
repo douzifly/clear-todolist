@@ -92,7 +92,7 @@
                 android:layout_alignTop="@id/fab_add_reminder"
                 android:layout_alignBottom="@id/fab_add_reminder"
                 android:layout_toRightOf="@id/fab_add_reminder"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="2dp"
                 android:textColor="@color/greyPrimary"
                 android:textSize="@dimen/txt_size_small"
                 android:id="@+id/txt_reminder"

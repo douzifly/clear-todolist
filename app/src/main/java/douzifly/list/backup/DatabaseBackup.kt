@@ -157,6 +157,10 @@ object BackupHelper {
                 "found backup: ${backup}".logd(TAG)
             }
         }
+        backups.sortByDescending {  backup->
+            backup.name
+        }
+
         return backups
     }
 

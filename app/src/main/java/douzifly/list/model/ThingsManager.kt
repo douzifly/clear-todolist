@@ -93,6 +93,12 @@ object ThingsManager {
         return null
     }
 
+    fun getThingById(id: Long): Thing? {
+        return allThings.find { thing->
+            thing.id == id
+        }
+    }
+
     private var allThings: MutableList<Thing> = arrayListOf()
         get() {
             if (field.size > 0) {

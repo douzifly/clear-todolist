@@ -1,6 +1,5 @@
 package douzifly.list.ui.home
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -39,10 +38,11 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         showTimePicker()
     }
 
-    override fun onTimeSet(view: RadialPickerLayout?, hourOfDay: Int, minute: Int) {
+    override fun onTimeSet(view: RadialPickerLayout?, hourOfDay: Int, minute: Int, second: Int) {
         "${hourOfDay} : ${minute}".logd("oooo")
         reminderDate?.hours = hourOfDay
         reminderDate?.minutes = minute
+        initDate = reminderDate
         updateTimeUI(reminderDate)
     }
 
@@ -68,6 +68,7 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
 
     var reminderDate: Date? = null
     var thing: Thing? = null
+    var initDate: Date? = null
 
     val actionDone: FloatingActionButton by lazy {
         val v = findViewById(R.id.action_done) as FloatingActionButton
@@ -181,13 +182,19 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     }
 
     fun showDatePicker() {
-        val now = Calendar.getInstance();
+        val selectedDate = Calendar.getInstance();
+        if (initDate != null) {
+            selectedDate.time = initDate
+        }
         val dpd = DatePickerDialog.newInstance(
                 this,
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
+                selectedDate.get(Calendar.YEAR),
+                selectedDate.get(Calendar.MONTH),
+                selectedDate.get(Calendar.DAY_OF_MONTH)
         );
+
+        if (initDate != null) {
+        }
 
         dpd.accentColor = colorPicker.selectedColor
 
@@ -199,16 +206,16 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     }
 
     fun showTimePicker() {
-        val now = Calendar.getInstance();
+        val selectTime = Calendar.getInstance();
+        if (initDate != null) {
+            selectTime.time = initDate
+        }
         val dpd = TimePickerDialog.newInstance(
                 this,
-                now.get(Calendar.HOUR_OF_DAY),
-                now.get(Calendar.MINUTE),
+                selectTime.get(Calendar.HOUR_OF_DAY),
+                selectTime.get(Calendar.MINUTE),
                 true)
         dpd.accentColor = colorPicker.selectedColor
-        dpd.setOnCancelListener {
-            cancelPickTime()
-        }
 
         dpd.show((this as AppCompatActivity).getFragmentManager(), "Timepickerdialog");
     }
@@ -218,6 +225,7 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         val id = intent?.getLongExtra(EXTRA_THING_ID, 0) ?: 0
         if (id > 0) {
             thing = ThingsManager.getThingByIdAtCurrentGroup(id)
+            initDate =  if (thing!!.reminderTime > 0) Date(thing!!.reminderTime) else null
             updateGroupText(thing!!.group!!)
         }
     }
@@ -234,7 +242,6 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         txtTitle.text = thing!!.title
         editTitle.setText(thing!!.title)
         editContent.setText(thing!!.content)
-        editContent.setSelection(thing!!.content.length)
         editContent.setBackgroundColor(0x0000)
 
         txtTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeBar.fontSizeToDp(Settings.fontSize) + 2)

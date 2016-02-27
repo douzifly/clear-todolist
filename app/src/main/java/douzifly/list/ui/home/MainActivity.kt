@@ -33,6 +33,7 @@ import douzifly.list.model.Thing
 import douzifly.list.model.ThingGroup
 import douzifly.list.model.ThingsManager
 import douzifly.list.model.randomEmptyText
+import douzifly.list.notification.ClearNotification
 import douzifly.list.settings.Settings
 import douzifly.list.settings.Theme
 import douzifly.list.sounds.Sound
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
 
     fun refreshList() {
         ui {
+            "refreshList".logd(TAG)
             checkShowEmptyText()
             updateTitle()
             if (Settings.selectedGroupId == ThingGroup.SHOW_ALL_GROUP_ID) {
@@ -230,6 +232,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
             ThingsManager.loadFromDb()
             ui {
                 refreshList()
+                handleIntent(intent)
             }
         }
         Sound.load(this)
@@ -283,6 +286,29 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
     override fun onDestroy() {
         super.onDestroy()
         ThingsManager.release()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        "onNewIntent: $intent".logd(TAG)
+        handleIntent(intent)
+    }
+
+    fun handleIntent(intent: Intent?) {
+        if (intent == null) {
+            return
+        }
+        val thingId = intent.getIntExtra(ClearNotification.EXTRA_THING_ID, -1)
+        "handle intent thingId: $thingId".logd(TAG)
+        if (thingId >= 0) {
+            val thing = ThingsManager.getThingById(thingId.toLong())
+            "handle intent thing: $thing".logd(TAG)
+            if (thing != null) {
+                Settings.selectedGroupId = thing.group!!.id
+                refreshList()
+            }
+        }
+
     }
 
     fun startCircularReveal(cx: Int, cy: Int, viewRoot: View, reverse: Boolean, duration: Int, end: (() -> Unit)? = null) {
