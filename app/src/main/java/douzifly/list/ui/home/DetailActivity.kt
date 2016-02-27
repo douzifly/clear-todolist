@@ -106,10 +106,6 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         findViewById(R.id.txt_reminder) as TextView
     }
 
-    val toolbar: Toolbar by lazy {
-        findViewById(R.id.tool_bar) as Toolbar
-    }
-
     val colorPicker: ColorPicker by lazy {
         findViewById(R.id.color_picker) as ColorPicker
     }
@@ -142,13 +138,6 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         setContentView(R.layout.detail_activity)
         initView()
         parseIntent()
-
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = ""
-        toolbar.setNavigationOnClickListener {
-            finishCompact()
-        }
 
         val alphaAnim = ObjectAnimator.ofFloat(editContent, "alpha", 0.0f, 1.0f)
         alphaAnim.setDuration(500)
@@ -325,9 +314,11 @@ class DetailActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         }
 
         actionDone.setOnClickListener {
-            finishCompact()
             bg {
                 saveData()
+                ui {
+                    finishCompact()
+                }
             }
         }
 

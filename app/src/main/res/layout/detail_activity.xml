@@ -5,17 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/colorInputPanel">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        />
-
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/tool_bar"
+        android:layout_marginLeft="14dp"
         android:id="@+id/title_container"
         >
 
@@ -56,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="186dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp">
+        >
 
         <douzifly.list.widget.ColorPicker
             android:id="@+id/color_picker"
@@ -72,7 +65,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginBottom="18dp"
                 android:layout_marginLeft="20dp"
                 android:gravity="center_vertical"
                 android:text="Add Reminder"
@@ -167,7 +159,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/txt_group"
         android:layout_below="@id/title_container"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="left|top"
         android:text="hello"

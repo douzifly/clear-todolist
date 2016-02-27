@@ -614,6 +614,7 @@ class MainActivity : AppCompatActivity(), OnStartDragListener {
 
             // time text
             txtTimeDiff.text = "${Date(thing.creationTime).formatDaysAgoFromNow(this@MainActivity)}"
+            txtTimeDiff.visibility = if (txtTimeDiff.text == "") View.GONE else View.VISIBLE
 
             // txtGroup
             if (Settings.selectedGroupId == ThingGroup.SHOW_ALL_GROUP_ID) {

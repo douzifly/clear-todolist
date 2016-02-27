@@ -184,7 +184,7 @@ object ThingsManager {
 
     fun saveThing(thing: Thing, newGroup: ThingGroup?) {
 
-        if (newGroup != null) {
+        if (newGroup != null && newGroup.id != thing.group!!.id) {
             remove(thing)
             addThing(newGroup, thing.title, thing.content, thing.reminderTime, thing.color, thing.isComplete, thing.creationTime)
         } else {
