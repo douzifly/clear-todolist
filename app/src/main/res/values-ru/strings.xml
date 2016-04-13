@@ -3,14 +3,46 @@
     <string name="app_name">Clear List</string>
     <string name="default_list">Clear List</string>
     <string name="cant_remove">Невозможно удалить группу по умолчанию</string>
-    <string name="groups">группы</string>
-    <string name="today">Cегодня</string>
+    <string name="groups">Группы</string>
+    <string name="today">Сегодня</string>
     <string name="tommorow">Завтра</string>
-    <string name="setting">установка</string>
-    <string name="theme">тема</string>
-    <string name="sound">Звукиs</string>
-    <string name="on">включить</string>
-    <string name="off">запрещать</string>
-    <string name="version">версияn</string>
-    <string name="reminder">напоминание</string>
+    <string name="setting">Настройки</string>
+    <string name="theme">Тема</string>
+    <string name="sound">Звуки</string>
+    <string name="on">Включены</string>
+    <string name="off">Выключены</string>
+    <string name="version">Версия</string>
+    <string name="reminder">Напоминание</string>
+    <string name="edit_group">Редактировать группу</string>
+    <string name="default_group_title">По умолчанию</string>
+    <string name="setting_backup">Резервное копирование и восстановление</string>
+    <string name="backup">Скопировать</string>
+    <string name="restore">Восстановить</string>
+    <string name="backup_failed">Резервное копирование не удалось</string>
+    <string name="backup_success">Резервное копирование прошло успешно</string>
+    <string name="backuping">Сохранение</string>
+    <string name="restore_failed">Восстарновнелие не удалось</string>
+    <string name="restore_success">Восстановление прошло успешно</string>
+    <string name="restore_empty">Нет файла резервной копии</string>
+
+    <string name="confirm">Подтвердить</string>
+    <string name="delete">Удалить файл резервной копии</string>
+    <string name="restore_tip">Восстановление сотрет текущие данные. Пожалуйста, сделайте сначала резервную копию!</string>
+    <string name="done">ВЫПОЛНИТЬ</string>
+    <string name="doing">ОТМЕНИТЬ</string>
+    <string name="delete_item">УДАЛИТЬ</string>
+
+    <string name="title_hint">Название</string>
+    <string name="content_hint">Текст</string>
+    <string name="day_diff">%d дней назад</string>
+
+    <string name="permission_rationable_title">Требуется разрешение</string>
+    <string name="permission_rationable_text">Clear List будет сохранять резервные копии на SD карту. Пожалуйста, предоставьте разрешение</string>
+
+    <string name="font_size_title">Размер шрифта</string>
+    <string name="font_size_small">Маленький</string>
+    <string name="font_size_normal">Нормальный</string>
+    <string name="font_size_large">Большой</string>
+
+    <string name="group_all">Все</string>
 </resources>
