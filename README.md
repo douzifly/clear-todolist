@@ -1,4 +1,4 @@
-#List
+#List [![Build Status](https://travis-ci.org/douzifly/clear-todolist.svg?branch=master)](https://travis-ci.org/douzifly/clear-todolist)
 
 Clear List helps people quickly capture what’s on their mind and get a reminder later at the right time.
 Provide two Clear and beautiful material designed theme to make use experience better. 
