@@ -8,6 +8,8 @@ android:
     - android-23
     - extra
 
+script: "./gradlew build"
+
 env:
     - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
 before_install:
