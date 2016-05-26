@@ -1,0 +1,14 @@
+
+language: android
+
+android:
+  components:
+    - platform-tools
+    - build-tools-23.0.1
+    - android-23
+    - extra
+
+env:
+    - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
+
+sudo: false
