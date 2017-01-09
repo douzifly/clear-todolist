@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Clear List</string>
+    <string name="default_list">Clear List</string>
+    <string name="cant_remove">Αδύνατη η αφαίρεση της προεπιλεγμένης ομάδας</string>
+    <string name="groups">Ομάδες</string>
+    <string name="today">Σήμερα</string>
+    <string name="tommorow">Αύριο</string>
+    <string name="setting">Ρύθμιση</string>
+    <string name="theme">Θέμα</string>
+    <string name="sound">Ήχοι</string>
+    <string name="on">Ενεργοί</string>
+    <string name="off">Ανενεργοί</string>
+    <string name="version">Έκδοση</string>
+    <string name="reminder">Υπενθύμιση</string>
+    <string name="edit_group">Επεξεργασία Ομάδας</string>
+    <string name="default_group_title">Προεπιλεγμένη</string>
+    <string name="setting_backup">Δημιουργία Αντίγραφου ＆ Ανάκτηση</string>
+    <string name="backup">Αντίγραφο ασφαλείας</string>
+    <string name="restore">Ανάκτηση</string>
+    <string name="backup_failed">Αντίγραφο ασφαλείας ανεπιτυχές</string>
+    <string name="backup_success">Αντίγραφο ασφαλείας επιτυχές</string>
+    <string name="backuping">Δημιουργία αντίγραφου</string>
+    <string name="restore_failed">Ανάκτηση απέτυχε</string>
+    <string name="restore_success">Ανάκτηση επιτυχής</string>
+    <string name="restore_empty">Κανένα αντίγραφο ασφαλείας</string>
+
+    <string name="confirm">Επιβεβαίωση</string>
+    <string name="delete">Διαγραφή αντίγραφου</string>
+    <string name="restore_tip">Η ανάκτηση θα διαγράψει τα υπάρχοντα δεδομένα, Παρακαλώ δημιουργήστε αντίγραφο ασφαλείας πρώτα!</string>
+    <string name="done">ΕΓΙΝΕ</string>
+    <string name="doing">ΑΝΑΙΡΕΣΗ</string>
+    <string name="delete_item">ΔΙΑΓΡΑΦΗ</string>
+
+    <string name="title_hint">Τίτλος</string>
+    <string name="content_hint">Περιεχόμενο</string>
+    <string name="day_diff">％d ημέρες πριν</string>
+
+    <string name="permission_rationable_title">Απαιτεί Άδεια</string>
+    <string name="permission_rationable_text">Το Clear List θα αποθηκεύσει το αντίγραφο ασφαλείας στην κάρτα SD, Παρακαλώ παραχωρήστε την άδεια</string>
+
+    <string name="font_size_title">Μέγεθος γραμματοσειράς</string>
+    <string name="font_size_small">Μικρό</string>
+    <string name="font_size_normal">Κανονικό</string>
+    <string name="font_size_large">Μεγάλο</string>
+
+    <string name="group_all">Όλες</string>
+</resources>
