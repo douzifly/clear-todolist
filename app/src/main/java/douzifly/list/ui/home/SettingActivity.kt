@@ -191,7 +191,7 @@ class SettingActivity : AppCompatActivity() {
     }
 
     fun doBackup() {
-        val pd = showProgressDialog(R.string.backuping.toResString(this))
+        val pd = showProgressDialog(R.string.backing_up.toResString(this))
         bg {
             val ret = BackupHelper.backup("list.db", this)
             ui {
