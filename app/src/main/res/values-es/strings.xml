@@ -20,7 +20,7 @@
     <string name="restore">Restaurar Backup</string>
     <string name="backup_failed">Ha fallado el Backup</string>
     <string name="backup_success">Backup Realizado</string>
-    <string name="backuping">Creando Backup</string>
+    <string name="backing_up">Creando Backup</string>
     <string name="restore_failed">No se ha podido Restaurar</string>
     <string name="restore_success">Se ha restaurado el Backup</string>
     <string name="restore_empty">No hay archivo de Backup</string>
