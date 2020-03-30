@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Clear List</string>
     <string name="default_list">Clear List</string>
@@ -34,5 +33,15 @@
 
     <string name="title_hint">Título</string>
     <string name="content_hint">Contenido</string>
-    <string name="day_diff">hace %d días</string>
+    <string name="day_diff">Hace %d días</string>
+
+    <string name="permission_rationable_title">Se necesitan permisos</string>
+    <string name="permission_rationable_text">Clear List guardará los backups en la tarjeta SD, asegúrate de que tiene permisos de escritura</string>
+
+    <string name="font_size_title">Tamaño de la fuente</string>
+    <string name="font_size_small">Pequeño</string>
+    <string name="font_size_normal">Normal</string>
+    <string name="font_size_large">Grande</string>
+
+    <string name="group_all">Todo</string>
 </resources>
